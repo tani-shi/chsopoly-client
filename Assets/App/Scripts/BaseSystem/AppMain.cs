@@ -1,5 +1,8 @@
+using Chsopoly.BaseSystem.GameScene;
+using Chsopoly.GameScene;
 using Chsopoly.Libs;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace Chsopoly.BaseSystem
 {
@@ -11,6 +14,10 @@ namespace Chsopoly.BaseSystem
         {
             Application.targetFrameRate = FrameRate;
             Screen.sleepTimeout = UnityEngine.SleepTimeout.SystemSetting;
+
+            Addressables.InitializeAsync ().Completed += (result) => {
+                GameSceneManager.Instance.ChangeScene (GameSceneType.Title);
+            };
         }
     }
 }
