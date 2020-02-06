@@ -27,6 +27,8 @@ namespace Chsopoly.BaseSystem.AddressableAssets.Editor
 
                 SetAddressableAssetsName (path);
             }
+
+            AssetDatabase.SaveAssets ();
         }
 
         static void OnPostprocessAllAssets (string[] importedAssets,
@@ -42,6 +44,8 @@ namespace Chsopoly.BaseSystem.AddressableAssets.Editor
                 }
                 SetAddressableAssetsName (asset);
             }
+
+            AssetDatabase.SaveAssets ();
         }
 
         static void SetAddressableAssetsName (string path)

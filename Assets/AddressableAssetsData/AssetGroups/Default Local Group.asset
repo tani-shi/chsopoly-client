@@ -17,9 +17,15 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: 31f49c861a2a34f72a0d7ed3a37f4f46
   m_SerializeEntries:
+  - m_GUID: 657313a426ec94b73aaae2396b36967a
+    m_Address: Assets/App/AddressableAssets/GameScene/IngameScene.prefab
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+    m_mainAssetType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   - m_GUID: 8ff922ff898b648e9ae403b593023a1c
     m_Address: Assets/App/AddressableAssets/GameScene/TitleScene.prefab
-    m_ReadOnly: 0
+    m_ReadOnly: 1
     m_SerializedLabels: []
     m_mainAssetType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
