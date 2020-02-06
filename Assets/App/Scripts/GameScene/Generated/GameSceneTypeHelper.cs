@@ -9,6 +9,8 @@ namespace Chsopoly.GameScene
         {
             switch (type)
             {
+                case GameSceneType.Ingame:
+                    return "Assets/App/AddressableAssets/GameScene/IngameScene.prefab";
                 case GameSceneType.Title:
                     return "Assets/App/AddressableAssets/GameScene/TitleScene.prefab";
             }

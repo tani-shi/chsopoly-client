@@ -1,3 +1,4 @@
+using System.Collections;
 using Chsopoly.BaseSystem.GameScene;
 using Chsopoly.GameScene;
 using Chsopoly.Libs;
@@ -10,14 +11,21 @@ namespace Chsopoly.BaseSystem
     {
         const int FrameRate = 30;
 
+        [SerializeField] GameSceneType _initialScene = GameSceneType.Title;
+
         void Start ()
+        {
+            StartCoroutine (InitializeProc ());
+        }
+
+        IEnumerator InitializeProc ()
         {
             Application.targetFrameRate = FrameRate;
             Screen.sleepTimeout = UnityEngine.SleepTimeout.SystemSetting;
 
-            Addressables.InitializeAsync ().Completed += (result) => {
-                GameSceneManager.Instance.ChangeScene (GameSceneType.Title);
-            };
+            yield return Addressables.InitializeAsync ();
+
+            GameSceneManager.Instance.ChangeScene (_initialScene);
         }
     }
 }

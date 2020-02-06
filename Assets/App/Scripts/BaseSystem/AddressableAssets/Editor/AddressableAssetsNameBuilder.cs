@@ -38,7 +38,7 @@ namespace Chsopoly.BaseSystem.AddressableAssets.Editor
         {
             foreach (var asset in importedAssets.Union (movedAssets))
             {
-                if (!asset.StartsWith (AssetRootPath))
+                if (!asset.StartsWith (AssetRootPath) || Directory.Exists (asset))
                 {
                     continue;
                 }

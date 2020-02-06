@@ -6,10 +6,10 @@ namespace Chsopoly.BaseSystem.GameScene
     public interface IGameScene
     {
         bool IsReady { get; }
-        GameSceneType SceneType { get; }
-        IGameSceneParam Param { get; }
+        GameSceneType sceneType { get; }
+        IGameSceneParam param { get; }
 
-        void Initialize (IGameSceneParam p);
+        void Initialize (GameSceneType type, IGameSceneParam p);
         void RequestDestroy ();
     }
 }

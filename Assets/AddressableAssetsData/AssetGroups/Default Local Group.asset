@@ -23,6 +23,12 @@ MonoBehaviour:
     m_SerializedLabels: []
     m_mainAssetType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  - m_GUID: 7a3264676fe6f448d85fbe0144c0fde1
+    m_Address: Assets/App/AddressableAssets/MasterData/Ingame/Stage.asset
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+    m_mainAssetType: Chsopoly.MasterData.DTO.Ingame.StageDTO, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   - m_GUID: 8ff922ff898b648e9ae403b593023a1c
     m_Address: Assets/App/AddressableAssets/GameScene/TitleScene.prefab
     m_ReadOnly: 1

@@ -71,7 +71,7 @@ namespace Chsopoly.BaseSystem.GameScene
         public void PushScene (GameSceneType type, IGameSceneParam param = null)
         {
             _nextSceneInfo = new GameSceneInfo (type, param);
-            _sceneInfoHistory.Push (new GameSceneInfo (_gameScene.SceneType, param));
+            _sceneInfoHistory.Push (new GameSceneInfo (_gameScene.sceneType, param));
 
             Debug.Log ("Push scene: " + type.ToString ());
         }
@@ -209,7 +209,7 @@ namespace Chsopoly.BaseSystem.GameScene
                 var scene = sceneObject.GetComponent<IGameScene> ();
                 if (scene != null)
                 {
-                    scene.Initialize (info.param);
+                    scene.Initialize (info.type, info.param);
                     return scene;
                 }
             }

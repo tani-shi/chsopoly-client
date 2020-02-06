@@ -17,20 +17,15 @@ namespace Chsopoly.BaseSystem.GameScene
             }
         }
 
-        public GameSceneType SceneType
+        public GameSceneType sceneType
         {
             get
             {
-                var sceneName = GetType ().Name.Replace ("Scene", "");
-                if (Enum.IsDefined (typeof (GameSceneType), sceneName))
-                {
-                    return (GameSceneType) Enum.Parse (typeof (GameSceneType), sceneName);
-                }
-                return GameSceneType.None;
+                return _sceneType;
             }
         }
 
-        public IGameSceneParam Param
+        public IGameSceneParam param
         {
             get
             {
@@ -40,6 +35,7 @@ namespace Chsopoly.BaseSystem.GameScene
 
         private T _param = new T ();
         private bool _ready = false;
+        private GameSceneType _sceneType = GameSceneType.None;
 
         public virtual void RequestDestroy ()
         {
@@ -51,8 +47,9 @@ namespace Chsopoly.BaseSystem.GameScene
             yield break;
         }
 
-        public void Initialize (IGameSceneParam p)
+        public void Initialize (GameSceneType type, IGameSceneParam p)
         {
+            _sceneType = type;
             _ready = false;
             if (p is T)
             {
@@ -68,8 +65,8 @@ namespace Chsopoly.BaseSystem.GameScene
         }
     }
 
-    public abstract class BaseGameScene : BaseGameScene<BaseGameScene.EmptyParam>
+    public abstract class BaseGameScene : BaseGameScene<BaseGameScene.Param>
     {
-        public class EmptyParam : IGameSceneParam { }
+        public class Param : IGameSceneParam { }
     }
 }

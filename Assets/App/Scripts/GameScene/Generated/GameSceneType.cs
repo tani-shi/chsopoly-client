@@ -5,6 +5,7 @@ namespace Chsopoly.GameScene
     public enum GameSceneType
     {
         None,
+        Ingame,
         Title,
     }
 }
