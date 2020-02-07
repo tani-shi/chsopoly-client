@@ -350,6 +350,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c08530cb9cc241a5abab98601fa1847, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _initialScene: 2
 --- !u!114 &1052202796
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -430,4 +431,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _fadeCanvasGroup: {fileID: 919407970}
   _fadeImage: {fileID: 919407968}
-  _defaultSceneType: 1
+  _defaultSceneType: 2

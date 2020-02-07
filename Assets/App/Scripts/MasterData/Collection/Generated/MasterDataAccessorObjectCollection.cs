@@ -12,6 +12,7 @@ namespace Chsopoly.MasterData.Collection
         private List<IMasterDataAccessorObject> _collection = new List<IMasterDataAccessorObject> ()
         {
             (Activator.CreateInstance(typeof(DAO.Ingame.StageDAO)) as IMasterDataAccessorObject),
+            (Activator.CreateInstance(typeof(DAO.Ingame.CharacterDAO)) as IMasterDataAccessorObject),
         };
 
         IEnumerator<IMasterDataAccessorObject> IEnumerable<IMasterDataAccessorObject>.GetEnumerator ()

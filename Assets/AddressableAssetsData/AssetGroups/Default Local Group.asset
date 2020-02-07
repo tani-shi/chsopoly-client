@@ -17,8 +17,23 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: 31f49c861a2a34f72a0d7ed3a37f4f46
   m_SerializeEntries:
+  - m_GUID: 2f30b732696e749c593993400af27c7d
+    m_Address: Assets/App/AddressableAssets/Prefabs/Character/chr_test.prefab
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+    m_mainAssetType: 
+  - m_GUID: 4aa648242a8654cd4be1e3beb46f3d80
+    m_Address: Assets/App/AddressableAssets/MasterData/Ingame/Character.asset
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+    m_mainAssetType: 
+  - m_GUID: 50f17cc4dda8b4a2c9e8adb3fda8037d
+    m_Address: Assets/App/AddressableAssets/Animations/Character/chr_test.controller
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+    m_mainAssetType: 
   - m_GUID: 657313a426ec94b73aaae2396b36967a
-    m_Address: Assets/App/AddressableAssets/GameScene/IngameScene.prefab
+    m_Address: Assets/App/AddressableAssets/Prefabs/GameScene/IngameScene.prefab
     m_ReadOnly: 1
     m_SerializedLabels: []
     m_mainAssetType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
@@ -30,11 +45,16 @@ MonoBehaviour:
     m_mainAssetType: Chsopoly.MasterData.DTO.Ingame.StageDTO, Assembly-CSharp, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   - m_GUID: 8ff922ff898b648e9ae403b593023a1c
-    m_Address: Assets/App/AddressableAssets/GameScene/TitleScene.prefab
+    m_Address: Assets/App/AddressableAssets/Prefabs/GameScene/TitleScene.prefab
     m_ReadOnly: 1
     m_SerializedLabels: []
     m_mainAssetType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  - m_GUID: d01cfbfd3cb41452280c9bac879dd61b
+    m_Address: Assets/App/AddressableAssets/Prefabs/Field/field_test.prefab
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+    m_mainAssetType: 
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: f101120ea3a844af49e1293db9bb93e1, type: 2}
   m_SchemaSet:

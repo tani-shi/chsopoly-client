@@ -7,7 +7,6 @@ namespace Chsopoly.BaseSystem.GameScene
     {
         bool IsReady { get; }
         GameSceneType sceneType { get; }
-        IGameSceneParam param { get; }
 
         void Initialize (GameSceneType type, IGameSceneParam p);
         void RequestDestroy ();

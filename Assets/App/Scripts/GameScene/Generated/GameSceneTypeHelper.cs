@@ -10,9 +10,9 @@ namespace Chsopoly.GameScene
             switch (type)
             {
                 case GameSceneType.Ingame:
-                    return "Assets/App/AddressableAssets/GameScene/IngameScene.prefab";
+                    return "Assets/App/AddressableAssets/Prefabs/GameScene/IngameScene.prefab";
                 case GameSceneType.Title:
-                    return "Assets/App/AddressableAssets/GameScene/TitleScene.prefab";
+                    return "Assets/App/AddressableAssets/Prefabs/GameScene/TitleScene.prefab";
             }
             throw new ArgumentOutOfRangeException ("Undefined GameSceneType was found. " + type.ToString ());
         }

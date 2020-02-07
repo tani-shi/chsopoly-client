@@ -9,9 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c1f025c01a63b42eb9c359fdfca65f60, type: 3}
-  m_Name: Stage
+  m_Script: {fileID: 11500000, guid: be165c22746ba4be0b65b8ae6554d928, type: 3}
+  m_Name: Character
   m_EditorClassIdentifier: 
   list:
   - id: 1
-    fieldName: field_test
+    assetName: chr_test
+    height: 2
+    radius: 0.3
+    moveSpeed: 10

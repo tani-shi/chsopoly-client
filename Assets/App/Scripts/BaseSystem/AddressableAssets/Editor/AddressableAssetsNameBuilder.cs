@@ -2,6 +2,8 @@ using System.IO;
 using System.Linq;
 using UnityEditor;
 using UnityEditor.AddressableAssets;
+using UnityEditor.AddressableAssets.Settings;
+using UnityEngine;
 
 namespace Chsopoly.BaseSystem.AddressableAssets.Editor
 {
@@ -9,14 +11,25 @@ namespace Chsopoly.BaseSystem.AddressableAssets.Editor
     {
         const string AssetRootPath = "Assets/App/AddressableAssets";
 
+        private static AddressableAssetSettings _defaultSettings = null;
+
+        static AddressableAssetsNameBuilder ()
+        {
+            _defaultSettings = AddressableAssetSettingsDefaultObject.Settings;
+        }
+
         [MenuItem ("Project/AddressableAssets/Refresh All AddressableAssets Entries")]
         static void BuildAllAddressableAssetsNames ()
         {
-            var settings = AddressableAssetSettingsDefaultObject.Settings;
-            var group = settings.DefaultGroup;
+            if (_defaultSettings == null)
+            {
+                Debug.LogError ("Not found a addressable assets default settings file.");
+                return;
+            }
+            var group = _defaultSettings.DefaultGroup;
             foreach (var entry in group.entries.ToArray ())
             {
-                settings.RemoveAssetEntry (entry.guid);
+                _defaultSettings.RemoveAssetEntry (entry.guid);
             }
             foreach (var path in Directory.GetFiles (AssetRootPath, "*.*", SearchOption.AllDirectories))
             {
@@ -36,6 +49,11 @@ namespace Chsopoly.BaseSystem.AddressableAssets.Editor
             string[] movedAssets,
             string[] movedFromAssetPaths)
         {
+            if (_defaultSettings == null)
+            {
+                return;
+            }
+
             foreach (var asset in importedAssets.Union (movedAssets))
             {
                 if (!asset.StartsWith (AssetRootPath) || Directory.Exists (asset))
@@ -50,8 +68,7 @@ namespace Chsopoly.BaseSystem.AddressableAssets.Editor
 
         static void SetAddressableAssetsName (string path)
         {
-            var settings = AddressableAssetSettingsDefaultObject.Settings;
-            var group = settings.DefaultGroup;
+            var group = _defaultSettings.DefaultGroup;
             var guid = AssetDatabase.AssetPathToGUID (path);
             var entry = group.GetAssetEntry (guid);
             if (entry != null)
@@ -60,7 +77,7 @@ namespace Chsopoly.BaseSystem.AddressableAssets.Editor
             }
             else
             {
-                settings.CreateOrMoveEntry (guid, group, true);
+                _defaultSettings.CreateOrMoveEntry (guid, group, true);
             }
         }
     }

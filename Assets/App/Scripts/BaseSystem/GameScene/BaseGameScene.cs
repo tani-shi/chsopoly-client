@@ -25,15 +25,6 @@ namespace Chsopoly.BaseSystem.GameScene
             }
         }
 
-        public IGameSceneParam param
-        {
-            get
-            {
-                return _param;
-            }
-        }
-
-        private T _param = new T ();
         private bool _ready = false;
         private GameSceneType _sceneType = GameSceneType.None;
 
@@ -42,25 +33,28 @@ namespace Chsopoly.BaseSystem.GameScene
             Destroy (gameObject);
         }
 
-        protected virtual IEnumerator LoadProc ()
+        protected virtual IEnumerator LoadProc (T param)
         {
             yield break;
         }
 
-        public void Initialize (GameSceneType type, IGameSceneParam p)
+        public void Initialize (GameSceneType type, IGameSceneParam param)
         {
             _sceneType = type;
-            _ready = false;
-            if (p is T)
+            if (param is T)
             {
-                _param = p as T;
+                StartCoroutine (DoLoad (param as T));
             }
-            StartCoroutine (DoLoad ());
+            else
+            {
+                StartCoroutine (DoLoad (new T ()));
+            }
         }
 
-        private IEnumerator DoLoad ()
+        private IEnumerator DoLoad (T param)
         {
-            yield return LoadProc ();
+            _ready = false;
+            yield return LoadProc (param);
             _ready = true;
         }
     }

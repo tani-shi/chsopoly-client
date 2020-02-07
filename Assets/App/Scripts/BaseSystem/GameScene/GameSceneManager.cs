@@ -213,6 +213,7 @@ namespace Chsopoly.BaseSystem.GameScene
                     return scene;
                 }
             }
+            Debug.LogError ("Failed to create a instance of GameScene. " + info.type.ToString ());
             return null;
         }
 
