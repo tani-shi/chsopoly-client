@@ -16,5 +16,5 @@ MonoBehaviour:
   - id: 1
     assetName: chr_test
     height: 2
-    radius: 0.3
+    radius: 0.5
     moveSpeed: 10

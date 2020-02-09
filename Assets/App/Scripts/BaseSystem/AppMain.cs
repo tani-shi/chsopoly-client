@@ -1,6 +1,7 @@
 using System.Collections;
 using Chsopoly.BaseSystem.GameScene;
 using Chsopoly.BaseSystem.MasterData;
+using Chsopoly.BaseSystem.UserData;
 using Chsopoly.GameScene;
 using Chsopoly.Libs;
 using Chsopoly.MasterData.Collection;
@@ -28,6 +29,7 @@ namespace Chsopoly.BaseSystem
             yield return Addressables.InitializeAsync ();
             yield return MasterDataManager.Instance.LoadAsync (new MasterDataAccessorObjectCollection ());
 
+            UserDataManager.Instance.Initialize ();
             GameSceneManager.Instance.ChangeScene (_initialScene);
         }
     }

@@ -4,7 +4,7 @@ using UnityEditor;
 using UnityEditor.Animations;
 using UnityEngine;
 
-namespace Chsopoly.Lib.Editor
+namespace Chsopoly.Libs.Editor
 {
     [CustomEditor (typeof (AnimatorController))]
     public class AnimatorControllerInspector : UnityEditor.Editor
