@@ -116,6 +116,7 @@ namespace Chsopoly.BaseSystem.GameScene
                 case State.Idle:
                     if (HasNextSceneInfo ())
                     {
+                        _fadeRate = 0;
                         _state = State.Closing;
                         _fadeImage.raycastTarget = true;
 
