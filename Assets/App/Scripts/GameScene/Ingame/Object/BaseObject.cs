@@ -42,7 +42,7 @@ namespace Chsopoly.GameScene.Ingame.Object
         private BaseObjectModel<ANIM> _model = null;
         private bool _initialized = false;
 
-        public virtual void Initialize (int id)
+        public virtual void Initialize (uint id)
         {
             _initialized = true;
         }

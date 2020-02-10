@@ -5,6 +5,7 @@ namespace Chsopoly.GameScene.Ingame.Object.Character
         public enum Animation
         {
             Idle,
+            Run,
         }
     }
 }

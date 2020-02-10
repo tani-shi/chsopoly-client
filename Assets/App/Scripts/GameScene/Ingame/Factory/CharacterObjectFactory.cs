@@ -35,7 +35,7 @@ namespace Chsopoly.GameScene.Ingame.Factory
             }
 
             var obj = objHandle.Result.CreateInstance (parent);
-            obj.SafeAddComponent<CharacterObject> ();
+            var characterObject = obj.SafeAddComponent<CharacterObject> ();
             obj.SafeAddComponent<CharacterObjectModel> ();
             obj.SafeAddComponent<CharacterStateMachine> ();
 
@@ -44,8 +44,10 @@ namespace Chsopoly.GameScene.Ingame.Factory
 
             var rigidbody = obj.SafeAddComponent<Rigidbody2D> ();
             rigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
-            rigidbody.gravityScale = 1.0f;
+            rigidbody.gravityScale = 10.0f;
             rigidbody.mass = data.weight;
+
+            characterObject.Initialize (characterId);
 
             callback.SafeInvoke (obj);
         }

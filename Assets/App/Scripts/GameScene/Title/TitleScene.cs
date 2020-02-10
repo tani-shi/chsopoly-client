@@ -1,7 +1,8 @@
 using Chsopoly.BaseSystem.GameScene;
+using Chsopoly.GameScene.Ingame;
 using UnityEngine;
 
-namespace Chsopoly.GameScene
+namespace Chsopoly.GameScene.Title
 {
     public class TitleScene : BaseGameScene
     {

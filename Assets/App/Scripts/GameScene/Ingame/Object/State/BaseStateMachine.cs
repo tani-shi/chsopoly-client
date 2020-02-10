@@ -15,13 +15,58 @@ namespace Chsopoly.GameScene.Ingame.Object.State
             get;
         }
 
+        public STATE CurrentState
+        {
+            get
+            {
+                return _currentState;
+            }
+        }
+
+        public STATE PreviousState
+        {
+            get
+            {
+                return _previousState;
+            }
+        }
+
+        public STATE NextState
+        {
+            get
+            {
+                return _nextState;
+            }
+        }
+
+        public int StateElapsedTime
+        {
+            get
+            {
+                return _stateElapsedTime;
+            }
+        }
+
+        public int StateTimer
+        {
+            get
+            {
+                return _stateTimer;
+            }
+        }
+
         private STATE _previousState = default;
         private STATE _currentState = default;
         private STATE _nextState = default;
         private IObjectState<STATE, ANIM, OBJ> _state = null;
         private Stack<STATE> _stateStack = new Stack<STATE> ();
-        private float _stateElapsedTime = 0;
-        private float _stateTimer = 0;
+        private int _stateElapsedTime = 0;
+        private int _stateTimer = 0;
+
+        public BaseStateMachine ()
+        {
+            _nextState = DefaultState;
+        }
 
         public void Execute (OBJ owner)
         {
@@ -32,7 +77,7 @@ namespace Chsopoly.GameScene.Ingame.Object.State
             ExecuteState (owner);
         }
 
-        public void SetStateTimer (float timer)
+        public void SetStateTimer (int timer)
         {
             _stateTimer = timer;
         }
@@ -42,7 +87,26 @@ namespace Chsopoly.GameScene.Ingame.Object.State
             _stateTimer = -1;
         }
 
+        public void SetNextState (STATE state, bool force = false)
+        {
+            if (CanSetState (state) || force)
+            {
+                _nextState = state;
+            }
+        }
+
+        public bool CanSetState (STATE state)
+        {
+            if (_stateTimer == 0)
+            {
+                return CanConnectState (state);
+            }
+            return CanInterruptState (state);
+        }
+
         protected abstract IObjectState<STATE, ANIM, OBJ> CreateState (STATE state);
+        protected abstract bool CanInterruptState (STATE state);
+        protected abstract bool CanConnectState (STATE state);
 
         private void UpdateStateTimer ()
         {

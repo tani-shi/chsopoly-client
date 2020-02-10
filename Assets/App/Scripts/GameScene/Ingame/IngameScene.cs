@@ -1,14 +1,15 @@
 using System.Collections;
 using Chsopoly.BaseSystem.GameScene;
-using Chsopoly.GameScene.Ingame;
 using UnityEngine;
 
-namespace Chsopoly.GameScene
+namespace Chsopoly.GameScene.Ingame
 {
     public class IngameScene : BaseGameScene<IngameScene.Param>
     {
         [SerializeField]
         private IngameStage _stage = default;
+        [SerializeField]
+        private IngameController _controller = default;
 
         public class Param : IGameSceneParam
         {
@@ -21,6 +22,8 @@ namespace Chsopoly.GameScene
             {
                 1,
             });
+
+            _controller.SetPlayer (_stage.PlayerCharacter);
         }
     }
 }

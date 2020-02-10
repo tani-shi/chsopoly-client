@@ -13,6 +13,7 @@ namespace Chsopoly.MasterData.VO.Ingame
         public string assetName;
         public float moveSpeed;
         public float weight;
+        public float jumpPower;
 
         public uint GetKey ()
         {

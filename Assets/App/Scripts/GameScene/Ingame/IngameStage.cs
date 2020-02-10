@@ -13,8 +13,17 @@ namespace Chsopoly.GameScene.Ingame
 {
     public class IngameStage : MonoBehaviour
     {
+        public CharacterObject PlayerCharacter
+        {
+            get
+            {
+                return _playerCharacter;
+            }
+        }
+
         private List<GameObject> _stageObjects = new List<GameObject> ();
         private List<CharacterObject> _characterObjects = new List<CharacterObject> ();
+        private CharacterObject _playerCharacter = null;
         private StageVO _stageData = new StageVO ();
 
         public IEnumerator Load (uint stageId, uint[] characterIds)
@@ -47,6 +56,12 @@ namespace Chsopoly.GameScene.Ingame
 
             _stageObjects.Add (obj);
             _characterObjects.AddIfNotNull (obj.GetComponent<CharacterObject> ());
+
+            // The character object that is created first will be a player character.
+            if (_playerCharacter == null && obj.HasComponent<CharacterObject> ())
+            {
+                _playerCharacter = obj.GetComponent<CharacterObject> ();
+            }
         }
     }
 }
