@@ -1,4 +1,5 @@
 using Chsopoly.GameScene.Ingame.Object.Character;
+using UnityEngine;
 
 namespace Chsopoly.GameScene.Ingame.Object.State.Character
 {
@@ -14,7 +15,13 @@ namespace Chsopoly.GameScene.Ingame.Object.State.Character
 
         protected override IObjectState<CharacterObject.State, CharacterObjectModel.Animation, CharacterObject> CreateState (CharacterObject.State state)
         {
-            return null;
+            switch (state)
+            {
+                case CharacterObject.State.Idle:
+                    return new CharacterStateIdle ();
+            }
+            Debug.LogError ("A unknown character state was specified. " + state.ToString ());
+            return new CharacterStateIdle ();
         }
     }
 }

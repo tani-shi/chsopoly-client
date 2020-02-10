@@ -17,7 +17,10 @@ namespace Chsopoly.GameScene
 
         protected override IEnumerator LoadProc (Param param)
         {
-            yield return _stage.Load (param.stageId);
+            yield return _stage.Load (param.stageId, new uint[]
+            {
+                1,
+            });
         }
     }
 }

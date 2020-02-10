@@ -41,17 +41,18 @@ namespace Chsopoly.GameScene.Ingame.Factory
                 yield break;
             }
 
-            var obj = objHandle.Result.CreateInstance ();
+            var obj = objHandle.Result.CreateInstance (parent);
             _character = obj.SafeAddComponent<CharacterObject> ();
             obj.SafeAddComponent<CharacterObjectModel> ();
             obj.SafeAddComponent<CharacterStateMachine> ();
 
-            var collider = obj.SafeAddComponent<CapsuleCollider> ();
-            collider.height = data.height;
-            collider.radius = data.radius;
-
             var animator = obj.SafeAddComponent<Animator> ();
             animator.runtimeAnimatorController = animHandle.Result;
+
+            var rigidbody = obj.SafeAddComponent<Rigidbody2D> ();
+            rigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
+            rigidbody.gravityScale = 1.0f;
+            rigidbody.mass = data.weight;
         }
 
         private AsyncOperationHandle<GameObject> LoadCharacter (string assetName)

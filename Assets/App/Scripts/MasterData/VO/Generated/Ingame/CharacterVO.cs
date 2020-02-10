@@ -11,9 +11,8 @@ namespace Chsopoly.MasterData.VO.Ingame
     {
         public uint id;
         public string assetName;
-        public float height;
-        public float radius;
         public float moveSpeed;
+        public float weight;
 
         public uint GetKey ()
         {

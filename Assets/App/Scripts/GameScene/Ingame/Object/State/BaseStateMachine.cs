@@ -25,9 +25,21 @@ namespace Chsopoly.GameScene.Ingame.Object.State
 
         public void Execute (OBJ owner)
         {
+            _stateStack.Clear ();
+
             UpdateStateTimer ();
             UpdateState (owner);
             ExecuteState (owner);
+        }
+
+        public void SetStateTimer (float timer)
+        {
+            _stateTimer = timer;
+        }
+
+        public void SetStateTimerInfinite ()
+        {
+            _stateTimer = -1;
         }
 
         protected abstract IObjectState<STATE, ANIM, OBJ> CreateState (STATE state);
@@ -110,7 +122,7 @@ namespace Chsopoly.GameScene.Ingame.Object.State
         {
             if (_state != null)
             {
-                _state.OnExecute (owner);
+                _state.OnUpdate (owner);
             }
         }
     }

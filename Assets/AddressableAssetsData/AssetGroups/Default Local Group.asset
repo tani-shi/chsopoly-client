@@ -26,12 +26,14 @@ MonoBehaviour:
     m_Address: Assets/App/AddressableAssets/MasterData/Ingame/Character.asset
     m_ReadOnly: 1
     m_SerializedLabels: []
-    m_mainAssetType: 
+    m_mainAssetType: Chsopoly.MasterData.DTO.Ingame.CharacterDTO, Assembly-CSharp,
+      Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   - m_GUID: 50f17cc4dda8b4a2c9e8adb3fda8037d
     m_Address: Assets/App/AddressableAssets/Animations/Character/chr_test.controller
     m_ReadOnly: 1
     m_SerializedLabels: []
-    m_mainAssetType: 
+    m_mainAssetType: UnityEditor.Animations.AnimatorController, UnityEditor, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   - m_GUID: 657313a426ec94b73aaae2396b36967a
     m_Address: Assets/App/AddressableAssets/Prefabs/GameScene/IngameScene.prefab
     m_ReadOnly: 1

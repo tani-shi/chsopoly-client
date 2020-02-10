@@ -30,13 +30,29 @@ namespace Chsopoly.GameScene.Ingame.Object
             }
         }
 
+        public bool IsReady
+        {
+            get
+            {
+                return _initialized;
+            }
+        }
+
         private BaseStateMachine<STATE, ANIM, OBJ> _stateMachine = null;
         private BaseObjectModel<ANIM> _model = null;
+        private bool _initialized = false;
 
-        public abstract void Initialize (int id);
+        public virtual void Initialize (int id)
+        {
+            _initialized = true;
+        }
 
         protected virtual void Update ()
         {
+            if (!_initialized)
+            {
+                return;
+            }
             StateMachine.Execute (this as OBJ);
         }
     }
