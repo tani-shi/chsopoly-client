@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using Chsopoly.BaseSystem.MasterData;
 using Chsopoly.GameScene.Ingame.Object.Character;
@@ -15,16 +16,8 @@ namespace Chsopoly.GameScene.Ingame.Factory
         private const string PrefabPathFormat = "Assets/App/AddressableAssets/Prefabs/Character/{0}.prefab";
         private const string AnimatorControllerPathFormat = "Assets/App/AddressableAssets/Animations/Character/{0}.controller";
 
-        private CharacterObject _character = null;
-
-        public IEnumerator CreateCharacter (uint characterId, Transform parent)
+        public IEnumerator CreateCharacter (uint characterId, Transform parent, Action<GameObject> callback = null)
         {
-            if (_character != null)
-            {
-                Debug.LogWarning ("The character object was already loaded. " + _character.name);
-                yield break;
-            }
-
             var data = MasterDataManager.Instance.Get<CharacterDAO> ().Get (characterId);
             var objHandle = LoadCharacter (data.assetName);
             yield return objHandle;
@@ -42,7 +35,7 @@ namespace Chsopoly.GameScene.Ingame.Factory
             }
 
             var obj = objHandle.Result.CreateInstance (parent);
-            _character = obj.SafeAddComponent<CharacterObject> ();
+            obj.SafeAddComponent<CharacterObject> ();
             obj.SafeAddComponent<CharacterObjectModel> ();
             obj.SafeAddComponent<CharacterStateMachine> ();
 
@@ -53,6 +46,8 @@ namespace Chsopoly.GameScene.Ingame.Factory
             rigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
             rigidbody.gravityScale = 1.0f;
             rigidbody.mass = data.weight;
+
+            callback.SafeInvoke (obj);
         }
 
         private AsyncOperationHandle<GameObject> LoadCharacter (string assetName)

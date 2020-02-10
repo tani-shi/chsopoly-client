@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using Chsopoly.Libs.Extensions;
 using UnityEngine;
@@ -10,26 +11,11 @@ namespace Chsopoly.GameScene.Ingame.Factory
     {
         private const string PrefabPathFormat = "Assets/App/AddressableAssets/Prefabs/Field/{0}.prefab";
 
-        private GameObject _fieldObject = null;
-
-        public IEnumerator CreateField (string fieldName, Transform parent)
+        public IEnumerator CreateField (string fieldName, Transform parent, Action<GameObject> callback = null)
         {
-            if (_fieldObject != null)
-            {
-                Debug.LogWarning ("The field was already loaded.");
-                yield break;
-            }
             var handle = LoadField (fieldName);
             yield return handle;
-            _fieldObject = handle.Result.CreateInstance (parent);
-        }
-
-        public void DestroyField ()
-        {
-            if (_fieldObject != null)
-            {
-                GameObject.Destroy (_fieldObject);
-            }
+            callback.SafeInvoke (handle.Result.CreateInstance (parent));
         }
 
         private AsyncOperationHandle<GameObject> LoadField (string fieldName)
