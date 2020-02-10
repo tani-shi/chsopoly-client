@@ -47,7 +47,7 @@ namespace Chsopoly.GameScene.Ingame.Object
             _initialized = true;
         }
 
-        protected virtual void Update ()
+        protected virtual void FixedUpdate ()
         {
             if (!_initialized)
             {

@@ -36,6 +36,8 @@ namespace Chsopoly.GameScene.Ingame
                 yield return new CharacterObjectFactory ().CreateCharacter (characterIds[i], transform, OnCreateObject);
             }
 
+            Physics2D.gravity = new Vector2 (0, IngameSettings.Field.Gravity (_stageData.fieldGravity));
+
             OnLoadComplete ();
         }
 

@@ -45,7 +45,7 @@ namespace Chsopoly.GameScene.Ingame
             }
             if (Input.GetKeyDown (KeyCode.Space))
             {
-                // Jump
+                _playerCharacter.SetStateJump ();
             }
 #endif
 

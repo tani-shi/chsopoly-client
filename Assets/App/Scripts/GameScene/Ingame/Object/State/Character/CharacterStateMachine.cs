@@ -33,34 +33,45 @@ namespace Chsopoly.GameScene.Ingame.Object.State.Character
                     return new CharacterStateIdle ();
                 case State.Run:
                     return new CharacterStateRun ();
+                case State.Jump:
+                    return new CharacterStateJump ();
             }
             Debug.LogError ("A unknown character state was specified. " + state.ToString ());
             return new CharacterStateIdle ();
         }
 
-        protected override bool CanInterruptState (State state)
+        protected override bool CanInterruptState (State state, CharacterObject owner)
         {
             switch (state)
             {
                 case State.Idle:
-                    return false;
+                    return CurrentState == State.Jump;
                 case State.Run:
                     return CurrentState == State.Idle ||
                         CurrentState == State.Run;
+                case State.Jump:
+                    return CurrentState == State.Idle ||
+                        CurrentState == State.Run ||
+                        (CurrentState == State.Jump && owner.CanJumpAgain);
             }
 
             return false;
         }
 
-        protected override bool CanConnectState (State state)
+        protected override bool CanConnectState (State state, CharacterObject owner)
         {
             switch (state)
             {
                 case State.Idle:
-                    return CurrentState == State.Run;
+                    return CurrentState == State.Run ||
+                        CurrentState == State.Jump;
                 case State.Run:
                     return CurrentState == State.Idle ||
                         CurrentState == State.Run;
+                case State.Jump:
+                    return CurrentState == State.Idle ||
+                        CurrentState == State.Run ||
+                        (CurrentState == State.Jump && owner.CanJumpAgain);
             }
 
             return false;

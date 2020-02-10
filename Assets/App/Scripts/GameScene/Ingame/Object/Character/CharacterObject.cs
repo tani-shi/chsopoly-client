@@ -24,9 +24,28 @@ namespace Chsopoly.GameScene.Ingame.Object.Character
             }
         }
 
+        public float JumpHeight
+        {
+            get
+            {
+                return _jumpHeight;
+            }
+        }
+
+        public bool CanJumpAgain
+        {
+            get
+            {
+                return _jumpCounter < _jumpMaxCount && StateMachine.StateElapsedTime > IngameSettings.Character.JumpIntervalTime;
+            }
+        }
+
         private float _moveSpeed;
         private float _moveVelocity;
+        private float _jumpHeight;
+        private int _jumpMaxCount;
         private Rigidbody2D _rigidbody;
+        private int _jumpCounter;
 
         public override void Initialize (uint id)
         {
@@ -36,6 +55,8 @@ namespace Chsopoly.GameScene.Ingame.Object.Character
 
             var data = MasterDataManager.Instance.Get<CharacterDAO> ().Get (id);
             _moveSpeed = data.moveSpeed;
+            _jumpHeight = data.jumpHeight;
+            _jumpMaxCount = data.jumpMaxCount;
         }
 
         public void SetMoveVelocity (bool direction)
@@ -54,12 +75,17 @@ namespace Chsopoly.GameScene.Ingame.Object.Character
 
         public void SetStateIdle ()
         {
-            StateMachine.SetNextState (CharacterStateMachine.State.Idle);
+            StateMachine.SetNextState (CharacterStateMachine.State.Idle, this);
         }
 
         public void SetStateRun ()
         {
-            StateMachine.SetNextState (CharacterStateMachine.State.Run);
+            StateMachine.SetNextState (CharacterStateMachine.State.Run, this);
+        }
+
+        public void SetStateJump ()
+        {
+            StateMachine.SetNextState (CharacterStateMachine.State.Jump, this);
         }
 
         public void MovePosition ()
@@ -67,15 +93,35 @@ namespace Chsopoly.GameScene.Ingame.Object.Character
             _rigidbody.position += new Vector2 (_moveVelocity, 0);
         }
 
-        protected override void Update ()
+        public void Jump ()
         {
-            base.Update ();
+            _rigidbody.velocity = new Vector2 (0, Mathf.Sqrt (-2.0f * Physics2D.gravity.y * _jumpHeight));
+            _jumpCounter++;
+        }
+
+        public void ResetJumpCounter ()
+        {
+            _jumpCounter = 0;
+        }
+
+        protected override void FixedUpdate ()
+        {
+            base.FixedUpdate ();
             _moveVelocity = 0f;
+        }
+
+        void OnTriggerStay2D (Collider2D collision)
+        {
+            if (StateMachine.CurrentState == CharacterStateMachine.State.Jump)
+            {
+                ResetJumpCounter ();
+                SetStateIdle ();
+            }
         }
 
         void IIngameLoadCompleteEvent.OnIngameLoadComplete ()
         {
-            var obj = GameObject.FindWithTag (IngameSettings.StartPointTag);
+            var obj = GameObject.FindWithTag (IngameSettings.Tags.StartPoint);
             if (obj != null)
             {
                 transform.position = obj.transform.position;

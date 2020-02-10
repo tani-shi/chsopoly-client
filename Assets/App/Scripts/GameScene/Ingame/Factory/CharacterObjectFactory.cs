@@ -8,14 +8,12 @@ using Chsopoly.MasterData.DAO.Ingame;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using UnityEngine.UI;
 
 namespace Chsopoly.GameScene.Ingame.Factory
 {
     public class CharacterObjectFactory
     {
-        private const string PrefabPathFormat = "Assets/App/AddressableAssets/Prefabs/Character/{0}.prefab";
-        private const string AnimatorControllerPathFormat = "Assets/App/AddressableAssets/Animations/Character/{0}.controller";
-
         public IEnumerator CreateCharacter (uint characterId, Transform parent, Action<GameObject> callback = null)
         {
             var data = MasterDataManager.Instance.Get<CharacterDAO> ().Get (characterId);
@@ -38,14 +36,27 @@ namespace Chsopoly.GameScene.Ingame.Factory
             var characterObject = obj.SafeAddComponent<CharacterObject> ();
             obj.SafeAddComponent<CharacterObjectModel> ();
             obj.SafeAddComponent<CharacterStateMachine> ();
+            (obj.transform as RectTransform).pivot = new Vector2 (0.5f, 0);
 
             var animator = obj.SafeAddComponent<Animator> ();
             animator.runtimeAnimatorController = animHandle.Result;
 
+            var image = obj.GetComponent<Image> ();
+            image.SetNativeSize ();
+
             var rigidbody = obj.SafeAddComponent<Rigidbody2D> ();
             rigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
-            rigidbody.gravityScale = 10.0f;
+            rigidbody.gravityScale = 9.81f;
             rigidbody.mass = data.weight;
+
+            var bodyCollider = obj.SafeAddComponent<CapsuleCollider2D> ();
+            bodyCollider.size = new Vector2 (data.width, data.height);
+            bodyCollider.offset = new Vector2 (0, data.height.Half ());
+
+            var footCollider = obj.SafeAddComponent<BoxCollider2D> ();
+            footCollider.size = new Vector2 (data.width.Half (), IngameSettings.Character.FootHeight);
+            footCollider.offset = new Vector2 (0, IngameSettings.Character.FootHeight.Half ());
+            footCollider.isTrigger = true;
 
             characterObject.Initialize (characterId);
 
@@ -54,12 +65,12 @@ namespace Chsopoly.GameScene.Ingame.Factory
 
         private AsyncOperationHandle<GameObject> LoadCharacter (string assetName)
         {
-            return Addressables.LoadAssetAsync<GameObject> (string.Format (PrefabPathFormat, assetName));
+            return Addressables.LoadAssetAsync<GameObject> (IngameSettings.Paths.CharacterPrefab (assetName));
         }
 
         private AsyncOperationHandle<RuntimeAnimatorController> LoadAnimation (string assetName)
         {
-            return Addressables.LoadAssetAsync<RuntimeAnimatorController> (string.Format (AnimatorControllerPathFormat, assetName));
+            return Addressables.LoadAssetAsync<RuntimeAnimatorController> (IngameSettings.Paths.CharacterAnimator (assetName));
         }
     }
 }

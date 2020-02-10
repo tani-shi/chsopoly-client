@@ -6,6 +6,7 @@ namespace Chsopoly.GameScene.Ingame.Object.Character
         {
             Idle,
             Run,
+            Jump,
         }
     }
 }

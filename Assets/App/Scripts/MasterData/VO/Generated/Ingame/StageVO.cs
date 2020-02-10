@@ -11,6 +11,7 @@ namespace Chsopoly.MasterData.VO.Ingame
     {
         public uint id;
         public string fieldName;
+        public FieldGravity fieldGravity;
 
         public uint GetKey ()
         {

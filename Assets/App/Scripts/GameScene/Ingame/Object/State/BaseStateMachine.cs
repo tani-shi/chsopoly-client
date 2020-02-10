@@ -39,11 +39,11 @@ namespace Chsopoly.GameScene.Ingame.Object.State
             }
         }
 
-        public int StateElapsedTime
+        public float StateElapsedTime
         {
             get
             {
-                return _stateElapsedTime;
+                return (float) _stateElapsedFrames / (float) Application.targetFrameRate;
             }
         }
 
@@ -60,7 +60,7 @@ namespace Chsopoly.GameScene.Ingame.Object.State
         private STATE _nextState = default;
         private IObjectState<STATE, ANIM, OBJ> _state = null;
         private Stack<STATE> _stateStack = new Stack<STATE> ();
-        private int _stateElapsedTime = 0;
+        private int _stateElapsedFrames = 0;
         private int _stateTimer = 0;
 
         public BaseStateMachine ()
@@ -87,26 +87,26 @@ namespace Chsopoly.GameScene.Ingame.Object.State
             _stateTimer = -1;
         }
 
-        public void SetNextState (STATE state, bool force = false)
+        public void SetNextState (STATE state, OBJ owner, bool force = false)
         {
-            if (CanSetState (state) || force)
+            if (CanSetState (state, owner) || force)
             {
                 _nextState = state;
             }
         }
 
-        public bool CanSetState (STATE state)
+        public bool CanSetState (STATE state, OBJ owner)
         {
             if (_stateTimer == 0)
             {
-                return CanConnectState (state);
+                return CanConnectState (state, owner);
             }
-            return CanInterruptState (state);
+            return CanInterruptState (state, owner);
         }
 
         protected abstract IObjectState<STATE, ANIM, OBJ> CreateState (STATE state);
-        protected abstract bool CanInterruptState (STATE state);
-        protected abstract bool CanConnectState (STATE state);
+        protected abstract bool CanInterruptState (STATE state, OBJ owner);
+        protected abstract bool CanConnectState (STATE state, OBJ owner);
 
         private void UpdateStateTimer ()
         {
@@ -116,7 +116,7 @@ namespace Chsopoly.GameScene.Ingame.Object.State
                 {
                     _stateTimer--;
                 }
-                _stateElapsedTime++;
+                _stateElapsedFrames++;
             }
         }
 
@@ -154,7 +154,7 @@ namespace Chsopoly.GameScene.Ingame.Object.State
                     _previousState = _currentState;
                     _currentState = _nextState;
                     _nextState = default;
-                    _stateElapsedTime = 0;
+                    _stateElapsedFrames = 0;
 
                     if (onStateChanged != null)
                     {

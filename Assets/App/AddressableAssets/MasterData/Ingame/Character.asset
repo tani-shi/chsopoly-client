@@ -18,3 +18,4 @@ MonoBehaviour:
     moveSpeed: 20
     weight: 50
     jumpPower: 100
+    jumpMaxCount: 1

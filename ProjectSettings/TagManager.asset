@@ -6,6 +6,7 @@ TagManager:
   tags:
   - StartPoint
   - GoalPoint
+  - Ground
   layers:
   - Default
   - TransparentFX
