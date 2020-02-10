@@ -128,7 +128,11 @@ namespace Chsopoly.GameScene.Ingame.Object.Character
 
         void OnCollisionEnter2D (Collision2D collision)
         {
-            _isLanding = Physics2D.Linecast (transform.position, transform.position + Vector3.down);
+            if (Physics2D.Linecast (transform.position + Vector3.down, transform.position + Vector3.down * 2.0f))
+            {
+                _isLanding = true;
+                _rigidbody.velocity = Vector2.zero;
+            }
         }
 
         void OnCollisionExit2D (Collision2D collision)

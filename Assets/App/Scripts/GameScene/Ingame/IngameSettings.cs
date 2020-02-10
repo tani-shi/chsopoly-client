@@ -43,7 +43,7 @@ namespace Chsopoly.GameScene.Ingame
                 get
                 {
                     var material = new PhysicsMaterial2D ();
-                    material.bounciness = 0;
+                    material.bounciness = 0.1f;
                     material.friction = 0;
                     return material;
                 }
