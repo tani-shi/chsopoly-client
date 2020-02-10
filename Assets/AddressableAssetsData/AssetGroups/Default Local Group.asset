@@ -23,6 +23,11 @@ MonoBehaviour:
     m_SerializedLabels: []
     m_mainAssetType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  - m_GUID: 4a42604bdd11744af84c9b79df115847
+    m_Address: Assets/App/AddressableAssets/Prefabs/GameScene/IngameScene.prefab
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+    m_mainAssetType: 
   - m_GUID: 4aa648242a8654cd4be1e3beb46f3d80
     m_Address: Assets/App/AddressableAssets/MasterData/Ingame/Character.asset
     m_ReadOnly: 1
@@ -35,29 +40,23 @@ MonoBehaviour:
     m_SerializedLabels: []
     m_mainAssetType: UnityEditor.Animations.AnimatorController, UnityEditor, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  - m_GUID: 657313a426ec94b73aaae2396b36967a
-    m_Address: Assets/App/AddressableAssets/Prefabs/GameScene/IngameScene.prefab
-    m_ReadOnly: 1
-    m_SerializedLabels: []
-    m_mainAssetType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
   - m_GUID: 6880ebce6527249918518c8b3ea384bf
     m_Address: Assets/App/AddressableAssets/Prefabs/Common/StartPoint.prefab
     m_ReadOnly: 1
     m_SerializedLabels: []
-    m_mainAssetType: 
+    m_mainAssetType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   - m_GUID: 7a3264676fe6f448d85fbe0144c0fde1
     m_Address: Assets/App/AddressableAssets/MasterData/Ingame/Stage.asset
     m_ReadOnly: 1
     m_SerializedLabels: []
     m_mainAssetType: Chsopoly.MasterData.DTO.Ingame.StageDTO, Assembly-CSharp, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  - m_GUID: 8ff922ff898b648e9ae403b593023a1c
+  - m_GUID: 83e7688545cbb43b69495475386674f4
     m_Address: Assets/App/AddressableAssets/Prefabs/GameScene/TitleScene.prefab
     m_ReadOnly: 1
     m_SerializedLabels: []
-    m_mainAssetType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+    m_mainAssetType: 
   - m_GUID: d01cfbfd3cb41452280c9bac879dd61b
     m_Address: Assets/App/AddressableAssets/Prefabs/Field/field_test.prefab
     m_ReadOnly: 1

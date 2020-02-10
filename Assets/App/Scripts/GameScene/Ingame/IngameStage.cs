@@ -13,6 +13,14 @@ namespace Chsopoly.GameScene.Ingame
 {
     public class IngameStage : MonoBehaviour
     {
+        public GameObject Field
+        {
+            get
+            {
+                return _field;
+            }
+        }
+
         public CharacterObject PlayerCharacter
         {
             get
@@ -23,6 +31,7 @@ namespace Chsopoly.GameScene.Ingame
 
         private List<GameObject> _stageObjects = new List<GameObject> ();
         private List<CharacterObject> _characterObjects = new List<CharacterObject> ();
+        private GameObject _field = null;
         private CharacterObject _playerCharacter = null;
         private StageVO _stageData = new StageVO ();
 
@@ -30,7 +39,7 @@ namespace Chsopoly.GameScene.Ingame
         {
             _stageData = MasterDataManager.Instance.Get<StageDAO> ().Get (stageId);
 
-            yield return new FieldFactory ().CreateField (_stageData.fieldName, transform, OnCreateObject);
+            yield return new FieldFactory ().CreateField (_stageData.fieldName, transform, OnCreateField);
             for (int i = 0; i < characterIds.Length; i++)
             {
                 yield return new CharacterObjectFactory ().CreateCharacter (characterIds[i], transform, OnCreateObject);
@@ -46,6 +55,19 @@ namespace Chsopoly.GameScene.Ingame
             foreach (var obj in _stageObjects)
             {
                 (obj.GetComponent<IIngameLoadCompleteEvent> ())?.OnIngameLoadComplete ();
+            }
+        }
+
+        private void OnCreateField (GameObject field)
+        {
+            if (field == null)
+            {
+                return;
+            }
+
+            if (_field == null)
+            {
+                _field = field;
             }
         }
 

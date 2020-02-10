@@ -51,8 +51,8 @@ namespace Chsopoly.GameScene.Ingame.Object.State.Character
                         CurrentState == State.Run;
                 case State.Jump:
                     return CurrentState == State.Idle ||
-                        CurrentState == State.Run ||
-                        (CurrentState == State.Jump && owner.CanJumpAgain);
+                        (CurrentState == State.Run && owner.CanJump) ||
+                        (CurrentState == State.Jump && owner.CanJump);
             }
 
             return false;
@@ -70,8 +70,8 @@ namespace Chsopoly.GameScene.Ingame.Object.State.Character
                         CurrentState == State.Run;
                 case State.Jump:
                     return CurrentState == State.Idle ||
-                        CurrentState == State.Run ||
-                        (CurrentState == State.Jump && owner.CanJumpAgain);
+                        (CurrentState == State.Run && owner.CanJump) ||
+                        (CurrentState == State.Jump && owner.CanJump);
             }
 
             return false;

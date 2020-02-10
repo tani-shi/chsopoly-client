@@ -1,5 +1,6 @@
 using System.Collections;
 using Chsopoly.BaseSystem.GameScene;
+using Chsopoly.GameScene.Ingame.UI;
 using UnityEngine;
 
 namespace Chsopoly.GameScene.Ingame
@@ -9,7 +10,9 @@ namespace Chsopoly.GameScene.Ingame
         [SerializeField]
         private IngameStage _stage = default;
         [SerializeField]
-        private IngameController _controller = default;
+        private PlayerController _controller = default;
+        [SerializeField]
+        private IngameCamera _camera = default;
 
         public class Param : IGameSceneParam
         {
@@ -24,6 +27,8 @@ namespace Chsopoly.GameScene.Ingame
             });
 
             _controller.SetPlayer (_stage.PlayerCharacter);
+            _camera.SetTarget (_stage.PlayerCharacter.transform);
+            _camera.SetBounds ((_stage.Field.transform as RectTransform).sizeDelta);
         }
     }
 }

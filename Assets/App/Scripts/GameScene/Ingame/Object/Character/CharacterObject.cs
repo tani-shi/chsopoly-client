@@ -32,20 +32,33 @@ namespace Chsopoly.GameScene.Ingame.Object.Character
             }
         }
 
-        public bool CanJumpAgain
+        public bool CanJump
         {
             get
             {
-                return _jumpCounter < _jumpMaxCount && StateMachine.StateElapsedTime > IngameSettings.Character.JumpIntervalTime;
+                if (IsLanding || (StateMachine.CurrentState != CharacterStateMachine.State.Jump && _aerialJumpCounter < _aerialJumpCount))
+                {
+                    return true;
+                }
+                return _aerialJumpCounter < _aerialJumpCount && StateMachine.StateElapsedTime > IngameSettings.Character.JumpIntervalTime;
+            }
+        }
+
+        public bool IsLanding
+        {
+            get
+            {
+                return _isLanding;
             }
         }
 
         private float _moveSpeed;
         private float _moveVelocity;
         private float _jumpHeight;
-        private int _jumpMaxCount;
+        private int _aerialJumpCount;
         private Rigidbody2D _rigidbody;
-        private int _jumpCounter;
+        private int _aerialJumpCounter;
+        private bool _isLanding;
 
         public override void Initialize (uint id)
         {
@@ -56,12 +69,12 @@ namespace Chsopoly.GameScene.Ingame.Object.Character
             var data = MasterDataManager.Instance.Get<CharacterDAO> ().Get (id);
             _moveSpeed = data.moveSpeed;
             _jumpHeight = data.jumpHeight;
-            _jumpMaxCount = data.jumpMaxCount;
+            _aerialJumpCount = data.aerialJumpCount;
         }
 
         public void SetMoveVelocity (bool direction)
         {
-            _moveVelocity = _moveSpeed * Time.deltaTime * (direction ? 1.0f : -1.0f);
+            _moveVelocity = _moveSpeed * (direction ? 1.0f : -1.0f);
 
             if (direction)
             {
@@ -88,34 +101,41 @@ namespace Chsopoly.GameScene.Ingame.Object.Character
             StateMachine.SetNextState (CharacterStateMachine.State.Jump, this);
         }
 
-        public void MovePosition ()
-        {
-            _rigidbody.position += new Vector2 (_moveVelocity, 0);
-        }
-
         public void Jump ()
         {
             _rigidbody.velocity = new Vector2 (0, Mathf.Sqrt (-2.0f * Physics2D.gravity.y * _jumpHeight));
-            _jumpCounter++;
+
+            if (!_isLanding)
+            {
+                _aerialJumpCounter++;
+            }
+
+            _isLanding = false;
         }
 
-        public void ResetJumpCounter ()
+        public void ResetAerialJumpCounter ()
         {
-            _jumpCounter = 0;
+            _aerialJumpCounter = 0;
         }
 
         protected override void FixedUpdate ()
         {
             base.FixedUpdate ();
+
+            _rigidbody.velocity = new Vector2 (_moveVelocity, _rigidbody.velocity.y);
             _moveVelocity = 0f;
         }
 
-        void OnTriggerStay2D (Collider2D collision)
+        void OnCollisionEnter2D (Collision2D collision)
         {
-            if (StateMachine.CurrentState == CharacterStateMachine.State.Jump)
+            _isLanding = Physics2D.Linecast (transform.position, transform.position + Vector3.down);
+        }
+
+        void OnCollisionExit2D (Collision2D collision)
+        {
+            if (_isLanding && !Physics2D.Linecast (transform.position + Vector3.down, transform.position + Vector3.down * 2.0f))
             {
-                ResetJumpCounter ();
-                SetStateIdle ();
+                _isLanding = false;
             }
         }
 

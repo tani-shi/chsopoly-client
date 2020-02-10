@@ -1,4 +1,5 @@
 using Chsopoly.MasterData.Type;
+using UnityEngine;
 
 namespace Chsopoly.GameScene.Ingame
 {
@@ -13,7 +14,6 @@ namespace Chsopoly.GameScene.Ingame
         {
             public const string StartPoint = "StartPoint";
             public const string GoalPoint = "GoalPoint";
-            public const string Ground = "Ground";
         }
 
         public static class Paths
@@ -36,21 +36,45 @@ namespace Chsopoly.GameScene.Ingame
 
         public static class Character
         {
-            public const float FootHeight = 1.0f;
             public const float JumpIntervalTime = 0.5f;
+
+            public static PhysicsMaterial2D PhysicsMaterial
+            {
+                get
+                {
+                    var material = new PhysicsMaterial2D ();
+                    material.bounciness = 0;
+                    material.friction = 0;
+                    return material;
+                }
+            }
         }
 
         public static class Field
         {
+            public const float WallSize = 50f;
+
+            public static PhysicsMaterial2D PhysicsMaterial
+            {
+                get
+                {
+                    var material = new PhysicsMaterial2D ();
+                    material.bounciness = 0;
+                    material.friction = 0;
+                    return material;
+                }
+            }
+
             public static float Gravity (FieldGravity gravity)
             {
+                var g = Physics2D.gravity.y;
                 switch (gravity)
                 {
                     case FieldGravity.Normal:
-                        return -9.81f;
-                    default:
-                        return 0f;
+                        g = -9.81f;
+                        break;
                 }
+                return g * 100.0f; // Pixels per unit.
             }
         }
     }

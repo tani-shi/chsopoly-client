@@ -7,12 +7,12 @@ namespace Chsopoly.GameScene.Ingame.Object.State.Character
         void IObjectState<CharacterStateMachine.State, CharacterObjectModel.Animation, CharacterObject>.OnEnter (CharacterObject owner)
         {
             owner.Model.PlayAnimation (CharacterObjectModel.Animation.Run);
-            owner.StateMachine.SetStateTimer (5);
+            owner.StateMachine.SetStateTimer (3);
         }
 
         void IObjectState<CharacterStateMachine.State, CharacterObjectModel.Animation, CharacterObject>.OnUpdate (CharacterObject owner)
         {
-            owner.MovePosition ();
+
         }
 
         void IObjectState<CharacterStateMachine.State, CharacterObjectModel.Animation, CharacterObject>.OnComplete (CharacterObject owner)

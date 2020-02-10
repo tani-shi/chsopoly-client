@@ -15,7 +15,9 @@ MonoBehaviour:
   list:
   - id: 1
     assetName: chr_test
-    moveSpeed: 20
-    weight: 50
-    jumpPower: 100
-    jumpMaxCount: 1
+    moveSpeed: 200
+    width: 100
+    height: 150
+    weight: 100
+    jumpHeight: 200
+    aerialJumpCount: 1

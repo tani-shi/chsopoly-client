@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1951284616000526204}
   - component: {fileID: 6763290232705638075}
   - component: {fileID: 3262154122744283955}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: GoalGround
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -109,7 +109,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1538262420873875054}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: field_test
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -132,10 +132,10 @@ RectTransform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 1200, y: 640}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &6901224779595464333
 GameObject:
@@ -149,7 +149,7 @@ GameObject:
   - component: {fileID: 7274655382792413811}
   - component: {fileID: 7439958165877668555}
   - component: {fileID: 3416080089125185226}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: StartGround
   m_TagString: Untagged
   m_Icon: {fileID: 0}

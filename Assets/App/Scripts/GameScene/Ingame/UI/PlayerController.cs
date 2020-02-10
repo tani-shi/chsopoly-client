@@ -3,9 +3,9 @@ using Chsopoly.GameScene.Ingame.Object.State.Character;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace Chsopoly.GameScene.Ingame
+namespace Chsopoly.GameScene.Ingame.UI
 {
-    public class IngameController : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerUpHandler
+    public class PlayerController : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerUpHandler
     {
         [SerializeField]
         private float _tapTimeThreshold = 0.3f;
@@ -76,6 +76,9 @@ namespace Chsopoly.GameScene.Ingame
             {
                 return;
             }
+
+            _lastPointDownPosition = eventData.position;
+            _lastPointDownTime = Time.time;
         }
 
         void IPointerUpHandler.OnPointerUp (PointerEventData eventData)
@@ -86,6 +89,12 @@ namespace Chsopoly.GameScene.Ingame
             }
 
             _dragging = false;
+
+            if ((_lastPointDownPosition - eventData.position).sqrMagnitude < _tapDistanceThreshold &&
+                (Time.time - _lastPointDownTime) < _tapTimeThreshold)
+            {
+                _playerCharacter.SetStateJump ();
+            }
         }
     }
 }
