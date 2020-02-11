@@ -47,6 +47,10 @@ namespace Chsopoly.GameScene.Ingame.UI
             {
                 _playerCharacter.SetStateJump ();
             }
+            if (Input.GetKeyDown (KeyCode.R))
+            {
+                _playerCharacter.SetPositionToStartPoint ();
+            }
 #endif
 
             if (_dragging)

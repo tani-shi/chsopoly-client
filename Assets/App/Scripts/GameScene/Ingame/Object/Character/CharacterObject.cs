@@ -52,19 +52,21 @@ namespace Chsopoly.GameScene.Ingame.Object.Character
             }
         }
 
-        private float _moveSpeed;
-        private float _moveVelocity;
-        private float _jumpHeight;
-        private int _aerialJumpCount;
-        private Rigidbody2D _rigidbody;
-        private int _aerialJumpCounter;
-        private bool _isLanding;
+        private float _moveSpeed = 0;
+        private float _moveVelocity = 0;
+        private float _jumpHeight = 0;
+        private int _aerialJumpCount = 0;
+        private int _aerialJumpCounter = 0;
+        private bool _isLanding = false;
+        private Rigidbody2D _rigidbody = null;
+        private Transform _transform = null;
 
         public override void Initialize (uint id)
         {
             base.Initialize (id);
 
             _rigidbody = GetComponent<Rigidbody2D> ();
+            _transform = transform;
 
             var data = MasterDataManager.Instance.Get<CharacterDAO> ().Get (id);
             _moveSpeed = data.moveSpeed;
@@ -78,11 +80,21 @@ namespace Chsopoly.GameScene.Ingame.Object.Character
 
             if (direction)
             {
-                transform.localScale = Vector2.one;
+                _transform.localScale = Vector2.one;
             }
             else
             {
-                transform.localScale = new Vector2 (-1, 1);
+                _transform.localScale = new Vector2 (-1, 1);
+            }
+        }
+
+        public void SetPositionToStartPoint ()
+        {
+            var obj = GameObject.FindWithTag (IngameSettings.Tags.StartPoint);
+            if (obj != null)
+            {
+                _transform.position = obj.transform.position;
+                _rigidbody.velocity = Vector2.zero;
             }
         }
 
@@ -128,7 +140,7 @@ namespace Chsopoly.GameScene.Ingame.Object.Character
 
         void OnCollisionEnter2D (Collision2D collision)
         {
-            if (Physics2D.Linecast (transform.position + Vector3.down, transform.position + Vector3.down * 2.0f))
+            if (Physics2D.Linecast (_transform.position + Vector3.down, _transform.position + Vector3.down * 2.0f))
             {
                 _isLanding = true;
                 _rigidbody.velocity = Vector2.zero;
@@ -137,7 +149,7 @@ namespace Chsopoly.GameScene.Ingame.Object.Character
 
         void OnCollisionExit2D (Collision2D collision)
         {
-            if (_isLanding && !Physics2D.Linecast (transform.position + Vector3.down, transform.position + Vector3.down * 2.0f))
+            if (_isLanding && !Physics2D.Linecast (_transform.position + Vector3.down, _transform.position + Vector3.down * 2.0f))
             {
                 _isLanding = false;
             }
@@ -145,11 +157,7 @@ namespace Chsopoly.GameScene.Ingame.Object.Character
 
         void IIngameLoadCompleteEvent.OnIngameLoadComplete ()
         {
-            var obj = GameObject.FindWithTag (IngameSettings.Tags.StartPoint);
-            if (obj != null)
-            {
-                transform.position = obj.transform.position;
-            }
+            SetPositionToStartPoint ();
         }
     }
 }
