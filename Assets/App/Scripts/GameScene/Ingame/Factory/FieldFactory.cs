@@ -21,7 +21,10 @@ namespace Chsopoly.GameScene.Ingame.Factory
 
             foreach (var collider in obj.GetComponentsInChildren<Collider2D> ())
             {
-                collider.sharedMaterial = IngameSettings.Field.PhysicsMaterial;
+                if (collider.sharedMaterial == null)
+                {
+                    collider.sharedMaterial = IngameSettings.Field.PhysicsMaterial;
+                }
             }
 
             callback.SafeInvoke (obj);

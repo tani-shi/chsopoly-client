@@ -134,16 +134,25 @@ namespace Chsopoly.GameScene.Ingame.Object.Character
         {
             base.FixedUpdate ();
 
-            _rigidbody.velocity = new Vector2 (_moveVelocity, _rigidbody.velocity.y);
+            if (_isLanding)
+            {
+                _rigidbody.AddForce (new Vector2 (_moveVelocity, 0) * 100.0f); // Pixels per unit.
+            }
+            else
+            {
+                _rigidbody.velocity = new Vector2 (_moveVelocity, _rigidbody.velocity.y);
+            }
             _moveVelocity = 0f;
+
+            Debug.Log (_rigidbody.velocity);
         }
 
         void OnCollisionEnter2D (Collision2D collision)
         {
-            if (Physics2D.Linecast (_transform.position + Vector3.down, _transform.position + Vector3.down * 2.0f))
+            if (!_isLanding && Physics2D.Linecast (_transform.position + Vector3.down, _transform.position + Vector3.down * 2.0f))
             {
                 _isLanding = true;
-                _rigidbody.velocity = Vector2.zero;
+                _rigidbody.velocity = new Vector2 (_rigidbody.velocity.x, 0);
             }
         }
 

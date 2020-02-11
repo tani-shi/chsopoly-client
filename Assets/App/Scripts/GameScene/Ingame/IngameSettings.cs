@@ -8,6 +8,7 @@ namespace Chsopoly.GameScene.Ingame
         public static class Rules
         {
             public const int MaxPlayerCount = 4;
+            public const int MaxGimmickCount = 5;
         }
 
         public static class Tags
