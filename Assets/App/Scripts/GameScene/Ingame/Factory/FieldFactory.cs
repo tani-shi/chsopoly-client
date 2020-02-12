@@ -23,7 +23,7 @@ namespace Chsopoly.GameScene.Ingame.Factory
             {
                 if (collider.sharedMaterial == null)
                 {
-                    collider.sharedMaterial = IngameSettings.Field.PhysicsMaterial;
+                    collider.sharedMaterial = IngameSettings.Field.DefaultPhysicsMaterial;
                 }
             }
 
@@ -38,7 +38,7 @@ namespace Chsopoly.GameScene.Ingame.Factory
         private GameObject CreateSideWall (bool dir, RectTransform parent)
         {
             var obj = new GameObject ("Wall");
-            obj.transform.parent = parent;
+            obj.transform.SetParent (parent);
             obj.SafeAddComponent<RectTransform> ().localPosition = Vector2.zero;
 
             var collider = obj.AddComponent<BoxCollider2D> ();
@@ -51,7 +51,7 @@ namespace Chsopoly.GameScene.Ingame.Factory
         private GameObject CreateCeilWall (RectTransform parent)
         {
             var obj = new GameObject ("Wall");
-            obj.transform.parent = parent;
+            obj.transform.SetParent (parent);
             obj.SafeAddComponent<RectTransform> ().localPosition = Vector2.zero;
 
             var collider = obj.AddComponent<BoxCollider2D> ();

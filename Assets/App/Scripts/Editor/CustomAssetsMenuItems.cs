@@ -23,6 +23,21 @@ namespace Chsopoly.Editor
             Selection.activeObject = newObj;
         }
 
+        [MenuItem ("Assets/Create/Empty uGUI Prefab", false, CreatePriority)]
+        static void GenerateEmptyPrefab ()
+        {
+            EditorUtility.FocusProjectWindow ();
+
+            var path = AssetDatabase.GenerateUniqueAssetPath (GetCurrentFolder () + "/New Prefab.prefab");
+            var source = new GameObject ();
+            source.AddComponent<RectTransform> ();
+            source.AddComponent<CanvasRenderer> ();
+            var newObj = PrefabUtility.SaveAsPrefabAsset (source, path);
+            GameObject.DestroyImmediate (source);
+
+            Selection.activeObject = newObj;
+        }
+
         static string GetCurrentFolder ()
         {
             string filePath;

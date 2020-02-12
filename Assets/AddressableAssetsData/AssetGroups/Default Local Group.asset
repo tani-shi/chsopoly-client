@@ -17,8 +17,36 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: 31f49c861a2a34f72a0d7ed3a37f4f46
   m_SerializeEntries:
+  - m_GUID: 09fc713909d894a3db8c3c1084a14db7
+    m_Address: Assets/App/AddressableAssets/Textures/Capture/Gimmick/gim_test2.png
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+    m_mainAssetType: 
+  - m_GUID: 14bd7c4d45a5842048f6e6bc8d498e7e
+    m_Address: Assets/App/AddressableAssets/Textures/Capture/Gimmick/gim_test1.png
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+    m_mainAssetType: 
+  - m_GUID: 225c97cd205e44626bfc023186118b6f
+    m_Address: Assets/App/AddressableAssets/Animations/Gimmick/gim_test.controller
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+    m_mainAssetType: UnityEditor.Animations.AnimatorController, UnityEditor, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  - m_GUID: 22c9bb32158b84d96ac39a9156b6b250
+    m_Address: Assets/App/AddressableAssets/Prefabs/Gimmick/gim_test1.prefab
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+    m_mainAssetType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   - m_GUID: 2f30b732696e749c593993400af27c7d
     m_Address: Assets/App/AddressableAssets/Prefabs/Character/chr_test.prefab
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+    m_mainAssetType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  - m_GUID: 4023d538de42e454fb112edede20aa3b
+    m_Address: Assets/App/AddressableAssets/Prefabs/Gimmick/gim_test3.prefab
     m_ReadOnly: 1
     m_SerializedLabels: []
     m_mainAssetType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
@@ -27,7 +55,8 @@ MonoBehaviour:
     m_Address: Assets/App/AddressableAssets/Prefabs/GameScene/IngameScene.prefab
     m_ReadOnly: 1
     m_SerializedLabels: []
-    m_mainAssetType: 
+    m_mainAssetType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   - m_GUID: 4aa648242a8654cd4be1e3beb46f3d80
     m_Address: Assets/App/AddressableAssets/MasterData/Ingame/Character.asset
     m_ReadOnly: 1
@@ -56,13 +85,31 @@ MonoBehaviour:
     m_Address: Assets/App/AddressableAssets/Prefabs/GameScene/TitleScene.prefab
     m_ReadOnly: 1
     m_SerializedLabels: []
-    m_mainAssetType: 
+    m_mainAssetType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   - m_GUID: d01cfbfd3cb41452280c9bac879dd61b
     m_Address: Assets/App/AddressableAssets/Prefabs/Field/field_test.prefab
     m_ReadOnly: 1
     m_SerializedLabels: []
     m_mainAssetType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  - m_GUID: d82d140bc214a430fa7751023a4bfba3
+    m_Address: Assets/App/AddressableAssets/Prefabs/Gimmick/gim_test2.prefab
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+    m_mainAssetType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  - m_GUID: e65bdc01cf7ce4322b40b417a73e4037
+    m_Address: Assets/App/AddressableAssets/MasterData/Ingame/Gimmick.asset
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+    m_mainAssetType: Chsopoly.MasterData.DTO.Ingame.GimmickDTO, Assembly-CSharp,
+      Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  - m_GUID: f025882bbfd984b438926093870e2bc2
+    m_Address: Assets/App/AddressableAssets/Textures/Capture/Gimmick/gim_test3.png
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+    m_mainAssetType: 
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: f101120ea3a844af49e1293db9bb93e1, type: 2}
   m_SchemaSet:

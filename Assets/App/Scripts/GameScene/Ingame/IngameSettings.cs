@@ -8,7 +8,14 @@ namespace Chsopoly.GameScene.Ingame
         public static class Rules
         {
             public const int MaxPlayerCount = 4;
-            public const int MaxGimmickCount = 5;
+            public const int MaxGimmickQueueCount = 4;
+            public const int MaxGimmickBoxCount = 3;
+        }
+
+        public static class Layers
+        {
+            public const int UI = 5;
+            public const int Stage = 8;
         }
 
         public static class Tags
@@ -24,14 +31,19 @@ namespace Chsopoly.GameScene.Ingame
                 return string.Format ("Assets/App/AddressableAssets/Prefabs/Character/{0}.prefab", assetName);
             }
 
-            public static string CharacterAnimator (string assetName)
-            {
-                return string.Format ("Assets/App/AddressableAssets/Animations/Character/{0}.controller", assetName);
-            }
-
             public static string FieldPrefab (string assetName)
             {
                 return string.Format ("Assets/App/AddressableAssets/Prefabs/Field/{0}.prefab", assetName);
+            }
+
+            public static string GimmickPrefab (string assetName)
+            {
+                return string.Format ("Assets/App/AddressableAssets/Prefabs/Gimmick/{0}.prefab", assetName);
+            }
+
+            public static string GimmickIcon (string assetName)
+            {
+                return string.Format ("Assets/App/AddressableAssets/Textures/Capture/Gimmick/{0}.png", assetName);
             }
         }
 
@@ -39,7 +51,7 @@ namespace Chsopoly.GameScene.Ingame
         {
             public const float JumpIntervalTime = 0.5f;
 
-            public static PhysicsMaterial2D PhysicsMaterial
+            public static PhysicsMaterial2D DefaultPhysicsMaterial
             {
                 get
                 {
@@ -55,7 +67,7 @@ namespace Chsopoly.GameScene.Ingame
         {
             public const float WallSize = 50f;
 
-            public static PhysicsMaterial2D PhysicsMaterial
+            public static PhysicsMaterial2D DefaultPhysicsMaterial
             {
                 get
                 {
@@ -76,6 +88,22 @@ namespace Chsopoly.GameScene.Ingame
                         break;
                 }
                 return g * 100.0f; // Pixels per unit.
+            }
+        }
+
+        public static class Gimmick
+        {
+            public static readonly Color DraggingColor = new Color (1, 1, 1, 0.5f);
+
+            public static PhysicsMaterial2D DefaultPhysicsMaterial
+            {
+                get
+                {
+                    var material = new PhysicsMaterial2D ();
+                    material.bounciness = 0;
+                    material.friction = 0;
+                    return material;
+                }
             }
         }
     }

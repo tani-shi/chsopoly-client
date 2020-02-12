@@ -1,5 +1,5 @@
 using System;
-using Chsopoly.GameScene.Ingame.Object.State;
+using Chsopoly.GameScene.Ingame.Object;
 using UnityEngine;
 
 namespace Chsopoly.GameScene.Ingame.Object
@@ -38,13 +38,23 @@ namespace Chsopoly.GameScene.Ingame.Object
             }
         }
 
+        public uint Id
+        {
+            get
+            {
+                return _id;
+            }
+        }
+
         private BaseStateMachine<STATE, ANIM, OBJ> _stateMachine = null;
         private BaseObjectModel<ANIM> _model = null;
         private bool _initialized = false;
+        private uint _id = 0;
 
         public virtual void Initialize (uint id)
         {
             _initialized = true;
+            _id = id;
         }
 
         protected virtual void FixedUpdate ()

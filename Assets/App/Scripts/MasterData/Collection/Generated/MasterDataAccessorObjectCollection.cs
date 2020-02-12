@@ -13,6 +13,7 @@ namespace Chsopoly.MasterData.Collection
         {
             (Activator.CreateInstance(typeof(DAO.Ingame.StageDAO)) as IMasterDataAccessorObject),
             (Activator.CreateInstance(typeof(DAO.Ingame.CharacterDAO)) as IMasterDataAccessorObject),
+            (Activator.CreateInstance(typeof(DAO.Ingame.GimmickDAO)) as IMasterDataAccessorObject),
         };
 
         IEnumerator<IMasterDataAccessorObject> IEnumerable<IMasterDataAccessorObject>.GetEnumerator ()

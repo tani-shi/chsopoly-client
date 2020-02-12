@@ -1,5 +1,4 @@
 using Chsopoly.GameScene.Ingame.Object.Character;
-using Chsopoly.GameScene.Ingame.Object.State.Character;
 using UnityEngine;
 using UnityEngine.EventSystems;
 

@@ -1,6 +1,5 @@
 using Chsopoly.BaseSystem.MasterData;
 using Chsopoly.GameScene.Ingame.Event;
-using Chsopoly.GameScene.Ingame.Object.State.Character;
 using Chsopoly.MasterData.DAO.Ingame;
 using UnityEngine;
 
@@ -143,8 +142,6 @@ namespace Chsopoly.GameScene.Ingame.Object.Character
                 _rigidbody.velocity = new Vector2 (_moveVelocity, _rigidbody.velocity.y);
             }
             _moveVelocity = 0f;
-
-            Debug.Log (_rigidbody.velocity);
         }
 
         void OnCollisionEnter2D (Collision2D collision)

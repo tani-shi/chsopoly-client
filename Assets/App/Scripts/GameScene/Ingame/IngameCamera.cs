@@ -11,6 +11,14 @@ namespace Chsopoly.GameScene.Ingame
         [SerializeField]
         private Vector2 _offset = Vector2.zero;
 
+        public Camera MainCamera
+        {
+            get
+            {
+                return _mainCamera;
+            }
+        }
+
         private Vector2 _hBounds = Vector2.zero;
         private Vector2 _vBounds = Vector2.zero;
         private Transform _target = null;

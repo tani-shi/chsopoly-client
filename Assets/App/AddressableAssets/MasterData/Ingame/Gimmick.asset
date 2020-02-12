@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c5c62851a1784c60873b9c78ae002b4, type: 3}
+  m_Name: Gimmick
+  m_EditorClassIdentifier: 
+  list:
+  - id: 1
+    assetName: gim_test1
+    lotteryWeight: 1
+  - id: 2
+    assetName: gim_test2
+    lotteryWeight: 1
+  - id: 3
+    assetName: gim_test3
+    lotteryWeight: 1
