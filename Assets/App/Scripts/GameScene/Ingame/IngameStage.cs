@@ -124,6 +124,8 @@ namespace Chsopoly.GameScene.Ingame
             {
                 _field = field;
             }
+
+            SetPhysicsMaterialsRecursively (field);
         }
 
         private void OnCreateObject (GameObject obj)
@@ -147,11 +149,26 @@ namespace Chsopoly.GameScene.Ingame
             {
                 _gimmickPool.Enqueue (obj.GetComponent<GimmickObject> ());
             }
+
+            SetPhysicsMaterialsRecursively (obj);
         }
 
         private uint DrawGimmickId ()
         {
             return _gimmickLotteryTable[Random.Range (0, _gimmickLotteryTable.Length)];
+        }
+
+        private void SetPhysicsMaterialsRecursively (GameObject obj)
+        {
+            if (obj == null)
+            {
+                return;
+            }
+
+            foreach (var collider in obj.GetComponentsInChildren<Collider2D> ())
+            {
+                collider.sharedMaterial = IngameSettings.Physics.DefaultMaterial;
+            }
         }
     }
 }

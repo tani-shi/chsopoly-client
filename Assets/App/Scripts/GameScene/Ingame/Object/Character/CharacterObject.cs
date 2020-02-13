@@ -114,7 +114,7 @@ namespace Chsopoly.GameScene.Ingame.Object.Character
 
         public void Jump ()
         {
-            _rigidbody.velocity = new Vector2 (0, Mathf.Sqrt (-2.0f * Physics2D.gravity.y * _jumpHeight));
+            _rigidbody.velocity = new Vector2 ((_moveVelocity * Time.deltaTime) + _rigidbody.velocity.x, Mathf.Sqrt (-2.0f * Physics2D.gravity.y * _jumpHeight));
 
             if (!_isLanding)
             {
@@ -135,30 +135,28 @@ namespace Chsopoly.GameScene.Ingame.Object.Character
 
             if (_isLanding)
             {
-                _rigidbody.AddForce (new Vector2 (_moveVelocity, 0) * 100.0f); // Pixels per unit.
+                _rigidbody.MovePosition (_rigidbody.position + new Vector2 (_moveVelocity * Time.deltaTime, 0));
             }
             else
             {
                 _rigidbody.velocity = new Vector2 (_moveVelocity, _rigidbody.velocity.y);
             }
+
             _moveVelocity = 0f;
         }
 
-        void OnCollisionEnter2D (Collision2D collision)
+        void OnTriggerEnter2D (Collider2D collision)
         {
-            if (!_isLanding && Physics2D.Linecast (_transform.position + Vector3.down, _transform.position + Vector3.down * 2.0f))
+            if (!_isLanding)
             {
                 _isLanding = true;
                 _rigidbody.velocity = new Vector2 (_rigidbody.velocity.x, 0);
             }
         }
 
-        void OnCollisionExit2D (Collision2D collision)
+        void OnTriggerExit2D (Collider2D collision)
         {
-            if (_isLanding && !Physics2D.Linecast (_transform.position + Vector3.down, _transform.position + Vector3.down * 2.0f))
-            {
-                _isLanding = false;
-            }
+            _isLanding = false;
         }
 
         void IIngameLoadCompleteEvent.OnIngameLoadComplete ()

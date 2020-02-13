@@ -15,7 +15,9 @@ namespace Chsopoly.GameScene.Ingame
         public static class Layers
         {
             public const int UI = 5;
-            public const int Stage = 8;
+            public const int Field = 8;
+            public const int Gimmick = 9;
+            public const int Character = 10;
         }
 
         public static class Tags
@@ -47,27 +49,9 @@ namespace Chsopoly.GameScene.Ingame
             }
         }
 
-        public static class Character
+        public static class Physics
         {
-            public const float JumpIntervalTime = 0.5f;
-
-            public static PhysicsMaterial2D DefaultPhysicsMaterial
-            {
-                get
-                {
-                    var material = new PhysicsMaterial2D ();
-                    material.bounciness = 0.1f;
-                    material.friction = 0;
-                    return material;
-                }
-            }
-        }
-
-        public static class Field
-        {
-            public const float WallSize = 50f;
-
-            public static PhysicsMaterial2D DefaultPhysicsMaterial
+            public static PhysicsMaterial2D DefaultMaterial
             {
                 get
                 {
@@ -77,6 +61,16 @@ namespace Chsopoly.GameScene.Ingame
                     return material;
                 }
             }
+        }
+
+        public static class Character
+        {
+            public const float JumpIntervalTime = 0.5f;
+        }
+
+        public static class Field
+        {
+            public const float WallSize = 50f;
 
             public static float Gravity (FieldGravity gravity)
             {
@@ -94,17 +88,6 @@ namespace Chsopoly.GameScene.Ingame
         public static class Gimmick
         {
             public static readonly Color DraggingColor = new Color (1, 1, 1, 0.5f);
-
-            public static PhysicsMaterial2D DefaultPhysicsMaterial
-            {
-                get
-                {
-                    var material = new PhysicsMaterial2D ();
-                    material.bounciness = 0;
-                    material.friction = 0;
-                    return material;
-                }
-            }
         }
     }
 }

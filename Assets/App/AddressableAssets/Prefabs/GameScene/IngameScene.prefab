@@ -162,6 +162,8 @@ MonoBehaviour:
   _index: 3
   _image: {fileID: 8369769801443965340}
   _dragToPickThreshold: 10
+  _stageUICanvas: {fileID: 6856104263958736851}
+  _stageCamera: {fileID: 7217784340753253315}
 --- !u!1 &1087749008595149758
 GameObject:
   m_ObjectHideFlags: 0
@@ -274,7 +276,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7186597173386666589}
   - component: {fileID: 3155404486935224992}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Stage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -403,6 +405,8 @@ MonoBehaviour:
   _index: 1
   _image: {fileID: 8498528804739220697}
   _dragToPickThreshold: 10
+  _stageUICanvas: {fileID: 6856104263958736851}
+  _stageCamera: {fileID: 7217784340753253315}
 --- !u!1 &3004690244893622096
 GameObject:
   m_ObjectHideFlags: 0
@@ -492,6 +496,8 @@ MonoBehaviour:
   _index: 2
   _image: {fileID: 5643680435851820755}
   _dragToPickThreshold: 10
+  _stageUICanvas: {fileID: 6856104263958736851}
+  _stageCamera: {fileID: 7217784340753253315}
 --- !u!114 &4915152870885734419
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -672,6 +678,8 @@ MonoBehaviour:
   _index: 0
   _image: {fileID: 8105059193885533453}
   _dragToPickThreshold: 10
+  _stageUICanvas: {fileID: 6856104263958736851}
+  _stageCamera: {fileID: 7217784340753253315}
 --- !u!1 &5106017258468587480
 GameObject:
   m_ObjectHideFlags: 0
@@ -761,6 +769,81 @@ MonoBehaviour:
   _tapTimeThreshold: 0.3
   _tapDistanceThreshold: 10
   _dragSpeedThreshold: 10
+--- !u!1 &6795332325869877003
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5739185906033837946}
+  - component: {fileID: 4403333246013270854}
+  - component: {fileID: 466091964375784207}
+  m_Layer: 0
+  m_Name: StageUICanvas
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &5739185906033837946
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6795332325869877003}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 188756110030374274}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!223 &4403333246013270854
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6795332325869877003}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 7217784340753253315}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 0
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 200
+  m_TargetDisplay: 0
+--- !u!114 &466091964375784207
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6795332325869877003}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreReversedGraphics: 1
+  m_BlockingObjects: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
 --- !u!1 &6850023336140005647
 GameObject:
   m_ObjectHideFlags: 0
@@ -888,7 +971,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 1793
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -925,7 +1008,7 @@ GameObject:
   - component: {fileID: 7874043543006653365}
   - component: {fileID: 6856104263958736851}
   - component: {fileID: 2468201321994797098}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: StageCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1000,7 +1083,7 @@ GameObject:
   m_Component:
   - component: {fileID: 471227406992693517}
   - component: {fileID: 890693585152064228}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: GimmickPool
   m_TagString: Untagged
   m_Icon: {fileID: 0}

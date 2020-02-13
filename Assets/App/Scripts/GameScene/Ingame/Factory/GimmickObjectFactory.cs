@@ -24,11 +24,6 @@ namespace Chsopoly.GameScene.Ingame.Factory
             obj.SafeAddComponent<GimmickStateMachine> ();
             (obj.transform as RectTransform).pivot = new Vector2 (0.5f, 0.5f);
 
-            foreach (var c in obj.GetComponentsInChildren<Collider2D> (true))
-            {
-                c.sharedMaterial = IngameSettings.Gimmick.DefaultPhysicsMaterial;
-            }
-
             gimmick.Initialize (gimmickId);
 
             callback.SafeInvoke (obj);

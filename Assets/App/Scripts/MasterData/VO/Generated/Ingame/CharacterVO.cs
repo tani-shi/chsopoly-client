@@ -12,6 +12,8 @@ namespace Chsopoly.MasterData.VO.Ingame
         public uint id;
         public string assetName;
         public float moveSpeed;
+        public float width;
+        public float height;
         public float weight;
         public float jumpHeight;
         public int aerialJumpCount;

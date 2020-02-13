@@ -19,14 +19,6 @@ namespace Chsopoly.GameScene.Ingame.Factory
             CreateSideWall (true, obj.transform as RectTransform);
             CreateCeilWall (obj.transform as RectTransform);
 
-            foreach (var collider in obj.GetComponentsInChildren<Collider2D> ())
-            {
-                if (collider.sharedMaterial == null)
-                {
-                    collider.sharedMaterial = IngameSettings.Field.DefaultPhysicsMaterial;
-                }
-            }
-
             callback.SafeInvoke (obj);
         }
 

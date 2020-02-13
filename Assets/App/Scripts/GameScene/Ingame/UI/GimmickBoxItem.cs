@@ -17,6 +17,10 @@ namespace Chsopoly.GameScene.Ingame.UI
         private Image _image = default;
         [SerializeField]
         private float _dragToPickThreshold = 10f;
+        [SerializeField]
+        private Canvas _stageUICanvas = default;
+        [SerializeField]
+        private Camera _stageCamera = default;
 
         private Vector2 _dragStartPos = Vector2.zero;
         private Image _draggingImage = null;
@@ -55,12 +59,12 @@ namespace Chsopoly.GameScene.Ingame.UI
 
             if (_draggingImage != null)
             {
-                _draggingImage.transform.localPosition = eventData.position - _dragStartPos;
+                _draggingImage.transform.position = ScreenToWorldPoint (eventData.position);
             }
             else if ((_dragStartPos - eventData.position).sqrMagnitude > _dragToPickThreshold * _dragToPickThreshold)
             {
                 _draggingImage = CreateDraggingImageObject ();
-                _draggingImage.transform.localPosition = eventData.position - _dragStartPos;
+                _draggingImage.transform.position = ScreenToWorldPoint (eventData.position);
             }
         }
 
@@ -92,9 +96,9 @@ namespace Chsopoly.GameScene.Ingame.UI
 
         private Image CreateDraggingImageObject ()
         {
-            var obj = new GameObject ("DraggingImage");
-            obj.layer = IngameSettings.Layers.UI;
-            obj.transform.SetParent (transform);
+            var obj = new GameObject ("GimmickDraggingImage");
+            obj.layer = IngameSettings.Layers.Gimmick;
+            obj.transform.SetParent (_stageUICanvas.transform);
             obj.transform.position = Vector3.zero;
             obj.transform.localScale = Vector3.one;
 
@@ -104,6 +108,13 @@ namespace Chsopoly.GameScene.Ingame.UI
             image.SetNativeSize ();
 
             return image;
+        }
+
+        private Vector3 ScreenToWorldPoint (Vector2 point)
+        {
+            var worldPoint = _stageCamera.ScreenToWorldPoint (point);
+            worldPoint.z = 0;
+            return worldPoint;
         }
     }
 }

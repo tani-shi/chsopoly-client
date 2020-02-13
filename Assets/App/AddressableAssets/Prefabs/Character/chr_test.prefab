@@ -12,8 +12,7 @@ GameObject:
   - component: {fileID: 4653682279421801944}
   - component: {fileID: 7616863294852476832}
   - component: {fileID: 4129460164776171485}
-  - component: {fileID: 5735413379430405762}
-  m_Layer: 8
+  m_Layer: 10
   m_Name: chr_test
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,19 +93,3 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!70 &5735413379430405762
-CapsuleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 457657287303528164}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 75}
-  m_Size: {x: 100, y: 150}
-  m_Direction: 0

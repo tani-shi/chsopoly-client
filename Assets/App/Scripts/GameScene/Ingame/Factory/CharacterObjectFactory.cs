@@ -38,8 +38,17 @@ namespace Chsopoly.GameScene.Ingame.Factory
             rigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
             rigidbody.mass = data.weight;
 
-            var collider = obj.GetComponent<Collider2D> ();
-            collider.sharedMaterial = IngameSettings.Character.DefaultPhysicsMaterial;
+            var collider = obj.SafeAddComponent<BoxCollider2D> ();
+            collider.size = new Vector2 (data.width, data.height);
+            collider.offset = new Vector2 (0, data.height / 2.0f);
+
+            var foot = new GameObject ("Foot");
+            var footRect = foot.SafeAddComponent<RectTransform> ();
+            footRect.SetParent (obj.transform);
+            footRect.sizeDelta = new Vector2 (data.width - 1, 1);
+            var footTrigger = foot.SafeAddComponent<BoxCollider2D> ();
+            footTrigger.isTrigger = true;
+            footTrigger.size = new Vector2 (data.width - 1, 1);
 
             characterObject.Initialize (characterId);
 
