@@ -9,7 +9,9 @@ namespace Chsopoly.GameScene.Ingame
         [SerializeField]
         private Camera _mainCamera = default;
         [SerializeField]
-        private Vector2 _offset = Vector2.zero;
+        private Vector2 _offset = new Vector2 (200, 100);
+        [SerializeField]
+        private float _screenScale = 2.0f;
 
         public Camera MainCamera
         {
@@ -30,12 +32,15 @@ namespace Chsopoly.GameScene.Ingame
 
         public void SetBounds (Vector2 fieldSize)
         {
-            _hBounds.x = Screen.width - (fieldSize.x.Half () + Screen.width / 2);
-            _hBounds.y = (fieldSize.x.Half () + Screen.width / 2) - Screen.width;
-            _vBounds.x = Screen.height - (fieldSize.y.Half () + Screen.height / 2);
-            _vBounds.y = (fieldSize.y.Half () + Screen.height / 2) - Screen.height;
+            var width = Screen.width * _screenScale;
+            var height = Screen.height * _screenScale;
 
-            _mainCamera.orthographicSize = Screen.height / 2;
+            _hBounds.x = width - (fieldSize.x.Half () + width / 2);
+            _hBounds.y = (fieldSize.x.Half () + width / 2) - width;
+            _vBounds.x = height - (fieldSize.y.Half () + height / 2);
+            _vBounds.y = (fieldSize.y.Half () + height / 2) - height;
+
+            _mainCamera.orthographicSize = height / 2;
         }
 
         void LateUpdate ()
@@ -45,7 +50,7 @@ namespace Chsopoly.GameScene.Ingame
                 return;
             }
 
-            var pos = _target.position;
+            var pos = _target.position + new Vector3 (_offset.x, _offset.y);
             pos.x = Mathf.Clamp (pos.x, _hBounds.x, _hBounds.y);
             pos.y = Mathf.Clamp (pos.y, _vBounds.x, _vBounds.y);
             pos.z = transform.position.z;

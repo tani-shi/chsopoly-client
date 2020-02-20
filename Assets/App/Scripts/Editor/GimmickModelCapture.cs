@@ -78,10 +78,13 @@ namespace Chsopoly.Editor
             var model = prefab.CreateInstance (parent).SafeAddComponent<GimmickObjectModel> ();
             model.transform.localPosition = Vector3.zero;
             model.transform.localRotation = Quaternion.identity;
-            var infos = model.Animator.GetCurrentAnimatorClipInfo (0);
-            if (infos != null && infos.Length > 0)
+            if (model.Animator != null)
             {
-                infos[0].clip.SampleAnimation (model.gameObject, 0);
+                var infos = model.Animator.GetCurrentAnimatorClipInfo (0);
+                if (infos != null && infos.Length > 0)
+                {
+                    infos[0].clip.SampleAnimation (model.gameObject, 0);
+                }
             }
             return model;
         }

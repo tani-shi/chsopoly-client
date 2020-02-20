@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   list:
   - id: 1
-    fieldName: field_test
+    fieldName: field_01
     fieldGravity: 1

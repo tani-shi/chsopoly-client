@@ -18,7 +18,7 @@ namespace Chsopoly.GameScene.Ingame.UI
         [SerializeField]
         private float _dragToPickThreshold = 10f;
         [SerializeField]
-        private Canvas _stageUICanvas = default;
+        private Transform _draggingRoot = default;
         [SerializeField]
         private Camera _stageCamera = default;
 
@@ -98,7 +98,7 @@ namespace Chsopoly.GameScene.Ingame.UI
         {
             var obj = new GameObject ("GimmickDraggingImage");
             obj.layer = IngameSettings.Layers.Gimmick;
-            obj.transform.SetParent (_stageUICanvas.transform);
+            obj.transform.SetParent (_draggingRoot);
             obj.transform.position = Vector3.zero;
             obj.transform.localScale = Vector3.one;
 

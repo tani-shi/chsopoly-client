@@ -50,6 +50,14 @@ namespace Chsopoly.GameScene.Ingame
             }
         }
 
+        public IEnumerable<GimmickObject> GimmickObjects
+        {
+            get
+            {
+                return _gimmickObjects;
+            }
+        }
+
         private List<GameObject> _stageObjects = new List<GameObject> ();
         private List<CharacterObject> _characterObjects = new List<CharacterObject> ();
         private List<GimmickObject> _gimmickObjects = new List<GimmickObject> ();

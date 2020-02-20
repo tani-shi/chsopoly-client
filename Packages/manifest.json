@@ -2,6 +2,7 @@
   "dependencies": {
     "com.tani-shi.unity-excel": "https://github.com/tani-shi/unity-excel.git#1.0.0",
     "com.tani-shi.unity-master-data": "https://github.com/tani-shi/unity-master-data.git#1.0.0",
+    "com.unity.2d.sprite": "1.0.0",
     "com.unity.addressables": "1.6.0",
     "com.unity.collab-proxy": "1.2.16",
     "com.unity.ext.nunit": "1.0.0",

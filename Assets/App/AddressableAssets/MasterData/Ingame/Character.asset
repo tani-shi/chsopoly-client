@@ -14,10 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   list:
   - id: 1
-    assetName: chr_test
-    moveSpeed: 200
-    width: 100
-    height: 150
+    assetName: chr_rabbit
+    moveSpeed: 400
     weight: 100
     jumpHeight: 200
     aerialJumpCount: 1
