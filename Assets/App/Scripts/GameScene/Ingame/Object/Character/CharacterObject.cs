@@ -75,6 +75,13 @@ namespace Chsopoly.GameScene.Ingame.Object.Character
 
         public void SetMoveVelocity (bool direction)
         {
+            if (StateMachine.CurrentState == CharacterStateMachine.State.Dead ||
+                StateMachine.CurrentState == CharacterStateMachine.State.Squat ||
+                StateMachine.CurrentState == CharacterStateMachine.State.Appeal)
+            {
+                return;
+            }
+
             _moveVelocity = _moveSpeed * (direction ? 1.0f : -1.0f);
 
             if (direction)
@@ -112,6 +119,11 @@ namespace Chsopoly.GameScene.Ingame.Object.Character
             StateMachine.SetNextState (CharacterStateMachine.State.Jump, this);
         }
 
+        public void SetStateAppeal ()
+        {
+            StateMachine.SetNextState (CharacterStateMachine.State.Appeal, this);
+        }
+
         public void Jump ()
         {
             _rigidbody.velocity = new Vector2 ((_moveVelocity * Time.deltaTime) + _rigidbody.velocity.x, Mathf.Sqrt (-2.0f * Physics2D.gravity.y * _jumpHeight));
@@ -147,7 +159,11 @@ namespace Chsopoly.GameScene.Ingame.Object.Character
 
         void OnTriggerEnter2D (Collider2D collision)
         {
-            if (!_isLanding)
+            if (collision.gameObject.tag == IngameSettings.Tags.GoalPoint)
+            {
+                SetStateAppeal ();
+            }
+            else if (!_isLanding)
             {
                 _isLanding = true;
                 _rigidbody.velocity = new Vector2 (_rigidbody.velocity.x, 0);

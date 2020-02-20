@@ -35,6 +35,8 @@ namespace Chsopoly.GameScene.Ingame.Object.Character
                     return new CharacterStateRun ();
                 case State.Jump:
                     return new CharacterStateJump ();
+                case State.Appeal:
+                    return new CharacterStateAppeal ();
             }
             Debug.LogError ("A unknown character state was specified. " + state.ToString ());
             return new CharacterStateIdle ();
@@ -53,6 +55,10 @@ namespace Chsopoly.GameScene.Ingame.Object.Character
                     return CurrentState == State.Idle ||
                         (CurrentState == State.Run && owner.CanJump) ||
                         (CurrentState == State.Jump && owner.CanJump);
+                case State.Appeal:
+                    return CurrentState == State.Idle ||
+                        CurrentState == State.Jump ||
+                        CurrentState == State.Run;
             }
 
             return false;
@@ -72,6 +78,10 @@ namespace Chsopoly.GameScene.Ingame.Object.Character
                     return CurrentState == State.Idle ||
                         (CurrentState == State.Run && owner.CanJump) ||
                         (CurrentState == State.Jump && owner.CanJump);
+                case State.Appeal:
+                    return CurrentState == State.Idle ||
+                        CurrentState == State.Jump ||
+                        CurrentState == State.Run;
             }
 
             return false;

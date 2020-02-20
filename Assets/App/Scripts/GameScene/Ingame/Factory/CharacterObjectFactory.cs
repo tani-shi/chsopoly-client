@@ -46,7 +46,7 @@ namespace Chsopoly.GameScene.Ingame.Factory
             footRect.anchoredPosition = new Vector2 (0, -collider.size.y / 2.0f - image.rectTransform.sizeDelta.y / 2.0f) + collider.offset;
             var footTrigger = foot.SafeAddComponent<BoxCollider2D> ();
             footTrigger.isTrigger = true;
-            footTrigger.size = new Vector2 (collider.size.x - 1, 1);
+            footTrigger.size = new Vector2 (collider.size.x - 2, 1);
 
             characterObject.Initialize (characterId);
 
