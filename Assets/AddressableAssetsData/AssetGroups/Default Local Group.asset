@@ -48,7 +48,7 @@ MonoBehaviour:
     m_mainAssetType: Chsopoly.MasterData.DTO.Ingame.CharacterDTO, Assembly-CSharp,
       Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   - m_GUID: 52cea7118c41a405288088bd1bff75ef
-    m_Address: Assets/App/AddressableAssets/Textures/Field/grass.png
+    m_Address: Assets/App/AddressableAssets/Textures/Field/field_01/grass.png
     m_ReadOnly: 1
     m_SerializedLabels: []
     m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
@@ -57,7 +57,8 @@ MonoBehaviour:
     m_Address: Assets/App/AddressableAssets/Textures/Character/chr_rabbit/chr_rabbit_jump.png
     m_ReadOnly: 1
     m_SerializedLabels: []
-    m_mainAssetType: 
+    m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   - m_GUID: 6880ebce6527249918518c8b3ea384bf
     m_Address: Assets/App/AddressableAssets/Prefabs/Common/StartPoint.prefab
     m_ReadOnly: 1
@@ -95,7 +96,7 @@ MonoBehaviour:
     m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   - m_GUID: 8dcf0ed930e7d4774a61ec604c7bfdde
-    m_Address: Assets/App/AddressableAssets/Textures/Field/bg_01.png
+    m_Address: Assets/App/AddressableAssets/Textures/Field/field_01/bg_01.png
     m_ReadOnly: 1
     m_SerializedLabels: []
     m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
@@ -128,7 +129,8 @@ MonoBehaviour:
     m_Address: Assets/App/AddressableAssets/Textures/Character/chr_rabbit/chr_rabbit_run.png
     m_ReadOnly: 1
     m_SerializedLabels: []
-    m_mainAssetType: 
+    m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: f101120ea3a844af49e1293db9bb93e1, type: 2}
   m_SchemaSet:
