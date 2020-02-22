@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Reflection;
 using Chsopoly.Libs;
 using UnityEngine;
@@ -13,6 +14,17 @@ namespace Chsopoly.BaseSystem.UserData
 
         private SQLiteConnectionAccessor _connection = null;
         private Dictionary<Type, Dictionary<int, IUserDataEntity>> _entityMap = new Dictionary<Type, Dictionary<int, IUserDataEntity>> ();
+
+#if UNITY_EDITOR
+        [UnityEditor.MenuItem ("Project/User Data/Delete User Data")]
+        private static void DeleteUserData ()
+        {
+            if (File.Exists (Application.persistentDataPath + "/" + DatabaseName))
+            {
+                File.Delete (Application.persistentDataPath + "/" + DatabaseName);
+            }
+        }
+#endif
 
         public void Initialize ()
         {

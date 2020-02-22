@@ -6,5 +6,7 @@ namespace Chsopoly.UserData.Entity
     {
         public int Id { get; set; }
         public string Gs2AccountId { get; set; }
+        public string Gs2Password { get; set; }
+        public long Gs2CreatedAt { get; set; }
     }
 }

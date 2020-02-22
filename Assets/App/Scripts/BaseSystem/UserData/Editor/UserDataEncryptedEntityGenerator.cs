@@ -151,7 +151,7 @@ ${ENCRYPTERS}
                 {
                     initializeBuilder.AppendLine (string.Format ("_connection.CreateTable<{0}> ();", type.FullName.ToEncryptedClassName ()));
                     loadBuilder.AppendLine (string.Format ("else if (typeof (T) == typeof ({0}))", type.FullName));
-                    loadBuilder.AppendLine (string.Format ("    return Decrypt<T> (_connection.Table<{0}> ().First ());", type.FullName.ToEncryptedClassName ()));
+                    loadBuilder.AppendLine (string.Format ("    return Decrypt<T> (_connection.Table<{0}> ().FirstOrDefault ());", type.FullName.ToEncryptedClassName ()));
                     loadWithPkBuilder.AppendLine (string.Format ("else if (typeof (T) == typeof ({0}))", type.FullName));
                     loadWithPkBuilder.AppendLine (string.Format ("    return Decrypt<T> (_connection.Find<{0}> (id));", type.FullName.ToEncryptedClassName ()));
                     saveBuilder.AppendLine (string.Format ("else if (typeof (T) == typeof ({0}))", type.FullName));
