@@ -5,12 +5,15 @@ using Chsopoly.Libs;
 using Chsopoly.Libs.Extensions;
 using Gs2.Core;
 using Gs2.Core.Exception;
+using Gs2.Core.Model;
+using Gs2.Gs2Matchmaking.Model;
 using Gs2.Unity;
 using Gs2.Unity.Gs2Account.Result;
 using Gs2.Unity.Gs2Gateway.Result;
 using Gs2.Unity.Gs2Matchmaking.Model;
 using Gs2.Unity.Gs2Matchmaking.Result;
 using Gs2.Unity.Util;
+using LitJson;
 using UnityEngine;
 
 namespace Chsopoly.BaseSystem.Gs2
@@ -19,12 +22,16 @@ namespace Chsopoly.BaseSystem.Gs2
     {
         public event Action<Gs2Exception> onError;
         public event Action<List<string>> onUpdateJoinedPlayerIds;
+        public event Action<string> onJoinPlayer;
+        public event Action<string> onLeavePlayer;
+        public event Action<List<string>> onMatchingComplete;
 
         private Profile _profile = null;
         private Client _client = null;
         private GameSession _gameSession = null;
         private List<string> _joinedPlayerIds = new List<string> ();
         private EzGathering _gathering = null;
+        private bool _completedMatching = false;
 
         public IEnumerator Initialize ()
         {
@@ -40,6 +47,8 @@ namespace Chsopoly.BaseSystem.Gs2
                 onError.SafeInvoke (result.Error);
                 yield break;
             }
+
+            _profile.Gs2Session.OnNotificationMessage += OnNotificationMessage;
         }
 
         public IEnumerator CreateAccount (Action<AsyncResult<EzCreateResult>> callback)
@@ -138,6 +147,72 @@ namespace Chsopoly.BaseSystem.Gs2
 
             onUpdateJoinedPlayerIds.SafeInvoke (_joinedPlayerIds);
             callback.SafeInvoke (result);
+        }
+
+        public IEnumerator JoinGathering (Action<AsyncResult<EzDoMatchmakingResult>> callback)
+        {
+            AsyncResult<EzDoMatchmakingResult> result = null;
+            yield return _client.Matchmaking.DoMatchmaking (
+                r => { result = r; },
+                _gameSession,
+                Gs2Settings.MatchingNamespaceName,
+                new EzPlayer
+                {
+                    RoleName = "default"
+                },
+                null
+            );
+
+            if (result.Error != null)
+            {
+                Debug.LogError (result.Error.Message);
+                onError.SafeInvoke (result.Error);
+                yield break;
+            }
+
+            if (result.Result.Item != null)
+            {
+                _gathering = result.Result.Item;
+
+                if (_completedMatching)
+                {
+                    onMatchingComplete.SafeInvoke (_joinedPlayerIds);
+                }
+            }
+
+            callback.Invoke (result);
+        }
+
+        private void OnNotificationMessage (NotificationMessage message)
+        {
+            Debug.Log ("OnNotificationMessage: " + message.issuer);
+
+            if (!message.issuer.StartsWith ("Gs2Matchmaking:")) return;
+
+            if (message.issuer.EndsWith (":Join"))
+            {
+                var notification = JsonMapper.ToObject<JoinNotification> (message.payload);
+                _joinedPlayerIds.Add (notification.joinUserId);
+                onJoinPlayer.SafeInvoke (notification.joinUserId);
+                onUpdateJoinedPlayerIds.Invoke (_joinedPlayerIds);
+            }
+            else if (message.issuer.EndsWith (":Leave"))
+            {
+                var notification = JsonMapper.ToObject<LeaveNotification> (message.payload);
+                _joinedPlayerIds.Remove (notification.leaveUserId);
+                onLeavePlayer.SafeInvoke (notification.leaveUserId);
+                onUpdateJoinedPlayerIds.SafeInvoke (_joinedPlayerIds);
+            }
+            else if (message.issuer.EndsWith (":Complete"))
+            {
+                if (_gathering != null)
+                {
+                    onMatchingComplete.SafeInvoke (_joinedPlayerIds);
+                }
+                onUpdateJoinedPlayerIds.SafeInvoke (_joinedPlayerIds);
+
+                _completedMatching = true;
+            }
         }
 
         private bool ValidateSession ()
