@@ -16,8 +16,6 @@ namespace Chsopoly.BaseSystem
     {
         const int FrameRate = 30;
 
-        [SerializeField] GameSceneType _initialScene = GameSceneType.Title;
-
         void Start ()
         {
             StartCoroutine (InitializeProc ());
@@ -46,7 +44,7 @@ namespace Chsopoly.BaseSystem
                 });
             }
 
-            GameSceneManager.Instance.ChangeScene (_initialScene);
+            GameSceneManager.Instance.ChangeScene (GameSceneType.Title);
         }
     }
 }

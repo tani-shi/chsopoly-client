@@ -71,6 +71,11 @@ MonoBehaviour:
     m_SerializedLabels: []
     m_mainAssetType: UnityEditor.Animations.AnimatorController, UnityEditor, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  - m_GUID: 71c885f193d364d22b2d59b00a80264e
+    m_Address: Assets/App/AddressableAssets/Prefabs/GameScene/MatchingScene.prefab
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+    m_mainAssetType: 
   - m_GUID: 7a3264676fe6f448d85fbe0144c0fde1
     m_Address: Assets/App/AddressableAssets/MasterData/Ingame/Stage.asset
     m_ReadOnly: 1

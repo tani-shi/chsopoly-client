@@ -7,5 +7,7 @@ namespace Chsopoly.BaseSystem.Gs2
         public const string AccountNamespaceName = "develop";
         public const string AccountEncryptionKeyId = "grn:gs2:ap-northeast-1:ETP1ZI1G-Chsopoly:key:account-encryption-key-namespace:key:account-encryption-key";
         public const string GatewayNamespaceName = "develop";
+        public const string RealtimeNamespaceName = "develop";
+        public const string MatchingNamespaceName = "develop";
     }
 }

@@ -11,6 +11,8 @@ namespace Chsopoly.GameScene
             {
                 case GameSceneType.Ingame:
                     return "Assets/App/AddressableAssets/Prefabs/GameScene/IngameScene.prefab";
+                case GameSceneType.Matching:
+                    return "Assets/App/AddressableAssets/Prefabs/GameScene/MatchingScene.prefab";
                 case GameSceneType.Title:
                     return "Assets/App/AddressableAssets/Prefabs/GameScene/TitleScene.prefab";
             }

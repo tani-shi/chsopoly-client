@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _userIdText: {fileID: 3365906934343506476}
+  _guideText: {fileID: 6938548775666108781}
 --- !u!1 &1360289406008165832
 GameObject:
   m_ObjectHideFlags: 0

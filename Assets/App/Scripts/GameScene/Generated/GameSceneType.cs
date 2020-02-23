@@ -6,6 +6,7 @@ namespace Chsopoly.GameScene
     {
         None,
         Ingame,
+        Matching,
         Title,
     }
 }

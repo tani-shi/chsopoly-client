@@ -2,7 +2,7 @@ using System.Collections;
 using Chsopoly.BaseSystem.GameScene;
 using Chsopoly.BaseSystem.Gs2;
 using Chsopoly.BaseSystem.UserData;
-using Chsopoly.GameScene.Ingame;
+using Chsopoly.GameScene.Matching;
 using Chsopoly.UserData.Entity;
 using Gs2.Core.Exception;
 using UnityEngine;
@@ -12,8 +12,13 @@ namespace Chsopoly.GameScene.Title
 {
     public class TitleScene : BaseGameScene
     {
+        private const string TapMessage = "Tap Screen to Start";
+        private const string LoginProcessingMessage = "Login Processing Now...";
+
         [SerializeField]
         private Text _userIdText = default;
+        [SerializeField]
+        private Text _guideText = default;
 
         private bool _startedLogin = false;
 
@@ -34,6 +39,7 @@ namespace Chsopoly.GameScene.Title
             {
                 _userIdText.text = account.Gs2AccountId;
             }
+            _guideText.text = TapMessage;
 
             yield break;
         }
@@ -46,6 +52,7 @@ namespace Chsopoly.GameScene.Title
             }
 
             _startedLogin = true;
+            _guideText.text = LoginProcessingMessage;
             StartCoroutine (DoLogin ());
         }
 
@@ -54,9 +61,9 @@ namespace Chsopoly.GameScene.Title
             var account = UserDataManager.Instance.Load<Account> ();
             yield return Gs2Manager.Instance.LoginAccount (account.Gs2AccountId, account.Gs2Password, _ =>
             {
-                GameSceneManager.Instance.ChangeScene (GameSceneType.Ingame, new IngameScene.Param ()
+                GameSceneManager.Instance.ChangeScene (GameSceneType.Matching, new MatchingScene.Param ()
                 {
-                    stageId = 1,
+                    capacity = 2,
                 });
             });
         }
@@ -64,6 +71,7 @@ namespace Chsopoly.GameScene.Title
         private void OnErrorGs2 (Gs2Exception e)
         {
             _startedLogin = false;
+            _guideText.text = TapMessage;
             // TODO: Do something, like opening an error popup to show error logs.
         }
     }
