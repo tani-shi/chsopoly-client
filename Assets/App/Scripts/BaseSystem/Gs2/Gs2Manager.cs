@@ -185,7 +185,7 @@ namespace Chsopoly.BaseSystem.Gs2
 
         private void OnNotificationMessage (NotificationMessage message)
         {
-            Debug.Log ("OnNotificationMessage: " + message.issuer);
+            Debug.Log ("OnNotificationMessage: " + message.issuer + "\n" + message.payload);
 
             if (!message.issuer.StartsWith ("Gs2Matchmaking:")) return;
 
@@ -209,7 +209,6 @@ namespace Chsopoly.BaseSystem.Gs2
                 {
                     onMatchingComplete.SafeInvoke (_joinedPlayerIds);
                 }
-                onUpdateJoinedPlayerIds.SafeInvoke (_joinedPlayerIds);
 
                 _completedMatching = true;
             }

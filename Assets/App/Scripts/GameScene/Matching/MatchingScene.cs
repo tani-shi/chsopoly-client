@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Chsopoly.BaseSystem.GameScene;
 using Chsopoly.BaseSystem.Gs2;
+using Chsopoly.GameScene.Ingame;
 using Gs2.Unity.Gs2Matchmaking.Model;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,6 +14,7 @@ namespace Chsopoly.GameScene.Matching
     {
         private const string MessageFindGathering = "Find Gathering...";
         private const string MessageCreateGathering = "Create Gathering...";
+        private const string MessageMatching = "Matching...";
 
         public class Param : IGameSceneParam
         {
@@ -20,89 +22,44 @@ namespace Chsopoly.GameScene.Matching
         }
 
         [SerializeField]
-        private List<Text> _playerIdTexts = default;
-        [SerializeField]
-        private Text _nameText = default;
-        [SerializeField]
-        private Text _metaDataText = default;
-        [SerializeField]
-        private Text _createdAtText = default;
-        [SerializeField]
-        private Text _updatedAtText = default;
-        [SerializeField]
         private Text _progressText = default;
-        [SerializeField]
-        private GameObject _matchingContainer = default;
-        [SerializeField]
-        private GameObject _loadingContainer = default;
-        [SerializeField]
-        private Button _startButton = default;
 
         private int _capacity;
 
         void OnDestroy ()
         {
-            Gs2Manager.Instance.onUpdateJoinedPlayerIds -= OnUpdatedJoinedPlayerIds;
+            Gs2Manager.Instance.onMatchingComplete -= OnMatchingComplete;
         }
 
         protected override IEnumerator LoadProc (Param param)
         {
-            Gs2Manager.Instance.onUpdateJoinedPlayerIds += OnUpdatedJoinedPlayerIds;
+            Gs2Manager.Instance.onMatchingComplete += OnMatchingComplete;
             _progressText.text = MessageFindGathering;
-            _startButton.interactable = false;
             _capacity = param.capacity;
 
-            StartCoroutine (Gs2Manager.Instance.JoinGathering (r1 =>
+            StartCoroutine (Gs2Manager.Instance.JoinGathering (r =>
             {
-                if (r1.Result.Item == null)
+                if (r.Result.Item == null)
                 {
                     _progressText.text = MessageCreateGathering;
 
-                    StartCoroutine (Gs2Manager.Instance.CreateGathering (param.capacity, r2 => UpdateGathering (r2.Result.Item)));
+                    StartCoroutine (Gs2Manager.Instance.CreateGathering (param.capacity, _ => _progressText.text = MessageMatching));
                 }
                 else
                 {
-                    UpdateGathering (r1.Result.Item);
+                    _progressText.text = MessageMatching;
                 }
             }));
-
-            SetLoadingActive (true);
 
             yield break;
         }
 
-        private void OnUpdatedJoinedPlayerIds (List<string> playerIds)
+        private void OnMatchingComplete (List<string> playerIds)
         {
-            _startButton.interactable = playerIds.Count == _capacity;
-
-            for (int i = 0; i < _playerIdTexts.Count; i++)
+            GameSceneManager.Instance.ChangeScene (GameSceneType.Ingame, new IngameScene.Param ()
             {
-                if (i < playerIds.Count)
-                {
-                    _playerIdTexts[i].gameObject.SetActive (true);
-                    _playerIdTexts[i].text = playerIds[i];
-                }
-                else
-                {
-                    _playerIdTexts[i].gameObject.SetActive (false);
-                }
-            }
-        }
-
-        private void UpdateGathering (EzGathering gathering)
-        {
-            _nameText.text = gathering.Name;
-            _metaDataText.text = gathering.Metadata;
-            _createdAtText.text = gathering.CreatedAt.ToString ();
-            _updatedAtText.text = gathering.UpdatedAt.ToString ();
-
-            SetLoadingActive (false);
-        }
-
-        private void SetLoadingActive (bool active)
-        {
-            _loadingContainer.SetActive (active);
-            _matchingContainer.SetActive (!active);
+                stageId = 1,
+            });
         }
     }
 }
