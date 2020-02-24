@@ -1,7 +1,7 @@
 {
   "dependencies": {
     "com.tani-shi.unity-excel": "https://github.com/tani-shi/unity-excel.git#1.0.0",
-    "com.tani-shi.unity-master-data": "https://github.com/tani-shi/unity-master-data.git#1.0.0",
+    "com.tani-shi.unity-master-data": "https://github.com/tani-shi/unity-master-data.git#1.0.1",
     "com.unity.2d.sprite": "1.0.0",
     "com.unity.addressables": "1.6.0",
     "com.unity.collab-proxy": "1.2.16",
@@ -50,8 +50,8 @@
       "hash": "879050d8c71fc91d340655eec669c7d2dccf3d70"
     },
     "com.tani-shi.unity-master-data": {
-      "revision": "1.0.0",
-      "hash": "cd132937fa429a99603724de9de946d0b8edffa5"
+      "revision": "1.0.1",
+      "hash": "dceee14d5534424d50ce3dee95b23bde02b07cc9"
     }
   }
 }

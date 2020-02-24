@@ -175,13 +175,14 @@ namespace Chsopoly.BaseSystem.GameScene
                                     _gameScene.RequestDestroy ();
                                 }
                                 _gameScene = CreateGameScene (_loader.Result, _nextSceneInfo);
-                                ClearNextSceneInfo ();
-                                ReleaseLoader ();
                             }
                             else
                             {
                                 Debug.LogError ("Failed to load a scene object. " + _loader.OperationException.ToString ());
                             }
+
+                            ClearNextSceneInfo ();
+                            ReleaseLoader ();
                         }
                     }
                     else if (_gameScene != null)

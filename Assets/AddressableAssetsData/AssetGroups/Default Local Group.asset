@@ -75,6 +75,12 @@ MonoBehaviour:
     m_Address: Assets/App/AddressableAssets/Prefabs/GameScene/MatchingScene.prefab
     m_ReadOnly: 1
     m_SerializedLabels: []
+    m_mainAssetType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  - m_GUID: 77fa383ffebf943c491b16b6a8cc8e3f
+    m_Address: Assets/App/AddressableAssets/Textures/Character/chr_rabbit/chr_rabbit_appeal.png
+    m_ReadOnly: 1
+    m_SerializedLabels: []
     m_mainAssetType: 
   - m_GUID: 7a3264676fe6f448d85fbe0144c0fde1
     m_Address: Assets/App/AddressableAssets/MasterData/Ingame/Stage.asset
