@@ -23,7 +23,7 @@ namespace Chsopoly.Gs2.Models
 {
     public partial class ${NAME}
     {
-        public static int hashCode
+        public static uint hashCode
         {
             get
             {
@@ -65,7 +65,7 @@ namespace Chsopoly.BaseSystem.Gs2
     {
         public static IGs2PacketModel Deserialize (byte[] data)
         {
-            switch (BitConverter.ToInt32 (data, 0))
+            switch (BitConverter.ToUInt32 (data, 0))
             {
 ${CASES}
                 default:
@@ -157,7 +157,7 @@ ${CASES}
             var path = string.Format (ModelSerializerPathFormat, type.Name);
             var content = ModelSerializerScriptTemplate
                 .Replace ("${NAME}", type.Name)
-                .Replace ("${HASH_CODE}", type.FullName.ToHashInteger ().ToString ())
+                .Replace ("${HASH_CODE}", type.FullName.ToHashUInt32 ().ToString ())
                 .Replace ("${BYTES_CONVERTER}", converterBuilder.ToString ().Indent (12))
                 .Replace ("${BYTES_WRITER}", writerBuilder.ToString ().Indent (12))
                 .Replace ("${DESERIALIZER}", deserializerBuilder.ToString ().Indent (12));
@@ -171,7 +171,7 @@ ${CASES}
 
             foreach (var type in GetAllModelTypes ())
             {
-                builder.AppendLine (string.Format ("case {0}:", type.FullName.ToHashInteger ()));
+                builder.AppendLine (string.Format ("case {0}:", type.FullName.ToHashUInt32 ()));
                 builder.AppendLine (string.Format ("    return new {0} ().Deserialize (data);", type.FullName));
             }
 
@@ -181,9 +181,9 @@ ${CASES}
             File.WriteAllText (ModelDeserializerPath, content);
         }
 
-        private static int ToHashInteger (this string str)
+        private static uint ToHashUInt32 (this string str)
         {
-            return BitConverter.ToInt32 (MD5.Create ().ComputeHash (Encoding.UTF8.GetBytes (str)), 0);
+            return BitConverter.ToUInt32 (MD5.Create ().ComputeHash (Encoding.UTF8.GetBytes (str)), 0);
         }
 
         private static IEnumerable<Type> GetAllModelTypes ()

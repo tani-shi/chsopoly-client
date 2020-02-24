@@ -189,7 +189,6 @@ namespace Chsopoly.BaseSystem.Gs2
 
         public IEnumerator GetRoom (string gatheringId, Action<AsyncResult<EzGetRoomResult>> callback)
         {
-            Debug.LogError (gatheringId);
             ValidateGameSession ();
 
             while (true)
@@ -203,11 +202,9 @@ namespace Chsopoly.BaseSystem.Gs2
 
                 if (result.Error != null)
                 {
-                    Debug.LogError (result.Error.Message);
                     onError.SafeInvoke (result.Error);
                     yield break;
                 }
-                Debug.LogError (result.Result.Item.IpAddress);
 
                 if (!string.IsNullOrEmpty (result.Result.Item.IpAddress))
                 {
@@ -256,7 +253,9 @@ namespace Chsopoly.BaseSystem.Gs2
 
             if (!session.Connected)
             {
-                Debug.LogError (result.Error);
+                Debug.LogError (result.Error.Message);
+                onError.SafeInvoke (result.Error);
+                yield break;
             }
 
             _realtimeSession = session;

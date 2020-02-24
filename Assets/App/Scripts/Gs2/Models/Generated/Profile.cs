@@ -6,11 +6,11 @@ namespace Chsopoly.Gs2.Models
 {
     public partial class Profile
     {
-        public static int hashCode
+        public static uint hashCode
         {
             get
             {
-                return -1735691396;
+                return 2559275900;
             }
         }
 
