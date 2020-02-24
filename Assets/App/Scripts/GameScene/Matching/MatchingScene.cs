@@ -28,8 +28,48 @@ namespace Chsopoly.GameScene.Matching
         [SerializeField]
         private Text _progressText = default;
 
+        private enum State
+        {
+            None,
+            FindGathering,
+            CreateGathering,
+            Matching,
+            GetRoomInfo,
+            ConnectRoom,
+            WaitOtherPlayers,
+        }
+
         private int _capacity = 0;
         private EzGathering _gathering = null;
+        private State _currentState = State.None;
+
+        void Update ()
+        {
+            switch (_currentState)
+            {
+                case State.None:
+                    _progressText.text = string.Empty;
+                    break;
+                case State.FindGathering:
+                    _progressText.text = MessageFindGathering;
+                    break;
+                case State.CreateGathering:
+                    _progressText.text = MessageCreateGathering;
+                    break;
+                case State.Matching:
+                    _progressText.text = MessageMatching;
+                    break;
+                case State.GetRoomInfo:
+                    _progressText.text = MessageGetRoomInfo;
+                    break;
+                case State.ConnectRoom:
+                    _progressText.text = MessageConnectRoom;
+                    break;
+                case State.WaitOtherPlayers:
+                    _progressText.text = MessageWaitOtherPlayers;
+                    break;
+            }
+        }
 
         void OnDestroy ()
         {
@@ -42,24 +82,24 @@ namespace Chsopoly.GameScene.Matching
             Gs2Manager.Instance.onCompleteMatching += OnMatchingComplete;
             Gs2Manager.Instance.onJoinRealtimePlayer += OnJoinRealtimePlayer;
 
-            _progressText.text = MessageFindGathering;
+            SetState (State.FindGathering);
             _capacity = param.capacity;
 
             StartCoroutine (Gs2Manager.Instance.JoinGathering (r1 =>
             {
                 if (r1.Result.Item == null)
                 {
-                    _progressText.text = MessageCreateGathering;
+                    SetState (State.CreateGathering);
 
                     StartCoroutine (Gs2Manager.Instance.CreateGathering (param.capacity, r2 =>
                     {
-                        _progressText.text = MessageMatching;
+                        SetState (State.Matching);
                         _gathering = r2.Result.Item;
                     }));
                 }
                 else
                 {
-                    _progressText.text = MessageMatching;
+                    SetState (State.Matching);
                     _gathering = r1.Result.Item;
                 }
             }));
@@ -69,11 +109,11 @@ namespace Chsopoly.GameScene.Matching
 
         private void OnMatchingComplete (string gatheringId)
         {
-            _progressText.text = MessageGetRoomInfo;
+            SetState (State.GetRoomInfo);
 
             StartCoroutine (Gs2Manager.Instance.GetRoom (gatheringId, r1 =>
             {
-                _progressText.text = MessageConnectRoom;
+                SetState (State.ConnectRoom);
 
                 var profile = new Profile ()
                 {
@@ -87,7 +127,7 @@ namespace Chsopoly.GameScene.Matching
                     profile.Serialize (),
                     r2 =>
                     {
-                        _progressText.text = MessageWaitOtherPlayers;
+                        SetState (State.WaitOtherPlayers);
                     }
                 ));
             }));
@@ -97,6 +137,11 @@ namespace Chsopoly.GameScene.Matching
         {
             var profile = model as Profile;
             Debug.Log (connectionId + ":" + profile.characterId);
+        }
+
+        private void SetState (State state)
+        {
+            _currentState = (State) Mathf.Max ((int) state, (int) _currentState);
         }
     }
 }

@@ -42,6 +42,15 @@ namespace Chsopoly.BaseSystem.Gs2
         private global::Gs2.Unity.Client _client = null;
         private GameSession _gameSession = null;
         private RealtimeSession _realtimeSession = null;
+        private Queue<NotificationMessage> _messageQueue = new Queue<NotificationMessage> ();
+
+        void Update ()
+        {
+            while (_messageQueue.Count > 0)
+            {
+                PushNotificationMessage (_messageQueue.Dequeue ());
+            }
+        }
 
         public IEnumerator Initialize ()
         {
@@ -180,6 +189,7 @@ namespace Chsopoly.BaseSystem.Gs2
 
         public IEnumerator GetRoom (string gatheringId, Action<AsyncResult<EzGetRoomResult>> callback)
         {
+            Debug.LogError (gatheringId);
             ValidateGameSession ();
 
             while (true)
@@ -197,6 +207,7 @@ namespace Chsopoly.BaseSystem.Gs2
                     onError.SafeInvoke (result.Error);
                     yield break;
                 }
+                Debug.LogError (result.Result.Item.IpAddress);
 
                 if (!string.IsNullOrEmpty (result.Result.Item.IpAddress))
                 {
@@ -254,7 +265,12 @@ namespace Chsopoly.BaseSystem.Gs2
 
         private void OnNotificationMessage (NotificationMessage message)
         {
-            Debug.Log ("OnNotificationMessage: " + message.issuer + "\n" + message.payload);
+            _messageQueue.Enqueue (message);
+        }
+
+        private void PushNotificationMessage (NotificationMessage message)
+        {
+            Debug.Log ("PushNotificationMessage: " + message.issuer + "\n" + message.payload);
 
             if (message.issuer.StartsWith ("Gs2Matchmaking:"))
             {
