@@ -30,6 +30,7 @@ namespace Chsopoly.BaseSystem.Gs2
         public event Action<string> onJoinMatchingPlayer;
         public event Action<string> onLeaveMatchingPlayer;
         public event Action<string> onCompleteMatching;
+        public event Action<string> onCreateRealtimeRoom;
         public event Action<uint, IGs2PacketModel> onRelayRealtimeMessage;
         public event Action<uint, IGs2PacketModel> onJoinRealtimePlayer;
         public event Action<uint, IGs2PacketModel> onLeaveRealtimePlayer;
@@ -54,6 +55,8 @@ namespace Chsopoly.BaseSystem.Gs2
 
         public IEnumerator Initialize ()
         {
+            Debug.Log ("Gs2-Initialize");
+
             _profile = new Profile (Gs2Settings.ClientId, Gs2Settings.ClientSecret, new Gs2BasicReopener ());
             _client = new global::Gs2.Unity.Client (_profile);
 
@@ -72,6 +75,8 @@ namespace Chsopoly.BaseSystem.Gs2
 
         public IEnumerator CreateAccount (Action<AsyncResult<EzCreateResult>> callback)
         {
+            Debug.Log ("Gs2-CreateAccount");
+
             AsyncResult<EzCreateResult> result = null;
             yield return _client.Account.Create (r => result = r, Gs2Settings.AccountNamespaceName);
 
@@ -87,6 +92,8 @@ namespace Chsopoly.BaseSystem.Gs2
 
         public IEnumerator LoginAccount (string accountId, string password, Action<AsyncResult<GameSession>> callback)
         {
+            Debug.Log (string.Format ("Gs2-LoginAccount: accountId={0} password={1}", accountId, password));
+
             AsyncResult<GameSession> result1 = null;
             yield return _profile.Login (
                 new Gs2AccountAuthenticator (
@@ -128,6 +135,8 @@ namespace Chsopoly.BaseSystem.Gs2
 
         public IEnumerator CreateGathering (int capacity, Action<AsyncResult<EzCreateGatheringResult>> callback)
         {
+            Debug.Log ("Gs2-CreateGathering: capacity=" + capacity);
+
             ValidateGameSession ();
 
             AsyncResult<EzCreateGatheringResult> result = null;
@@ -163,6 +172,8 @@ namespace Chsopoly.BaseSystem.Gs2
 
         public IEnumerator JoinGathering (Action<AsyncResult<EzDoMatchmakingResult>> callback)
         {
+            Debug.Log ("Gs2-JoinGathering");
+
             ValidateGameSession ();
 
             AsyncResult<EzDoMatchmakingResult> result = null;
@@ -189,35 +200,30 @@ namespace Chsopoly.BaseSystem.Gs2
 
         public IEnumerator GetRoom (string gatheringId, Action<AsyncResult<EzGetRoomResult>> callback)
         {
+            Debug.Log ("Gs2-GetRoom: gatheringId=" + gatheringId);
+
             ValidateGameSession ();
 
-            while (true)
+            AsyncResult<EzGetRoomResult> result = null;
+            yield return _client.Realtime.GetRoom (
+                r => { result = r; },
+                Gs2Settings.RealtimeNamespaceName,
+                gatheringId
+            );
+
+            if (result.Error != null)
             {
-                AsyncResult<EzGetRoomResult> result = null;
-                yield return _client.Realtime.GetRoom (
-                    r => { result = r; },
-                    Gs2Settings.RealtimeNamespaceName,
-                    gatheringId
-                );
-
-                if (result.Error != null)
-                {
-                    onError.SafeInvoke (result.Error);
-                    yield break;
-                }
-
-                if (!string.IsNullOrEmpty (result.Result.Item.IpAddress))
-                {
-                    callback.SafeInvoke (result);
-                    yield break;
-                }
-
-                yield return new WaitForSeconds (0.5f);
+                onError.SafeInvoke (result.Error);
+                yield break;
             }
+
+            callback.SafeInvoke (result);
         }
 
         public IEnumerator ConnectRoom (string ipAddress, int port, string encryptionKey, byte[] profile, Action<AsyncResult<RealtimeSession>> callback)
         {
+            Debug.Log (string.Format ("Gs2-ConnectRoom: ipAddress={0} port={1} encryptionKey={2}", ipAddress, port, encryptionKey));
+
             ValidateGameSession ();
 
             var session = new RelayRealtimeSession (
@@ -225,7 +231,7 @@ namespace Chsopoly.BaseSystem.Gs2
                 ipAddress,
                 port,
                 encryptionKey,
-                ByteString.CopyFrom ()
+                ByteString.CopyFrom (profile)
             );
 
             session.OnRelayMessage += message =>
@@ -269,7 +275,7 @@ namespace Chsopoly.BaseSystem.Gs2
 
         private void PushNotificationMessage (NotificationMessage message)
         {
-            Debug.Log ("PushNotificationMessage: " + message.issuer + "\n" + message.payload);
+            Debug.Log ("Gs2-PushNotificationMessage: " + message.issuer + "\n" + message.payload);
 
             if (message.issuer.StartsWith ("Gs2Matchmaking:"))
             {
@@ -287,6 +293,15 @@ namespace Chsopoly.BaseSystem.Gs2
                 {
                     var notification = JsonMapper.ToObject<global::Gs2.Gs2Matchmaking.Model.CompleteNotification> (message.payload);
                     onCompleteMatching.SafeInvoke (notification.gatheringName);
+                }
+            }
+
+            if (message.issuer.StartsWith ("Gs2Realtime:"))
+            {
+                if (message.issuer.EndsWith (":Create"))
+                {
+                    var notification = JsonMapper.ToObject<global::Gs2.Gs2Realtime.Model.CreateNotification> (message.payload);
+                    onCreateRealtimeRoom.SafeInvoke (notification.roomName);
                 }
             }
         }

@@ -168,7 +168,7 @@ namespace Chsopoly.BaseSystem.GameScene
                     {
                         if (_loader.IsDone)
                         {
-                            if (_loader.Status == AsyncOperationStatus.Succeeded)
+                            if (_loader.Status == AsyncOperationStatus.Succeeded && _loader.Result != null)
                             {
                                 if (_gameScene != null)
                                 {

@@ -16,9 +16,10 @@ namespace Chsopoly.GameScene.Matching
         private const string MessageFindGathering = "Find Gathering...";
         private const string MessageCreateGathering = "Create Gathering...";
         private const string MessageMatching = "Matching...";
+        private const string MessageWaitForCreateRoom = "Waiting For Create Room...";
         private const string MessageGetRoomInfo = "Get Room Infos...";
         private const string MessageConnectRoom = "Connecting Room...";
-        private const string MessageWaitOtherPlayers = "Waiting For Joining Other Players...";
+        private const string MessageWaitForOtherPlayers = "Waiting For Joining Other Players...";
 
         public class Param : IGameSceneParam
         {
@@ -34,14 +35,15 @@ namespace Chsopoly.GameScene.Matching
             FindGathering,
             CreateGathering,
             Matching,
+            WaitForCreateRoom,
             GetRoomInfo,
             ConnectRoom,
-            WaitOtherPlayers,
+            WaitForOtherPlayers,
         }
 
         private int _capacity = 0;
-        private EzGathering _gathering = null;
         private State _currentState = State.None;
+        private bool _createdRoom = false;
 
         void Update ()
         {
@@ -59,14 +61,17 @@ namespace Chsopoly.GameScene.Matching
                 case State.Matching:
                     _progressText.text = MessageMatching;
                     break;
+                case State.WaitForCreateRoom:
+                    _progressText.text = MessageWaitForCreateRoom;
+                    break;
                 case State.GetRoomInfo:
                     _progressText.text = MessageGetRoomInfo;
                     break;
                 case State.ConnectRoom:
                     _progressText.text = MessageConnectRoom;
                     break;
-                case State.WaitOtherPlayers:
-                    _progressText.text = MessageWaitOtherPlayers;
+                case State.WaitForOtherPlayers:
+                    _progressText.text = MessageWaitForOtherPlayers;
                     break;
             }
         }
@@ -75,12 +80,14 @@ namespace Chsopoly.GameScene.Matching
         {
             Gs2Manager.Instance.onCompleteMatching -= OnMatchingComplete;
             Gs2Manager.Instance.onJoinRealtimePlayer -= OnJoinRealtimePlayer;
+            Gs2Manager.Instance.onCreateRealtimeRoom -= OnCreateRealtimeRoom;
         }
 
         protected override IEnumerator LoadProc (Param param)
         {
             Gs2Manager.Instance.onCompleteMatching += OnMatchingComplete;
             Gs2Manager.Instance.onJoinRealtimePlayer += OnJoinRealtimePlayer;
+            Gs2Manager.Instance.onCreateRealtimeRoom += OnCreateRealtimeRoom;
 
             SetState (State.FindGathering);
             _capacity = param.capacity;
@@ -94,13 +101,11 @@ namespace Chsopoly.GameScene.Matching
                     StartCoroutine (Gs2Manager.Instance.CreateGathering (param.capacity, r2 =>
                     {
                         SetState (State.Matching);
-                        _gathering = r2.Result.Item;
                     }));
                 }
                 else
                 {
                     SetState (State.Matching);
-                    _gathering = r1.Result.Item;
                 }
             }));
 
@@ -109,9 +114,42 @@ namespace Chsopoly.GameScene.Matching
 
         private void OnMatchingComplete (string gatheringId)
         {
+            if (_createdRoom)
+            {
+                SetState (State.WaitForCreateRoom);
+            }
+            else
+            {
+                StartConnectRoom (gatheringId);
+            }
+        }
+
+        private void OnCreateRealtimeRoom (string gatheringId)
+        {
+            _createdRoom = true;
+
+            if (_currentState == State.WaitForCreateRoom)
+            {
+                StartConnectRoom (gatheringId);
+            }
+        }
+
+        private void OnJoinRealtimePlayer (uint connectionId, IGs2PacketModel model)
+        {
+            var profile = model as Profile;
+            Debug.Log (connectionId + ":" + profile.characterId);
+        }
+
+        private void SetState (State state)
+        {
+            _currentState = (State) Mathf.Max ((int) state, (int) _currentState);
+        }
+
+        private void StartConnectRoom (string roomName)
+        {
             SetState (State.GetRoomInfo);
 
-            StartCoroutine (Gs2Manager.Instance.GetRoom (gatheringId, r1 =>
+            StartCoroutine (Gs2Manager.Instance.GetRoom (roomName, r1 =>
             {
                 SetState (State.ConnectRoom);
 
@@ -127,21 +165,10 @@ namespace Chsopoly.GameScene.Matching
                     profile.Serialize (),
                     r2 =>
                     {
-                        SetState (State.WaitOtherPlayers);
+                        SetState (State.WaitForOtherPlayers);
                     }
                 ));
             }));
-        }
-
-        private void OnJoinRealtimePlayer (uint connectionId, IGs2PacketModel model)
-        {
-            var profile = model as Profile;
-            Debug.Log (connectionId + ":" + profile.characterId);
-        }
-
-        private void SetState (State state)
-        {
-            _currentState = (State) Mathf.Max ((int) state, (int) _currentState);
         }
     }
 }
