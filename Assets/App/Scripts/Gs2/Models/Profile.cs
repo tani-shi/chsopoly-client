@@ -4,6 +4,7 @@ namespace Chsopoly.Gs2.Models
 {
     public partial class Profile : IGs2PacketModel
     {
+        public string accountId;
         public uint characterId;
     }
 }

@@ -21,14 +21,14 @@ namespace Chsopoly.GameScene.Ingame
         public class Param : IGameSceneParam
         {
             public uint stageId;
+            public uint[] characterIds;
         }
 
         protected override IEnumerator LoadProc (Param param)
         {
-            var characterIds = new uint[] { 1 };
             var gimmickIds = MasterDataManager.Instance.Get<GimmickDAO> ().FindAll (o => o.id > 0).ConvertAll (o => o.id).ToArray ();
 
-            yield return _stage.Load (param.stageId, characterIds, gimmickIds);
+            yield return _stage.Load (param.stageId, param.characterIds, gimmickIds);
             yield return _gimmickBox.LoadTextures (gimmickIds);
 
             _controller.SetPlayer (_stage.PlayerCharacter);

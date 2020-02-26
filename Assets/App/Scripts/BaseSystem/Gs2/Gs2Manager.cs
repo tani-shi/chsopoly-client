@@ -198,9 +198,9 @@ namespace Chsopoly.BaseSystem.Gs2
             callback.Invoke (result);
         }
 
-        public IEnumerator GetRoom (string gatheringId, Action<AsyncResult<EzGetRoomResult>> callback)
+        public IEnumerator GetRoom (string roomName, Action<AsyncResult<EzGetRoomResult>> callback)
         {
-            Debug.Log ("Gs2-GetRoom: gatheringId=" + gatheringId);
+            Debug.Log ("Gs2-GetRoom: roomName=" + roomName);
 
             ValidateGameSession ();
 
@@ -208,7 +208,7 @@ namespace Chsopoly.BaseSystem.Gs2
             yield return _client.Realtime.GetRoom (
                 r => { result = r; },
                 Gs2Settings.RealtimeNamespaceName,
-                gatheringId
+                roomName
             );
 
             if (result.Error != null)

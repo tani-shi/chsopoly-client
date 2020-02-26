@@ -140,11 +140,11 @@ ${CASES}
                 else if (field.FieldType == typeof (string))
                 {
                     converterBuilder.AppendLine (string.Format ("var d{0} = System.Text.Encoding.UTF8.GetBytes ({1});", number, field.Name));
-                    converterBuilder.AppendLine (string.Format ("size += d{0}.Length;"));
+                    converterBuilder.AppendLine (string.Format ("size += d{0}.Length;", number));
                     writerBuilder.AppendLine (string.Format ("Buffer.BlockCopy (d{0}, 0, buffer, pos, d{0}.Length);", number));
-                    writerBuilder.AppendLine (string.Format ("pos += d{0}.Length;"));
+                    writerBuilder.AppendLine (string.Format ("pos += d{0}.Length;", number));
                     deserializerBuilder.AppendLine (string.Format ("{0} = Encoding.UTF8.GetString (data, pos, 1);", field.Name));
-                    deserializerBuilder.AppendLine (string.Format ("pos += Encoding.UTF8.GetByteCount ({0}, 1);", field.Name));
+                    deserializerBuilder.AppendLine (string.Format ("pos += Encoding.UTF8.GetByteCount ({0});", field.Name));
                 }
                 else
                 {

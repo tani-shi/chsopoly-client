@@ -1,11 +1,16 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Chsopoly.BaseSystem.GameScene;
 using Chsopoly.BaseSystem.Gs2;
+using Chsopoly.BaseSystem.UserData;
 using Chsopoly.GameScene.Ingame;
 using Chsopoly.Gs2.Models;
-using Gs2.Unity.Gs2Matchmaking.Model;
+using Chsopoly.Libs.Extensions;
+using Chsopoly.UserData.Entity;
+using Gs2.Core.Exception;
+using Gs2.Unity.Gs2Realtime.Result;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -17,9 +22,9 @@ namespace Chsopoly.GameScene.Matching
         private const string MessageCreateGathering = "Create Gathering...";
         private const string MessageMatching = "Matching...";
         private const string MessageWaitForCreateRoom = "Waiting For Create Room...";
-        private const string MessageGetRoomInfo = "Get Room Infos...";
         private const string MessageConnectRoom = "Connecting Room...";
         private const string MessageWaitForOtherPlayers = "Waiting For Joining Other Players...";
+        private const string MessageErrorFormat = "{0}\n{1}";
 
         public class Param : IGameSceneParam
         {
@@ -36,14 +41,17 @@ namespace Chsopoly.GameScene.Matching
             CreateGathering,
             Matching,
             WaitForCreateRoom,
-            GetRoomInfo,
             ConnectRoom,
             WaitForOtherPlayers,
+            Error,
         }
 
         private int _capacity = 0;
         private State _currentState = State.None;
         private bool _createdRoom = false;
+        private int _timeoutForWaitForCreateRoom = 60;
+        private Dictionary<uint, Profile> _joinedPlayers = new Dictionary<uint, Profile> ();
+        private Gs2Exception _exception = null;
 
         void Update ()
         {
@@ -64,14 +72,14 @@ namespace Chsopoly.GameScene.Matching
                 case State.WaitForCreateRoom:
                     _progressText.text = MessageWaitForCreateRoom;
                     break;
-                case State.GetRoomInfo:
-                    _progressText.text = MessageGetRoomInfo;
-                    break;
                 case State.ConnectRoom:
                     _progressText.text = MessageConnectRoom;
                     break;
                 case State.WaitForOtherPlayers:
                     _progressText.text = MessageWaitForOtherPlayers;
+                    break;
+                case State.Error:
+                    _progressText.text = string.Format (MessageErrorFormat, _exception, _exception.Message);
                     break;
             }
         }
@@ -80,14 +88,14 @@ namespace Chsopoly.GameScene.Matching
         {
             Gs2Manager.Instance.onCompleteMatching -= OnMatchingComplete;
             Gs2Manager.Instance.onJoinRealtimePlayer -= OnJoinRealtimePlayer;
-            Gs2Manager.Instance.onCreateRealtimeRoom -= OnCreateRealtimeRoom;
+            Gs2Manager.Instance.onError -= OnGs2Error;
         }
 
         protected override IEnumerator LoadProc (Param param)
         {
             Gs2Manager.Instance.onCompleteMatching += OnMatchingComplete;
             Gs2Manager.Instance.onJoinRealtimePlayer += OnJoinRealtimePlayer;
-            Gs2Manager.Instance.onCreateRealtimeRoom += OnCreateRealtimeRoom;
+            Gs2Manager.Instance.onError += OnGs2Error;
 
             SetState (State.FindGathering);
             _capacity = param.capacity;
@@ -114,30 +122,28 @@ namespace Chsopoly.GameScene.Matching
 
         private void OnMatchingComplete (string gatheringId)
         {
-            if (_createdRoom)
-            {
-                SetState (State.WaitForCreateRoom);
-            }
-            else
-            {
-                StartConnectRoom (gatheringId);
-            }
-        }
-
-        private void OnCreateRealtimeRoom (string gatheringId)
-        {
-            _createdRoom = true;
-
-            if (_currentState == State.WaitForCreateRoom)
-            {
-                StartConnectRoom (gatheringId);
-            }
+            StartConnectRoom (gatheringId);
         }
 
         private void OnJoinRealtimePlayer (uint connectionId, IGs2PacketModel model)
         {
             var profile = model as Profile;
-            Debug.Log (connectionId + ":" + profile.characterId);
+            _joinedPlayers.Add (connectionId, profile);
+
+            if (_joinedPlayers.Count == _capacity)
+            {
+                GameSceneManager.Instance.ChangeScene (GameSceneType.Ingame, new IngameScene.Param ()
+                {
+                    stageId = 1, characterIds = _joinedPlayers.Values.ToList ().ConvertAll (o => o.characterId).ToArray (),
+                });
+            }
+        }
+
+        private void OnGs2Error (Gs2Exception e)
+        {
+            SetState (State.Error);
+
+            _exception = e;
         }
 
         private void SetState (State state)
@@ -147,28 +153,47 @@ namespace Chsopoly.GameScene.Matching
 
         private void StartConnectRoom (string roomName)
         {
-            SetState (State.GetRoomInfo);
-
-            StartCoroutine (Gs2Manager.Instance.GetRoom (roomName, r1 =>
+            StartCoroutine (WaitForCreateRoom (roomName, (ipAddress, port, encryptionKey) =>
             {
                 SetState (State.ConnectRoom);
 
+                var account = UserDataManager.Instance.Load<Account> ();
                 var profile = new Profile ()
                 {
+                    accountId = account.Gs2AccountId,
                     characterId = 1,
                 };
 
                 StartCoroutine (Gs2Manager.Instance.ConnectRoom (
-                    r1.Result.Item.IpAddress,
-                    r1.Result.Item.Port,
-                    r1.Result.Item.EncryptionKey,
+                    ipAddress,
+                    port,
+                    encryptionKey,
                     profile.Serialize (),
                     r2 =>
                     {
                         SetState (State.WaitForOtherPlayers);
+                        OnJoinRealtimePlayer (0, profile);
                     }
                 ));
             }));
+        }
+
+        private IEnumerator WaitForCreateRoom (string roomName, Action<string, int, string> onCreate)
+        {
+            SetState (State.WaitForCreateRoom);
+
+            for (int i = 0; i < _timeoutForWaitForCreateRoom; i++)
+            {
+                EzGetRoomResult result = null;
+                yield return Gs2Manager.Instance.GetRoom (roomName, r => result = r.Result);
+                if (!string.IsNullOrEmpty (result.Item.IpAddress))
+                {
+                    onCreate.SafeInvoke (result.Item.IpAddress, result.Item.Port, result.Item.EncryptionKey);
+                    yield break;
+                }
+
+                yield return new WaitForSeconds (1f);
+            }
         }
     }
 }
