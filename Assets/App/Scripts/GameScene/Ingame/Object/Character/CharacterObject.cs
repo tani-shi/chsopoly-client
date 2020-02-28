@@ -1,5 +1,7 @@
+using Chsopoly.BaseSystem.Gs2;
 using Chsopoly.BaseSystem.MasterData;
 using Chsopoly.GameScene.Ingame.Event;
+using Chsopoly.Gs2.Models;
 using Chsopoly.MasterData.DAO.Ingame;
 using UnityEngine;
 
@@ -51,6 +53,14 @@ namespace Chsopoly.GameScene.Ingame.Object.Character
             }
         }
 
+        public Vector2 worldPosition
+        {
+            get
+            {
+                return _transform.position;
+            }
+        }
+
         private float _moveSpeed = 0;
         private float _moveVelocity = 0;
         private float _jumpHeight = 0;
@@ -59,6 +69,8 @@ namespace Chsopoly.GameScene.Ingame.Object.Character
         private bool _isLanding = false;
         private Rigidbody2D _rigidbody = null;
         private Transform _transform = null;
+        private bool _isPlayer = false;
+        private bool _direction = true;
 
         public override void Initialize (uint id)
         {
@@ -73,25 +85,9 @@ namespace Chsopoly.GameScene.Ingame.Object.Character
             _aerialJumpCount = data.aerialJumpCount;
         }
 
-        public void SetMoveVelocity (bool direction)
+        public void SetPlayerCharacter (bool isPlayer)
         {
-            if (StateMachine.CurrentState == CharacterStateMachine.State.Dead ||
-                StateMachine.CurrentState == CharacterStateMachine.State.Squat ||
-                StateMachine.CurrentState == CharacterStateMachine.State.Appeal)
-            {
-                return;
-            }
-
-            _moveVelocity = _moveSpeed * (direction ? 1.0f : -1.0f);
-
-            if (direction)
-            {
-                _transform.localScale = Vector2.one;
-            }
-            else
-            {
-                _transform.localScale = new Vector2 (-1, 1);
-            }
+            _isPlayer = isPlayer;
         }
 
         public void SetPositionToStartPoint ()
@@ -104,41 +100,54 @@ namespace Chsopoly.GameScene.Ingame.Object.Character
             }
         }
 
-        public void SetStateIdle ()
+        public bool Idle ()
         {
-            StateMachine.SetNextState (CharacterStateMachine.State.Idle, this);
+            return StateMachine.SetNextState (CharacterStateMachine.State.Idle, this);
         }
 
-        public void SetStateRun ()
+        public bool Move (bool direction)
         {
-            StateMachine.SetNextState (CharacterStateMachine.State.Run, this);
-        }
-
-        public void SetStateJump ()
-        {
-            StateMachine.SetNextState (CharacterStateMachine.State.Jump, this);
-        }
-
-        public void SetStateAppeal ()
-        {
-            StateMachine.SetNextState (CharacterStateMachine.State.Appeal, this);
-        }
-
-        public void Jump ()
-        {
-            _rigidbody.velocity = new Vector2 ((_moveVelocity * Time.deltaTime) + _rigidbody.velocity.x, Mathf.Sqrt (-2.0f * Physics2D.gravity.y * _jumpHeight));
-
-            if (!_isLanding)
+            if (SetMoveVelocity (direction))
             {
-                _aerialJumpCounter++;
+                StateMachine.SetNextState (CharacterStateMachine.State.Run, this);
+                return true;
             }
-
-            _isLanding = false;
+            return false;
         }
 
-        public void ResetAerialJumpCounter ()
+        public bool Appeal ()
         {
+            return StateMachine.SetNextState (CharacterStateMachine.State.Appeal, this);
+        }
+
+        public bool Jump (Vector2 position, bool force = false)
+        {
+            if (StateMachine.SetNextState (CharacterStateMachine.State.Jump, this, force))
+            {
+                _transform.position = position;
+                _rigidbody.velocity = new Vector2 ((_moveVelocity * Time.deltaTime) + _rigidbody.velocity.x, Mathf.Sqrt (-2.0f * Physics2D.gravity.y * _jumpHeight));
+
+                if (!_isLanding)
+                {
+                    _aerialJumpCounter++;
+                }
+
+                _isLanding = false;
+                return true;
+            }
+            return false;
+        }
+
+        public bool Land (Vector2 position)
+        {
+            Idle ();
+
+            _isLanding = true;
+            _rigidbody.velocity = new Vector2 (_rigidbody.velocity.x, 0);
+            _transform.position = position;
             _aerialJumpCounter = 0;
+
+            return true;
         }
 
         protected override void FixedUpdate ()
@@ -157,16 +166,47 @@ namespace Chsopoly.GameScene.Ingame.Object.Character
             _moveVelocity = 0f;
         }
 
+        private bool SetMoveVelocity (bool direction)
+        {
+            if (StateMachine.CurrentState == CharacterStateMachine.State.Dead ||
+                StateMachine.CurrentState == CharacterStateMachine.State.Squat ||
+                StateMachine.CurrentState == CharacterStateMachine.State.Appeal)
+            {
+                return false;
+            }
+
+            _moveVelocity = _moveSpeed * (direction ? 1.0f : -1.0f);
+            _direction = direction;
+
+            if (direction)
+            {
+                _transform.localScale = Vector2.one;
+            }
+            else
+            {
+                _transform.localScale = new Vector2 (-1, 1);
+            }
+
+            return true;
+        }
+
         void OnTriggerEnter2D (Collider2D collision)
         {
             if (collision.gameObject.tag == IngameSettings.Tags.GoalPoint)
             {
-                SetStateAppeal ();
+                Appeal ();
             }
-            else if (!_isLanding)
+            else if (!_isLanding && _isPlayer)
             {
-                _isLanding = true;
-                _rigidbody.velocity = new Vector2 (_rigidbody.velocity.x, 0);
+                if (Land (worldPosition))
+                {
+                    var packet = new CharacterObjectLand ()
+                    {
+                        x = worldPosition.x,
+                        y = worldPosition.y,
+                    };
+                    Gs2Manager.Instance.SendRelayMessage (packet);
+                }
             }
         }
 

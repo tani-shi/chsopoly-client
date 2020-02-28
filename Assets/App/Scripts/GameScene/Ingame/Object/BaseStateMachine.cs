@@ -87,12 +87,15 @@ namespace Chsopoly.GameScene.Ingame.Object
             _stateTimer = -1;
         }
 
-        public void SetNextState (STATE state, OBJ owner, bool force = false)
+        public bool SetNextState (STATE state, OBJ owner, bool force = false)
         {
             if (CanSetState (state, owner) || force)
             {
                 _nextState = state;
+                return true;
             }
+
+            return false;
         }
 
         public bool CanSetState (STATE state, OBJ owner)

@@ -56,7 +56,7 @@ namespace Chsopoly.GameScene.Title
                     _guideText.text = MessageWaitForTapScreen;
                     break;
                 case State.Error:
-                    _guideText.text = string.Format (MessageErrorFormat, _exception, _exception.Message);
+                    _guideText.text = string.Format (MessageErrorFormat, _exception.GetType ().FullName, _exception.Message);
                     break;
             }
         }

@@ -1,4 +1,6 @@
+using Chsopoly.BaseSystem.Gs2;
 using Chsopoly.GameScene.Ingame.Object.Character;
+using Chsopoly.Gs2.Models;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -34,17 +36,15 @@ namespace Chsopoly.GameScene.Ingame.UI
 #if UNITY_EDITOR
             if (Input.GetKeyDown (KeyCode.A) || Input.GetKey (KeyCode.A))
             {
-                _playerCharacter.SetMoveVelocity (false);
-                _playerCharacter.SetStateRun ();
+                Move (false);
             }
             if (Input.GetKeyDown (KeyCode.D) || Input.GetKey (KeyCode.D))
             {
-                _playerCharacter.SetMoveVelocity (true);
-                _playerCharacter.SetStateRun ();
+                Move (true);
             }
             if (Input.GetKeyDown (KeyCode.Space))
             {
-                _playerCharacter.SetStateJump ();
+                Jump ();
             }
             if (Input.GetKeyDown (KeyCode.R))
             {
@@ -54,8 +54,7 @@ namespace Chsopoly.GameScene.Ingame.UI
 
             if (_dragging)
             {
-                _playerCharacter.SetMoveVelocity (_draggingDirection);
-                _playerCharacter.SetStateRun ();
+                Move (_draggingDirection);
             }
         }
 
@@ -96,7 +95,32 @@ namespace Chsopoly.GameScene.Ingame.UI
             if ((_lastPointDownPosition - eventData.position).sqrMagnitude < _tapDistanceThreshold &&
                 (Time.time - _lastPointDownTime) < _tapTimeThreshold)
             {
-                _playerCharacter.SetStateJump ();
+                _playerCharacter.Jump (_playerCharacter.worldPosition);
+            }
+        }
+
+        private void Move (bool direction)
+        {
+            if (_playerCharacter.Move (direction))
+            {
+                var packet = new CharacterObjectMove ()
+                {
+                    direction = direction
+                };
+                Gs2Manager.Instance.SendRelayMessage (packet);
+            }
+        }
+
+        private void Jump ()
+        {
+            if (_playerCharacter.Jump (_playerCharacter.worldPosition))
+            {
+                var packet = new CharacterObjectJump ()
+                {
+                    x = _playerCharacter.worldPosition.x,
+                    y = _playerCharacter.worldPosition.y,
+                };
+                Gs2Manager.Instance.SendRelayMessage (packet);
             }
         }
     }

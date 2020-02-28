@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using Chsopoly.BaseSystem.Gs2;
 using Chsopoly.BaseSystem.MasterData;
 using Chsopoly.GameScene.Ingame.Event;
 using Chsopoly.GameScene.Ingame.Factory;
 using Chsopoly.GameScene.Ingame.Object.Character;
 using Chsopoly.GameScene.Ingame.Object.Gimmick;
 using Chsopoly.GameScene.Ingame.Pool;
+using Chsopoly.Gs2.Models;
 using Chsopoly.Libs.Extensions;
 using Chsopoly.MasterData.DAO.Ingame;
 using Chsopoly.MasterData.VO.Ingame;
@@ -58,7 +60,24 @@ namespace Chsopoly.GameScene.Ingame
             }
         }
 
+        public IEnumerable<CharacterObject> CharacterObjects
+        {
+            get
+            {
+                return _characterObjects;
+            }
+        }
+
+        public IEnumerable<CharacterObject> OtherCharacterObjects
+        {
+            get
+            {
+                return _otherCharacterObjects;
+            }
+        }
+
         private List<GameObject> _stageObjects = new List<GameObject> ();
+        private List<CharacterObject> _otherCharacterObjects = new List<CharacterObject> ();
         private List<CharacterObject> _characterObjects = new List<CharacterObject> ();
         private List<GimmickObject> _gimmickObjects = new List<GimmickObject> ();
         private GameObject _field = null;
@@ -66,7 +85,7 @@ namespace Chsopoly.GameScene.Ingame
         private StageVO _stageData = null;
         private uint[] _gimmickLotteryTable = null;
 
-        public IEnumerator Load (uint stageId, uint[] characterIds, uint[] gimmickIds)
+        public IEnumerator Load (uint stageId, uint playerCharacterId, uint[] otherCharacterIds, uint[] gimmickIds)
         {
             if (_stageData != null)
             {
@@ -88,9 +107,10 @@ namespace Chsopoly.GameScene.Ingame
             _gimmickLotteryTable = lotteryTable.ToArray ();
 
             yield return new FieldFactory ().CreateField (_stageData.fieldName, transform, OnCreateField);
-            for (int i = 0; i < characterIds.Length; i++)
+            yield return new CharacterObjectFactory ().CreateCharacter (playerCharacterId, transform, OnCreateObject);
+            for (int i = 0; i < otherCharacterIds.Length; i++)
             {
-                yield return new CharacterObjectFactory ().CreateCharacter (characterIds[i], transform, OnCreateObject);
+                yield return new CharacterObjectFactory ().CreateCharacter (otherCharacterIds[i], transform, OnCreateObject);
             }
             for (int i = 0; i < IngameSettings.Rules.MaxGimmickQueueCount; i++)
             {
@@ -111,6 +131,20 @@ namespace Chsopoly.GameScene.Ingame
             }
 
             StartCoroutine (new GimmickObjectFactory ().CreateGimmick (DrawGimmickId (), transform, OnCreateObject));
+        }
+
+        public void ApplyRelayMessage (int playerIndex, Gs2PacketModel model)
+        {
+            if (playerIndex < 0 || playerIndex >= _otherCharacterObjects.Count)
+            {
+                return;
+            }
+
+            if (model is CharacterObjectMove)
+            {
+                var m = model as CharacterObjectMove;
+                _otherCharacterObjects[playerIndex].Move (m.direction);
+            }
         }
 
         private void OnLoadComplete ()
@@ -147,10 +181,20 @@ namespace Chsopoly.GameScene.Ingame
             _characterObjects.AddIfNotNull (obj.GetComponent<CharacterObject> ());
             _gimmickObjects.AddIfNotNull (obj.GetComponent<GimmickObject> ());
 
-            // The character object that is created first will be a player character.
-            if (_playerCharacter == null && obj.HasComponent<CharacterObject> ())
+            if (obj.HasComponent<CharacterObject> ())
             {
-                _playerCharacter = obj.GetComponent<CharacterObject> ();
+                // The character object that is created first will be a player character.
+                if (_playerCharacter == null)
+                {
+                    _playerCharacter = obj.GetComponent<CharacterObject> ();
+                    _playerCharacter.SetPlayerCharacter (true);
+                }
+                else
+                {
+                    var other = obj.GetComponent<CharacterObject> ();
+                    _otherCharacterObjects.Add (other);
+                    other.SetPlayerCharacter (false);
+                }
             }
 
             if (obj.HasComponent<GimmickObject> ())

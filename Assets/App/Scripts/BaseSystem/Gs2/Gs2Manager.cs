@@ -31,10 +31,10 @@ namespace Chsopoly.BaseSystem.Gs2
         public event Action<string> onLeaveMatchingPlayer;
         public event Action<string> onCompleteMatching;
         public event Action<string> onCreateRealtimeRoom;
-        public event Action<uint, IGs2PacketModel> onRelayRealtimeMessage;
-        public event Action<uint, IGs2PacketModel> onJoinRealtimePlayer;
-        public event Action<uint, IGs2PacketModel> onLeaveRealtimePlayer;
-        public event Action<uint, IGs2PacketModel> onUpdateRealtimeProfile;
+        public event Action<uint, Gs2PacketModel> onRelayRealtimeMessage;
+        public event Action<uint, Gs2PacketModel> onJoinRealtimePlayer;
+        public event Action<uint, Gs2PacketModel> onLeaveRealtimePlayer;
+        public event Action<uint, Gs2PacketModel> onUpdateRealtimeProfile;
         public event OnCloseHandler onCloseRealtime;
         public event OnErrorHandler onErrorRealtime;
         public event OnGeneralErrorHandler onGeneralErrorRealtime;
@@ -42,7 +42,7 @@ namespace Chsopoly.BaseSystem.Gs2
         private Profile _profile = null;
         private global::Gs2.Unity.Client _client = null;
         private GameSession _gameSession = null;
-        private RealtimeSession _realtimeSession = null;
+        private RelayRealtimeSession _realtimeSession = null;
         private Queue<NotificationMessage> _messageQueue = new Queue<NotificationMessage> ();
 
         void Update ()
@@ -63,10 +63,8 @@ namespace Chsopoly.BaseSystem.Gs2
             AsyncResult<object> result = null;
             yield return _profile.Initialize (r => result = r);
 
-            if (result.Error != null)
+            if (!CheckError (result))
             {
-                Debug.LogError (result.Error.Message);
-                onError.SafeInvoke (result.Error);
                 yield break;
             }
 
@@ -80,10 +78,8 @@ namespace Chsopoly.BaseSystem.Gs2
             AsyncResult<EzCreateResult> result = null;
             yield return _client.Account.Create (r => result = r, Gs2Settings.AccountNamespaceName);
 
-            if (result.Error != null)
+            if (!CheckError (result))
             {
-                Debug.LogError (result.Error.Message);
-                onError.SafeInvoke (result.Error);
                 yield break;
             }
 
@@ -107,10 +103,8 @@ namespace Chsopoly.BaseSystem.Gs2
                     result1 = r;
                 });
 
-            if (result1.Error != null)
+            if (!CheckError (result1))
             {
-                Debug.LogError (result1.Error.Message);
-                onError.SafeInvoke (result1.Error);
                 yield break;
             }
 
@@ -122,10 +116,8 @@ namespace Chsopoly.BaseSystem.Gs2
                 true
             );
 
-            if (result2.Error != null)
+            if (!CheckError (result2))
             {
-                Debug.LogError (result2.Error.Message);
-                onError.SafeInvoke (result2.Error);
                 yield break;
             }
 
@@ -143,7 +135,7 @@ namespace Chsopoly.BaseSystem.Gs2
             yield return _client.Matchmaking.CreateGathering (
                 r => { result = r; },
                 _gameSession,
-                Gs2Settings.MatchingNamespaceName,
+                Gs2Settings.MatchmakingNamespaceName,
                 new EzPlayer
                 {
                     RoleName = "default"
@@ -159,10 +151,8 @@ namespace Chsopoly.BaseSystem.Gs2
                 new List<EzAttributeRange> ()
             );
 
-            if (result.Error != null)
+            if (!CheckError (result))
             {
-                Debug.LogError (result.Error.Message);
-                onError.SafeInvoke (result.Error);
                 yield break;
             }
 
@@ -180,7 +170,7 @@ namespace Chsopoly.BaseSystem.Gs2
             yield return _client.Matchmaking.DoMatchmaking (
                 r => { result = r; },
                 _gameSession,
-                Gs2Settings.MatchingNamespaceName,
+                Gs2Settings.MatchmakingNamespaceName,
                 new EzPlayer
                 {
                     RoleName = "default"
@@ -188,10 +178,35 @@ namespace Chsopoly.BaseSystem.Gs2
                 null
             );
 
-            if (result.Error != null)
+            if (!CheckError (result))
             {
-                Debug.LogError (result.Error.Message);
-                onError.SafeInvoke (result.Error);
+                yield break;
+            }
+
+            callback.Invoke (result);
+        }
+
+        public void CancelGathering (string gatheringName)
+        {
+            StartCoroutine (CancelGathering (gatheringName, null));
+        }
+
+        public IEnumerator CancelGathering (string gatheringName, Action<AsyncResult<EzCancelMatchmakingResult>> callback)
+        {
+            Debug.Log ("Gs2-CancelGathering: gatheringName=" + gatheringName);
+
+            ValidateGameSession ();
+
+            AsyncResult<EzCancelMatchmakingResult> result = null;
+            yield return _client.Matchmaking.CancelMatchmaking (
+                r => { result = r; },
+                _gameSession,
+                Gs2Settings.MatchmakingNamespaceName,
+                gatheringName
+            );
+
+            if (!CheckError (result))
+            {
                 yield break;
             }
 
@@ -211,16 +226,15 @@ namespace Chsopoly.BaseSystem.Gs2
                 roomName
             );
 
-            if (result.Error != null)
+            if (!CheckError (result))
             {
-                onError.SafeInvoke (result.Error);
                 yield break;
             }
 
             callback.SafeInvoke (result);
         }
 
-        public IEnumerator ConnectRoom (string ipAddress, int port, string encryptionKey, byte[] profile, Action<AsyncResult<RealtimeSession>> callback)
+        public IEnumerator ConnectRoom (string ipAddress, int port, string encryptionKey, Gs2PacketModel profile, Action<AsyncResult<RealtimeSession>> callback)
         {
             Debug.Log (string.Format ("Gs2-ConnectRoom: ipAddress={0} port={1} encryptionKey={2}", ipAddress, port, encryptionKey));
 
@@ -231,24 +245,24 @@ namespace Chsopoly.BaseSystem.Gs2
                 ipAddress,
                 port,
                 encryptionKey,
-                ByteString.CopyFrom (profile)
+                profile.Serialize ()
             );
 
             session.OnRelayMessage += message =>
             {
-                onRelayRealtimeMessage.SafeInvoke (message.ConnectionId, ModelDeserializer.Deserialize (message.Data.ToByteArray ()));
+                onRelayRealtimeMessage.SafeInvoke (message.ConnectionId, ModelDeserializer.Deserialize (message.Data));
             };
             session.OnJoinPlayer += player =>
             {
-                onJoinRealtimePlayer.SafeInvoke (player.ConnectionId, ModelDeserializer.Deserialize (player.Profile.ToByteArray ()));
+                onJoinRealtimePlayer.SafeInvoke (player.ConnectionId, ModelDeserializer.Deserialize (player.Profile));
             };
             session.OnLeavePlayer += player =>
             {
-                onLeaveRealtimePlayer.SafeInvoke (player.ConnectionId, ModelDeserializer.Deserialize (player.Profile.ToByteArray ()));
+                onLeaveRealtimePlayer.SafeInvoke (player.ConnectionId, ModelDeserializer.Deserialize (player.Profile));
             };
             session.OnUpdateProfile += player =>
             {
-                onUpdateRealtimeProfile.SafeInvoke (player.ConnectionId, ModelDeserializer.Deserialize (player.Profile.ToByteArray ()));
+                onUpdateRealtimeProfile.SafeInvoke (player.ConnectionId, ModelDeserializer.Deserialize (player.Profile));
             };
             session.OnClose += onCloseRealtime;
             session.OnError += onErrorRealtime;
@@ -257,15 +271,33 @@ namespace Chsopoly.BaseSystem.Gs2
             AsyncResult<bool> result = null;
             yield return session.Connect (this, r => result = r);
 
-            if (!session.Connected)
+            if (!CheckError (result))
             {
-                Debug.LogError (result.Error.Message);
-                onError.SafeInvoke (result.Error);
                 yield break;
             }
 
             _realtimeSession = session;
             callback.SafeInvoke (new AsyncResult<RealtimeSession> (session, null));
+        }
+
+        public void SendRelayMessage (Gs2PacketModel model)
+        {
+            StartCoroutine (SendRelayMessage (model, null));
+        }
+
+        public IEnumerator SendRelayMessage (Gs2PacketModel model, Action<AsyncResult<bool>> callback)
+        {
+            Debug.Log ("Gs2-SendRelayMessage: " + model.GetType ().Name + " " + JsonMapper.ToJson (model));
+
+            ValidateGameSession ();
+            ValidateRealtimeSession ();
+
+            AsyncResult<bool> result = null;
+            yield return _realtimeSession.Send (r => result = r, model.Serialize ());
+
+            CheckError (result);
+
+            callback.SafeInvoke (result);
         }
 
         private void OnNotificationMessage (NotificationMessage message)
@@ -320,6 +352,18 @@ namespace Chsopoly.BaseSystem.Gs2
             {
                 throw new Exception ("Realtime session is null, do connect room first.");
             }
+        }
+
+        private bool CheckError<T> (AsyncResult<T> result)
+        {
+            if (result.Error != null)
+            {
+                Debug.LogError (result.Error.GetType ().FullName + ":" + result.Error.Message);
+                onError.SafeInvoke (result.Error);
+                return false;
+            }
+
+            return true;
         }
     }
 }

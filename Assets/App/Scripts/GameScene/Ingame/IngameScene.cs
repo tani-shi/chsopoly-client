@@ -1,7 +1,12 @@
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using Chsopoly.BaseSystem.GameScene;
+using Chsopoly.BaseSystem.Gs2;
 using Chsopoly.BaseSystem.MasterData;
+using Chsopoly.GameScene.Ingame.Object.Character;
 using Chsopoly.GameScene.Ingame.UI;
+using Chsopoly.Gs2.Models;
 using Chsopoly.MasterData.DAO.Ingame;
 using UnityEngine;
 
@@ -9,6 +14,13 @@ namespace Chsopoly.GameScene.Ingame
 {
     public class IngameScene : BaseGameScene<IngameScene.Param>
     {
+        public class Param : IGameSceneParam
+        {
+            public uint stageId;
+            public uint characterId;
+            public Dictionary<uint, Profile> otherPlayers;
+        }
+
         [SerializeField]
         private IngameStage _stage = default;
         [SerializeField]
@@ -18,17 +30,31 @@ namespace Chsopoly.GameScene.Ingame
         [SerializeField]
         private GimmickBox _gimmickBox = default;
 
-        public class Param : IGameSceneParam
+        private Dictionary<uint, Profile> _otherPlayers = new Dictionary<uint, Profile> ();
+        private Dictionary<uint, int> _otherPlayerIndexMap = new Dictionary<uint, int> ();
+
+        void Start ()
         {
-            public uint stageId;
-            public uint[] characterIds;
+            Gs2Manager.Instance.onRelayRealtimeMessage += OnRelayMessage;
+        }
+
+        void Destroy ()
+        {
+            Gs2Manager.Instance.onRelayRealtimeMessage -= OnRelayMessage;
         }
 
         protected override IEnumerator LoadProc (Param param)
         {
+            _otherPlayers = param.otherPlayers;
+            foreach (var kv in param.otherPlayers)
+            {
+                _otherPlayerIndexMap.Add (kv.Key, _otherPlayers.Keys.ToList ().IndexOf (kv.Key));
+            }
+
+            var characterIds = param.otherPlayers.Values.ToList ().ConvertAll (o => o.characterId).ToArray ();
             var gimmickIds = MasterDataManager.Instance.Get<GimmickDAO> ().FindAll (o => o.id > 0).ConvertAll (o => o.id).ToArray ();
 
-            yield return _stage.Load (param.stageId, param.characterIds, gimmickIds);
+            yield return _stage.Load (param.stageId, param.characterId, characterIds, gimmickIds);
             yield return _gimmickBox.LoadTextures (gimmickIds);
 
             _controller.SetPlayer (_stage.PlayerCharacter);
@@ -44,6 +70,16 @@ namespace Chsopoly.GameScene.Ingame
             position.z = 0;
 
             _stage.PutGimmick (index, position);
+        }
+
+        private void OnRelayMessage (uint connectionId, Gs2PacketModel model)
+        {
+            if (!_otherPlayerIndexMap.ContainsKey (connectionId))
+            {
+                return;
+            }
+
+            _stage.ApplyRelayMessage (_otherPlayerIndexMap[connectionId], model);
         }
     }
 }

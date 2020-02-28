@@ -18,6 +18,7 @@ namespace Chsopoly.BaseSystem.Gs2.Editor
         private const string ModelSerializerScriptTemplate = @"// DON'T EDIT. THIS IS GENERATED AUTOMATICALLY.
 using System;
 using System.Text;
+using Google.Protobuf;
 
 namespace Chsopoly.Gs2.Models
 {
@@ -31,7 +32,7 @@ namespace Chsopoly.Gs2.Models
             }
         }
 
-        public byte[] Serialize ()
+        public override ByteString Serialize ()
         {
             var size = 0;
             var d0 = BitConverter.GetBytes (hashCode);
@@ -44,11 +45,12 @@ ${BYTES_CONVERTER}
             pos += d0.Length;
 ${BYTES_WRITER}
 
-            return buffer;
+            return ByteString.CopyFrom (buffer);
         }
 
-        public ${NAME} Deserialize (byte[] data)
+        public ${NAME} Deserialize (ByteString data)
         {
+            var bytes = data.ToByteArray ();
             var pos = BitConverter.GetBytes (hashCode).Length;
 ${DESERIALIZER}
 
@@ -58,14 +60,15 @@ ${DESERIALIZER}
 }";
         private const string ModelDeserializerScriptTemplate = @"// DON'T EDIT. THIS IS GENERATED AUTOMATICALLY.
 using System;
+using Google.Protobuf;
 
 namespace Chsopoly.BaseSystem.Gs2
 {
     public static class ModelDeserializer
     {
-        public static IGs2PacketModel Deserialize (byte[] data)
+        public static Gs2PacketModel Deserialize (ByteString data)
         {
-            switch (BitConverter.ToUInt32 (data, 0))
+            switch (BitConverter.ToUInt32 (data.ToByteArray (), 0))
             {
 ${CASES}
                 default:
@@ -117,23 +120,23 @@ ${CASES}
                     writerBuilder.AppendLine (string.Format ("pos += sizeof ({0});", field.FieldType.FullName));
 
                     if (field.FieldType == typeof (int))
-                        deserializerBuilder.AppendLine (string.Format ("{0} = BitConverter.ToInt32 (data, pos);", field.Name));
+                        deserializerBuilder.AppendLine (string.Format ("{0} = BitConverter.ToInt32 (bytes, pos);", field.Name));
                     if (field.FieldType == typeof (uint))
-                        deserializerBuilder.AppendLine (string.Format ("{0} = BitConverter.ToUInt32 (data, pos);", field.Name));
+                        deserializerBuilder.AppendLine (string.Format ("{0} = BitConverter.ToUInt32 (bytes, pos);", field.Name));
                     if (field.FieldType == typeof (float))
-                        deserializerBuilder.AppendLine (string.Format ("{0} = BitConverter.ToSingle (data, pos);", field.Name));
+                        deserializerBuilder.AppendLine (string.Format ("{0} = BitConverter.ToSingle (bytes, pos);", field.Name));
                     if (field.FieldType == typeof (short))
-                        deserializerBuilder.AppendLine (string.Format ("{0} = BitConverter.ToInt16 (data, pos);", field.Name));
+                        deserializerBuilder.AppendLine (string.Format ("{0} = BitConverter.ToInt16 (bytes, pos);", field.Name));
                     if (field.FieldType == typeof (ushort))
-                        deserializerBuilder.AppendLine (string.Format ("{0} = BitConverter.ToUInt16 (data, pos);", field.Name));
+                        deserializerBuilder.AppendLine (string.Format ("{0} = BitConverter.ToUInt16 (bytes, pos);", field.Name));
                     if (field.FieldType == typeof (long))
-                        deserializerBuilder.AppendLine (string.Format ("{0} = BitConverter.ToInt64 (data, pos);", field.Name));
+                        deserializerBuilder.AppendLine (string.Format ("{0} = BitConverter.ToInt64 (bytes, pos);", field.Name));
                     if (field.FieldType == typeof (double))
-                        deserializerBuilder.AppendLine (string.Format ("{0} = BitConverter.ToDouble (data, pos);", field.Name));
+                        deserializerBuilder.AppendLine (string.Format ("{0} = BitConverter.ToDouble (bytes, pos);", field.Name));
                     if (field.FieldType == typeof (char))
-                        deserializerBuilder.AppendLine (string.Format ("{0} = BitConverter.ToChar (data, pos);", field.Name));
+                        deserializerBuilder.AppendLine (string.Format ("{0} = BitConverter.ToChar (bytes, pos);", field.Name));
                     if (field.FieldType == typeof (bool))
-                        deserializerBuilder.AppendLine (string.Format ("{0} = BitConverter.ToBoolean (data, pos);", field.Name));
+                        deserializerBuilder.AppendLine (string.Format ("{0} = BitConverter.ToBoolean (bytes, pos);", field.Name));
 
                     deserializerBuilder.AppendLine (string.Format ("pos += sizeof ({0});", field.FieldType.FullName));
                 }
@@ -143,7 +146,7 @@ ${CASES}
                     converterBuilder.AppendLine (string.Format ("size += d{0}.Length;", number));
                     writerBuilder.AppendLine (string.Format ("Buffer.BlockCopy (d{0}, 0, buffer, pos, d{0}.Length);", number));
                     writerBuilder.AppendLine (string.Format ("pos += d{0}.Length;", number));
-                    deserializerBuilder.AppendLine (string.Format ("{0} = Encoding.UTF8.GetString (data, pos, 1);", field.Name));
+                    deserializerBuilder.AppendLine (string.Format ("{0} = Encoding.UTF8.GetString (bytes, pos, 1);", field.Name));
                     deserializerBuilder.AppendLine (string.Format ("pos += Encoding.UTF8.GetByteCount ({0});", field.Name));
                 }
                 else
@@ -190,7 +193,7 @@ ${CASES}
         {
             foreach (var type in Assembly.Load ("Assembly-CSharp").GetTypes ())
             {
-                if (type.GetInterfaces ().Contains (typeof (IGs2PacketModel)))
+                if (type.IsSubclassOf (typeof (Gs2PacketModel)))
                 {
                     yield return type;
                 }

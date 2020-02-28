@@ -10,6 +10,7 @@ using Chsopoly.Gs2.Models;
 using Chsopoly.Libs.Extensions;
 using Chsopoly.UserData.Entity;
 using Gs2.Core.Exception;
+using Gs2.Unity.Gs2Matchmaking.Model;
 using Gs2.Unity.Gs2Realtime.Result;
 using UnityEngine;
 using UnityEngine.UI;
@@ -48,10 +49,10 @@ namespace Chsopoly.GameScene.Matching
 
         private int _capacity = 0;
         private State _currentState = State.None;
-        private bool _createdRoom = false;
         private int _timeoutForWaitForCreateRoom = 60;
         private Dictionary<uint, Profile> _joinedPlayers = new Dictionary<uint, Profile> ();
         private Gs2Exception _exception = null;
+        private EzGathering _gathering = null;
 
         void Update ()
         {
@@ -79,7 +80,7 @@ namespace Chsopoly.GameScene.Matching
                     _progressText.text = MessageWaitForOtherPlayers;
                     break;
                 case State.Error:
-                    _progressText.text = string.Format (MessageErrorFormat, _exception, _exception.Message);
+                    _progressText.text = string.Format (MessageErrorFormat, _exception.GetType ().FullName, _exception.Message);
                     break;
             }
         }
@@ -89,6 +90,11 @@ namespace Chsopoly.GameScene.Matching
             Gs2Manager.Instance.onCompleteMatching -= OnMatchingComplete;
             Gs2Manager.Instance.onJoinRealtimePlayer -= OnJoinRealtimePlayer;
             Gs2Manager.Instance.onError -= OnGs2Error;
+
+            if (_gathering != null)
+            {
+                Gs2Manager.Instance.CancelGathering (_gathering.GatheringId);
+            }
         }
 
         protected override IEnumerator LoadProc (Param param)
@@ -109,11 +115,15 @@ namespace Chsopoly.GameScene.Matching
                     StartCoroutine (Gs2Manager.Instance.CreateGathering (param.capacity, r2 =>
                     {
                         SetState (State.Matching);
+
+                        _gathering = r2.Result.Item;
                     }));
                 }
                 else
                 {
                     SetState (State.Matching);
+
+                    _gathering = r1.Result.Item;
                 }
             }));
 
@@ -125,7 +135,7 @@ namespace Chsopoly.GameScene.Matching
             StartConnectRoom (gatheringId);
         }
 
-        private void OnJoinRealtimePlayer (uint connectionId, IGs2PacketModel model)
+        private void OnJoinRealtimePlayer (uint connectionId, Gs2PacketModel model)
         {
             var profile = model as Profile;
             _joinedPlayers.Add (connectionId, profile);
@@ -134,7 +144,7 @@ namespace Chsopoly.GameScene.Matching
             {
                 GameSceneManager.Instance.ChangeScene (GameSceneType.Ingame, new IngameScene.Param ()
                 {
-                    stageId = 1, characterIds = _joinedPlayers.Values.ToList ().ConvertAll (o => o.characterId).ToArray (),
+                    stageId = 1, otherPlayers = _joinedPlayers,
                 });
             }
         }
@@ -168,11 +178,10 @@ namespace Chsopoly.GameScene.Matching
                     ipAddress,
                     port,
                     encryptionKey,
-                    profile.Serialize (),
+                    profile,
                     r2 =>
                     {
                         SetState (State.WaitForOtherPlayers);
-                        OnJoinRealtimePlayer (0, profile);
                     }
                 ));
             }));

@@ -9,16 +9,11 @@ namespace Chsopoly.GameScene.Ingame.Object.Character.State
         {
             owner.Model.PlayAnimation (CharacterObjectModel.Animation.Jump);
             owner.StateMachine.SetStateTimerInfinite ();
-            owner.Jump ();
         }
 
         void IObjectState<CharacterStateMachine.State, CharacterObjectModel.Animation, CharacterObject>.OnUpdate (CharacterObject owner)
         {
-            if (owner.IsLanding)
-            {
-                owner.SetStateIdle ();
-                owner.ResetAerialJumpCounter ();
-            }
+
         }
 
         void IObjectState<CharacterStateMachine.State, CharacterObjectModel.Animation, CharacterObject>.OnComplete (CharacterObject owner)

@@ -17,7 +17,7 @@ namespace Chsopoly.GameScene.Ingame.Object.Character.State
 
         void IObjectState<CharacterStateMachine.State, CharacterObjectModel.Animation, CharacterObject>.OnComplete (CharacterObject owner)
         {
-            owner.SetStateIdle ();
+            owner.Idle ();
         }
 
         void IObjectState<CharacterStateMachine.State, CharacterObjectModel.Animation, CharacterObject>.OnExit (CharacterObject owner)
