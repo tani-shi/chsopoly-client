@@ -35,9 +35,9 @@ namespace Chsopoly.BaseSystem.Gs2
         public event Action<uint, Gs2PacketModel> onJoinRealtimePlayer;
         public event Action<uint, Gs2PacketModel> onLeaveRealtimePlayer;
         public event Action<uint, Gs2PacketModel> onUpdateRealtimeProfile;
-        public event OnCloseHandler onCloseRealtime;
-        public event OnErrorHandler onErrorRealtime;
-        public event OnGeneralErrorHandler onGeneralErrorRealtime;
+        public event Action<uint, string, bool> onCloseRealtime;
+        public event Action<string> onErrorRealtime;
+        public event Action<string> onGeneralErrorRealtime;
 
         private Profile _profile = null;
         private global::Gs2.Unity.Client _client = null;
@@ -250,23 +250,43 @@ namespace Chsopoly.BaseSystem.Gs2
 
             session.OnRelayMessage += message =>
             {
-                onRelayRealtimeMessage.SafeInvoke (message.ConnectionId, ModelDeserializer.Deserialize (message.Data));
+                var model = ModelDeserializer.Deserialize (message.Data);
+                Debug.Log ("Gs2Realtime-OnRelayMessage: " + message.ConnectionId + " " + JsonMapper.ToJson (model));
+                onRelayRealtimeMessage.SafeInvoke (message.ConnectionId, model);
             };
             session.OnJoinPlayer += player =>
             {
-                onJoinRealtimePlayer.SafeInvoke (player.ConnectionId, ModelDeserializer.Deserialize (player.Profile));
+                var model = ModelDeserializer.Deserialize (player.Profile);
+                Debug.Log ("Gs2Realtime-OnJoinPlayer: " + player.ConnectionId + " " + JsonMapper.ToJson (model));
+                onJoinRealtimePlayer.SafeInvoke (player.ConnectionId, model);
             };
             session.OnLeavePlayer += player =>
             {
-                onLeaveRealtimePlayer.SafeInvoke (player.ConnectionId, ModelDeserializer.Deserialize (player.Profile));
+                var model = ModelDeserializer.Deserialize (player.Profile);
+                Debug.Log ("Gs2Realtime-OnLeavePlayer: " + player.ConnectionId + " " + JsonMapper.ToJson (model));
+                onLeaveRealtimePlayer.SafeInvoke (player.ConnectionId, model);
             };
             session.OnUpdateProfile += player =>
             {
-                onUpdateRealtimeProfile.SafeInvoke (player.ConnectionId, ModelDeserializer.Deserialize (player.Profile));
+                var model = ModelDeserializer.Deserialize (player.Profile);
+                Debug.Log ("Gs2Realtime-OnUpdateProfile: " + player.ConnectionId + " " + JsonMapper.ToJson (model));
+                onUpdateRealtimeProfile.SafeInvoke (player.ConnectionId, model);
             };
-            session.OnClose += onCloseRealtime;
-            session.OnError += onErrorRealtime;
-            session.OnGeneralError += onGeneralErrorRealtime;
+            session.OnClose += args =>
+            {
+                Debug.Log ("Gs2Realtime-OnCloseRealtime: " + JsonMapper.ToJson (args));
+                onCloseRealtime.SafeInvoke (args.Code, args.Reason, args.WasClean);
+            };
+            session.OnError += args =>
+            {
+                Debug.LogError ("Gs2Realtime-OnError: " + args.Message);
+                onErrorRealtime.SafeInvoke (args.Message);
+            };
+            session.OnGeneralError += args =>
+            {
+                Debug.LogError ("Gs2Realtime-OnGeneralError: " + args.Message);
+                onGeneralErrorRealtime.SafeInvoke (args.Message);
+            };
 
             AsyncResult<bool> result = null;
             yield return session.Connect (this, r => result = r);

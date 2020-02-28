@@ -140,7 +140,7 @@ namespace Chsopoly.GameScene.Matching
             var profile = model as Profile;
             _joinedPlayers.Add (connectionId, profile);
 
-            if (_joinedPlayers.Count == _capacity)
+            if (_joinedPlayers.Count == _capacity - 1)
             {
                 GameSceneManager.Instance.ChangeScene (GameSceneType.Ingame, new IngameScene.Param ()
                 {
