@@ -18,5 +18,13 @@ namespace Chsopoly.Libs.Extensions
             }
             return self.AddComponent<T> ();
         }
+
+        public static void SetLayerRecursively (this GameObject self, int layer)
+        {
+            foreach (var component in self.GetComponentsInChildren<Transform> ())
+            {
+                component.gameObject.layer = layer;
+            }
+        }
     }
 }

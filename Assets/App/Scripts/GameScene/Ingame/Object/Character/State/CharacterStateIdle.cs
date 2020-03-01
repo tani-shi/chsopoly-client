@@ -1,4 +1,5 @@
 using Chsopoly.GameScene.Ingame.Object.Character;
+using UnityEngine;
 
 namespace Chsopoly.GameScene.Ingame.Object.Character.State
 {
@@ -8,6 +9,8 @@ namespace Chsopoly.GameScene.Ingame.Object.Character.State
         {
             owner.Model.PlayAnimation (CharacterObjectModel.Animation.Idle);
             owner.StateMachine.SetStateTimerInfinite ();
+            owner.SetMoveDirection (CharacterObject.MoveDirection.None);
+            owner.Rigidbody.velocity = new Vector2 (0, owner.Rigidbody.velocity.y);
         }
 
         void IObjectState<CharacterStateMachine.State, CharacterObjectModel.Animation, CharacterObject>.OnUpdate (CharacterObject owner)

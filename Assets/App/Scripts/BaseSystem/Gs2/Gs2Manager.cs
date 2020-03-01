@@ -26,6 +26,8 @@ namespace Chsopoly.BaseSystem.Gs2
 {
     public class Gs2Manager : SingletonMonoBehaviour<Gs2Manager>
     {
+        private const string KeyJoinedGatheringName = "Gs2JoinedGatheringName";
+
         public event Action<Gs2Exception> onError;
         public event Action<string> onJoinMatchingPlayer;
         public event Action<string> onLeaveMatchingPlayer;
@@ -122,6 +124,16 @@ namespace Chsopoly.BaseSystem.Gs2
             }
 
             _gameSession = result1.Result;
+
+            var joinedGathering = PlayerPrefs.GetString (KeyJoinedGatheringName);
+            if (!string.IsNullOrEmpty (joinedGathering))
+            {
+                yield return CancelGathering (joinedGathering, r =>
+                {
+                    PlayerPrefs.SetString (KeyJoinedGatheringName, string.Empty);
+                });
+            }
+
             callback.Invoke (result1);
         }
 
@@ -156,7 +168,11 @@ namespace Chsopoly.BaseSystem.Gs2
                 yield break;
             }
 
-            onJoinMatchingPlayer.SafeInvoke (_gameSession.AccessToken.userId);
+            if (result.Result.Item != null)
+            {
+                PlayerPrefs.SetString (KeyJoinedGatheringName, result.Result.Item.GatheringId);
+            }
+
             callback.SafeInvoke (result);
         }
 
@@ -183,6 +199,11 @@ namespace Chsopoly.BaseSystem.Gs2
                 yield break;
             }
 
+            if (result.Result.Item != null)
+            {
+                PlayerPrefs.SetString (KeyJoinedGatheringName, result.Result.Item.GatheringId);
+            }
+
             callback.Invoke (result);
         }
 
@@ -205,38 +226,44 @@ namespace Chsopoly.BaseSystem.Gs2
                 gatheringName
             );
 
-            if (!CheckError (result))
-            {
-                yield break;
-            }
-
             callback.Invoke (result);
         }
 
-        public IEnumerator GetRoom (string roomName, Action<AsyncResult<EzGetRoomResult>> callback)
+        public IEnumerator GetRoom (string roomName, Action<AsyncResult<EzGetRoomResult>> callback, int timeout = -1)
         {
             Debug.Log ("Gs2-GetRoom: roomName=" + roomName);
 
             ValidateGameSession ();
 
-            AsyncResult<EzGetRoomResult> result = null;
-            yield return _client.Realtime.GetRoom (
-                r => { result = r; },
-                Gs2Settings.RealtimeNamespaceName,
-                roomName
-            );
-
-            if (!CheckError (result))
+            while (timeout != 0)
             {
-                yield break;
-            }
+                AsyncResult<EzGetRoomResult> result = null;
+                yield return _client.Realtime.GetRoom (
+                    r => { result = r; },
+                    Gs2Settings.RealtimeNamespaceName,
+                    roomName
+                );
 
-            callback.SafeInvoke (result);
+                if (!CheckError (result))
+                {
+                    yield break;
+                }
+
+                if (!string.IsNullOrEmpty (result.Result.Item.IpAddress))
+                {
+                    callback.SafeInvoke (result);
+                    yield break;
+                }
+
+                timeout--;
+
+                yield return new WaitForSeconds (1f);
+            }
         }
 
         public IEnumerator ConnectRoom (string ipAddress, int port, string encryptionKey, Gs2PacketModel profile, Action<AsyncResult<RealtimeSession>> callback)
         {
-            Debug.Log (string.Format ("Gs2-ConnectRoom: ipAddress={0} port={1} encryptionKey={2}", ipAddress, port, encryptionKey));
+            Debug.Log (string.Format ("Gs2-ConnectRoom: ipAddress={0} port={1} encryptionKey={2} profile={3}", ipAddress, port, encryptionKey, JsonUtility.ToJson (profile)));
 
             ValidateGameSession ();
 
@@ -251,30 +278,30 @@ namespace Chsopoly.BaseSystem.Gs2
             session.OnRelayMessage += message =>
             {
                 var model = ModelDeserializer.Deserialize (message.Data);
-                Debug.Log ("Gs2Realtime-OnRelayMessage: " + message.ConnectionId + " " + JsonMapper.ToJson (model));
+                Debug.Log (string.Format ("Gs2Realtime-OnRelayMessage: {0}:{1} {2}", model.GetType ().Name, message.ConnectionId, JsonUtility.ToJson (model)));
                 onRelayRealtimeMessage.SafeInvoke (message.ConnectionId, model);
             };
             session.OnJoinPlayer += player =>
             {
                 var model = ModelDeserializer.Deserialize (player.Profile);
-                Debug.Log ("Gs2Realtime-OnJoinPlayer: " + player.ConnectionId + " " + JsonMapper.ToJson (model));
+                Debug.Log ("Gs2Realtime-OnJoinPlayer: " + player.ConnectionId + " " + JsonUtility.ToJson (model));
                 onJoinRealtimePlayer.SafeInvoke (player.ConnectionId, model);
             };
             session.OnLeavePlayer += player =>
             {
                 var model = ModelDeserializer.Deserialize (player.Profile);
-                Debug.Log ("Gs2Realtime-OnLeavePlayer: " + player.ConnectionId + " " + JsonMapper.ToJson (model));
+                Debug.Log ("Gs2Realtime-OnLeavePlayer: " + player.ConnectionId + " " + JsonUtility.ToJson (model));
                 onLeaveRealtimePlayer.SafeInvoke (player.ConnectionId, model);
             };
             session.OnUpdateProfile += player =>
             {
                 var model = ModelDeserializer.Deserialize (player.Profile);
-                Debug.Log ("Gs2Realtime-OnUpdateProfile: " + player.ConnectionId + " " + JsonMapper.ToJson (model));
+                Debug.Log ("Gs2Realtime-OnUpdateProfile: " + player.ConnectionId + " " + JsonUtility.ToJson (model));
                 onUpdateRealtimeProfile.SafeInvoke (player.ConnectionId, model);
             };
             session.OnClose += args =>
             {
-                Debug.Log ("Gs2Realtime-OnCloseRealtime: " + JsonMapper.ToJson (args));
+                Debug.Log ("Gs2Realtime-OnCloseRealtime: " + JsonUtility.ToJson (args));
                 onCloseRealtime.SafeInvoke (args.Code, args.Reason, args.WasClean);
             };
             session.OnError += args =>
@@ -305,9 +332,9 @@ namespace Chsopoly.BaseSystem.Gs2
             StartCoroutine (SendRelayMessage (model, null));
         }
 
-        public IEnumerator SendRelayMessage (Gs2PacketModel model, Action<AsyncResult<bool>> callback)
+        private IEnumerator SendRelayMessage (Gs2PacketModel model, Action<AsyncResult<bool>> callback)
         {
-            Debug.Log ("Gs2-SendRelayMessage: " + model.GetType ().Name + " " + JsonMapper.ToJson (model));
+            Debug.Log (string.Format ("Gs2-SendRelayMessage: {0} {1}", model.GetType ().Name, JsonUtility.ToJson (model)));
 
             ValidateGameSession ();
             ValidateRealtimeSession ();
@@ -315,7 +342,10 @@ namespace Chsopoly.BaseSystem.Gs2
             AsyncResult<bool> result = null;
             yield return _realtimeSession.Send (r => result = r, model.Serialize ());
 
-            CheckError (result);
+            if (!CheckError (result))
+            {
+                yield break;
+            }
 
             callback.SafeInvoke (result);
         }

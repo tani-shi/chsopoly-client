@@ -33,7 +33,7 @@ namespace Chsopoly.GameScene.Ingame.Object.Gimmick
             return new GimmickStateIdle ();
         }
 
-        protected override bool CanConnectState (State state, GimmickObject owner)
+        protected override bool CanConnectState (State state)
         {
             switch (state)
             {
@@ -46,7 +46,7 @@ namespace Chsopoly.GameScene.Ingame.Object.Gimmick
             return false;
         }
 
-        protected override bool CanInterruptState (State state, GimmickObject owner)
+        protected override bool CanInterruptState (State state)
         {
             switch (state)
             {

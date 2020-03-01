@@ -49,7 +49,7 @@ namespace Chsopoly.GameScene.Matching
 
         private int _capacity = 0;
         private State _currentState = State.None;
-        private int _timeoutForWaitForCreateRoom = 60;
+        private int _timeoutForWaitForCreateRoom = 120;
         private Dictionary<uint, Profile> _joinedPlayers = new Dictionary<uint, Profile> ();
         private Gs2Exception _exception = null;
         private EzGathering _gathering = null;
@@ -90,11 +90,6 @@ namespace Chsopoly.GameScene.Matching
             Gs2Manager.Instance.onCompleteMatching -= OnMatchingComplete;
             Gs2Manager.Instance.onJoinRealtimePlayer -= OnJoinRealtimePlayer;
             Gs2Manager.Instance.onError -= OnGs2Error;
-
-            if (_gathering != null)
-            {
-                Gs2Manager.Instance.CancelGathering (_gathering.GatheringId);
-            }
         }
 
         protected override IEnumerator LoadProc (Param param)
@@ -142,9 +137,11 @@ namespace Chsopoly.GameScene.Matching
 
             if (_joinedPlayers.Count == _capacity - 1)
             {
+                var account = UserDataManager.Instance.Load<Account> ();
+
                 GameSceneManager.Instance.ChangeScene (GameSceneType.Ingame, new IngameScene.Param ()
                 {
-                    stageId = 1, otherPlayers = _joinedPlayers,
+                    stageId = 1, otherPlayers = _joinedPlayers, characterId = account.CharacterId
                 });
             }
         }
@@ -191,18 +188,9 @@ namespace Chsopoly.GameScene.Matching
         {
             SetState (State.WaitForCreateRoom);
 
-            for (int i = 0; i < _timeoutForWaitForCreateRoom; i++)
-            {
-                EzGetRoomResult result = null;
-                yield return Gs2Manager.Instance.GetRoom (roomName, r => result = r.Result);
-                if (!string.IsNullOrEmpty (result.Item.IpAddress))
-                {
-                    onCreate.SafeInvoke (result.Item.IpAddress, result.Item.Port, result.Item.EncryptionKey);
-                    yield break;
-                }
-
-                yield return new WaitForSeconds (1f);
-            }
+            yield return Gs2Manager.Instance.GetRoom (roomName,
+                r => onCreate.SafeInvoke (r.Result.Item.IpAddress, r.Result.Item.Port, r.Result.Item.EncryptionKey),
+                _timeoutForWaitForCreateRoom);
         }
     }
 }

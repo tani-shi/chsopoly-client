@@ -21,8 +21,9 @@ namespace Chsopoly.GameScene.Ingame.Factory
             var obj = handle.Result.CreateInstance (parent);
             var gimmick = obj.SafeAddComponent<GimmickObject> ();
             obj.SafeAddComponent<GimmickObjectModel> ();
-            obj.SafeAddComponent<GimmickStateMachine> ();
+            obj.SafeAddComponent<GimmickStateMachine> ().Initialize (gimmick);
             (obj.transform as RectTransform).pivot = new Vector2 (0.5f, 0.5f);
+            obj.SetLayerRecursively (IngameSettings.Layers.Gimmick);
 
             gimmick.Initialize (gimmickId);
 

@@ -12,6 +12,7 @@ using Chsopoly.Libs.Extensions;
 using Chsopoly.MasterData.DAO.Ingame;
 using Chsopoly.MasterData.VO.Ingame;
 using UnityEngine;
+using CharacterState = Chsopoly.GameScene.Ingame.Object.Character.CharacterStateMachine.State;
 
 namespace Chsopoly.GameScene.Ingame
 {
@@ -118,6 +119,7 @@ namespace Chsopoly.GameScene.Ingame
             }
 
             Physics2D.gravity = new Vector2 (0, IngameSettings.Field.Gravity (_stageData.fieldGravity));
+            Physics2D.IgnoreLayerCollision (IngameSettings.Layers.Character, IngameSettings.Layers.Character);
 
             OnLoadComplete ();
         }
@@ -133,18 +135,49 @@ namespace Chsopoly.GameScene.Ingame
             StartCoroutine (new GimmickObjectFactory ().CreateGimmick (DrawGimmickId (), transform, OnCreateObject));
         }
 
-        public void ApplyRelayMessage (int playerIndex, Gs2PacketModel model)
+        public void SendRelayMessage (Gs2PacketModel model)
         {
-            if (playerIndex < 0 || playerIndex >= _otherCharacterObjects.Count)
+            if (_otherCharacterObjects.Count == 0 || _otherCharacterObjects.Exists (o => o == null))
             {
                 return;
             }
 
-            if (model is CharacterObjectMove)
+            Gs2Manager.Instance.SendRelayMessage (model);
+        }
+
+        public void SendPlayerSyncMessage ()
+        {
+            var model = new CharacterObjectSync ()
             {
-                var m = model as CharacterObjectMove;
-                _otherCharacterObjects[playerIndex].Move (m.direction);
+                x = _playerCharacter.worldPosition.x,
+                y = _playerCharacter.worldPosition.y,
+                state = (int) _playerCharacter.StateMachine.CurrentState,
+                direction = (int) _playerCharacter.Direction,
+            };
+
+            SendRelayMessage (model);
+        }
+
+        public void ApplyRelayMessage (int playerIndex, Gs2PacketModel model)
+        {
+            if (playerIndex < 0 || playerIndex >= _otherCharacterObjects.Count || _otherCharacterObjects[playerIndex] == null)
+            {
+                return;
             }
+
+            if (model is CharacterObjectSync sync)
+            {
+                _otherCharacterObjects[playerIndex].worldPosition = new Vector2 (sync.x, sync.y);
+                _otherCharacterObjects[playerIndex].SetMoveDirection ((CharacterObject.MoveDirection) sync.direction);
+                _otherCharacterObjects[playerIndex].StateMachine.SetNextState (
+                    (CharacterState) sync.state,
+                    _otherCharacterObjects[playerIndex].StateMachine.CurrentState != (CharacterState) sync.state);
+            }
+        }
+
+        public void DestroyOtherPlayerCharacter (int playerIndex)
+        {
+            Destroy (_otherCharacterObjects[playerIndex]);
         }
 
         private void OnLoadComplete ()
@@ -183,17 +216,27 @@ namespace Chsopoly.GameScene.Ingame
 
             if (obj.HasComponent<CharacterObject> ())
             {
+                var character = obj.GetComponent<CharacterObject> ();
+
                 // The character object that is created first will be a player character.
                 if (_playerCharacter == null)
                 {
-                    _playerCharacter = obj.GetComponent<CharacterObject> ();
+                    _playerCharacter = character;
                     _playerCharacter.SetPlayerCharacter (true);
+                    _playerCharacter.StateMachine.onStateChanged += (_, __) => SendPlayerSyncMessage ();
+                    _playerCharacter.onChangedMoveDirection += (_) => SendPlayerSyncMessage ();
                 }
                 else
                 {
-                    var other = obj.GetComponent<CharacterObject> ();
-                    _otherCharacterObjects.Add (other);
-                    other.SetPlayerCharacter (false);
+                    _otherCharacterObjects.Add (character);
+                    character.SetPlayerCharacter (false);
+                }
+
+                var startPoint = GameObject.FindWithTag (IngameSettings.Tags.StartPoint);
+                if (startPoint != null)
+                {
+                    character.worldPosition = startPoint.transform.position;
+                    character.Rigidbody.velocity = Vector2.zero;
                 }
             }
 

@@ -12,6 +12,7 @@ namespace Chsopoly.GameScene.Ingame.Object.Character
             Dead,
             Run,
             Jump,
+            Fall,
             Squat,
             Damage,
             Appeal,
@@ -35,6 +36,8 @@ namespace Chsopoly.GameScene.Ingame.Object.Character
                     return new CharacterStateRun ();
                 case State.Jump:
                     return new CharacterStateJump ();
+                case State.Fall:
+                    return new CharacterStateFall ();
                 case State.Appeal:
                     return new CharacterStateAppeal ();
             }
@@ -42,48 +45,35 @@ namespace Chsopoly.GameScene.Ingame.Object.Character
             return new CharacterStateIdle ();
         }
 
-        protected override bool CanInterruptState (State state, CharacterObject owner)
+        protected override bool CanInterruptState (State state)
         {
             switch (state)
             {
                 case State.Idle:
-                    return CurrentState == State.Jump;
+                    return CurrentState == State.Run ||
+                        CurrentState == State.Fall;
                 case State.Run:
                     return CurrentState == State.Idle ||
-                        CurrentState == State.Run;
+                        (CurrentState == State.Fall && Owner.IsLanded);
                 case State.Jump:
                     return CurrentState == State.Idle ||
-                        (CurrentState == State.Run && owner.CanJump) ||
-                        (CurrentState == State.Jump && owner.CanJump);
+                        (CurrentState == State.Run && Owner.CanJump) ||
+                        (CurrentState == State.Fall && Owner.CanJump);
+                case State.Fall:
+                    return CurrentState == State.Run ||
+                        CurrentState == State.Jump;
                 case State.Appeal:
                     return CurrentState == State.Idle ||
                         CurrentState == State.Jump ||
+                        CurrentState == State.Fall ||
                         CurrentState == State.Run;
             }
 
             return false;
         }
 
-        protected override bool CanConnectState (State state, CharacterObject owner)
+        protected override bool CanConnectState (State state)
         {
-            switch (state)
-            {
-                case State.Idle:
-                    return CurrentState == State.Run ||
-                        CurrentState == State.Jump;
-                case State.Run:
-                    return CurrentState == State.Idle ||
-                        CurrentState == State.Run;
-                case State.Jump:
-                    return CurrentState == State.Idle ||
-                        (CurrentState == State.Run && owner.CanJump) ||
-                        (CurrentState == State.Jump && owner.CanJump);
-                case State.Appeal:
-                    return CurrentState == State.Idle ||
-                        CurrentState == State.Jump ||
-                        CurrentState == State.Run;
-            }
-
             return false;
         }
     }

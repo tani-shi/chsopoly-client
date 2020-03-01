@@ -1,14 +1,18 @@
+using System;
 using Chsopoly.BaseSystem.Gs2;
 using Chsopoly.BaseSystem.MasterData;
 using Chsopoly.GameScene.Ingame.Event;
 using Chsopoly.Gs2.Models;
+using Chsopoly.Libs.Extensions;
 using Chsopoly.MasterData.DAO.Ingame;
 using UnityEngine;
 
 namespace Chsopoly.GameScene.Ingame.Object.Character
 {
-    public class CharacterObject : BaseObject<CharacterStateMachine.State, CharacterObjectModel.Animation, CharacterObject>, IIngameLoadCompleteEvent
+    public class CharacterObject : BaseObject<CharacterStateMachine.State, CharacterObjectModel.Animation, CharacterObject>
     {
+        public event Action<MoveDirection> onChangedMoveDirection;
+
         public float MoveSpeed
         {
             get
@@ -21,7 +25,11 @@ namespace Chsopoly.GameScene.Ingame.Object.Character
         {
             get
             {
-                return _moveVelocity;
+                if (_direction != MoveDirection.None)
+                {
+                    return _moveSpeed * (_direction == MoveDirection.Right ? 1 : -1);
+                }
+                return 0;
             }
         }
 
@@ -37,7 +45,7 @@ namespace Chsopoly.GameScene.Ingame.Object.Character
         {
             get
             {
-                if (IsLanding || (StateMachine.CurrentState != CharacterStateMachine.State.Jump && _aerialJumpCounter < _aerialJumpCount))
+                if (IsLanded || (StateMachine.CurrentState != CharacterStateMachine.State.Jump && _aerialJumpCounter < _aerialJumpCount))
                 {
                     return true;
                 }
@@ -45,11 +53,25 @@ namespace Chsopoly.GameScene.Ingame.Object.Character
             }
         }
 
-        public bool IsLanding
+        public bool IsGround
         {
             get
             {
-                return _isLanding;
+                var layerMask = LayerMask.GetMask (nameof (IngameSettings.Layers.Field), nameof (IngameSettings.Layers.Gimmick));
+                return Physics2D.Raycast (worldPosition + new Vector2 (_collider.offset.x * _transform.localScale.x, _collider.offset.y) + (new Vector2 (-(_collider.size.x - 10), -_collider.size.y) / 2.0f), Vector2.down, 1, layerMask) ||
+                    Physics2D.Raycast (worldPosition + new Vector2 (_collider.offset.x * _transform.localScale.x, _collider.offset.y) + (new Vector2 ((_collider.size.x - 10), -_collider.size.y) / 2.0f), Vector2.down, 1, layerMask);
+            }
+        }
+
+        public bool IsLanded
+        {
+            get
+            {
+                return _isLanded;
+            }
+            set
+            {
+                _isLanded = value;
             }
         }
 
@@ -59,24 +81,60 @@ namespace Chsopoly.GameScene.Ingame.Object.Character
             {
                 return _transform.position;
             }
+            set
+            {
+                _transform.position = value;
+            }
+        }
+
+        public MoveDirection Direction
+        {
+            get
+            {
+                return _direction;
+            }
+        }
+
+        public BoxCollider2D Collider
+        {
+            get
+            {
+                return _collider;
+            }
+        }
+
+        public Rigidbody2D Rigidbody
+        {
+            get
+            {
+                return _rigidbody;
+            }
+        }
+
+        public enum MoveDirection
+        {
+            None,
+            Right,
+            Left,
         }
 
         private float _moveSpeed = 0;
-        private float _moveVelocity = 0;
         private float _jumpHeight = 0;
         private int _aerialJumpCount = 0;
         private int _aerialJumpCounter = 0;
-        private bool _isLanding = false;
+        private bool _isLanded = false;
         private Rigidbody2D _rigidbody = null;
+        private BoxCollider2D _collider = null;
         private Transform _transform = null;
         private bool _isPlayer = false;
-        private bool _direction = true;
+        private MoveDirection _direction = MoveDirection.None;
 
         public override void Initialize (uint id)
         {
             base.Initialize (id);
 
             _rigidbody = GetComponent<Rigidbody2D> ();
+            _collider = GetComponent<BoxCollider2D> ();
             _transform = transform;
 
             var data = MasterDataManager.Instance.Get<CharacterDAO> ().Get (id);
@@ -90,134 +148,45 @@ namespace Chsopoly.GameScene.Ingame.Object.Character
             _isPlayer = isPlayer;
         }
 
-        public void SetPositionToStartPoint ()
+        public void SetMoveDirection (MoveDirection direction)
         {
-            var obj = GameObject.FindWithTag (IngameSettings.Tags.StartPoint);
-            if (obj != null)
+            if (direction != MoveDirection.None)
             {
-                _transform.position = obj.transform.position;
-                _rigidbody.velocity = Vector2.zero;
-            }
-        }
-
-        public bool Idle ()
-        {
-            return StateMachine.SetNextState (CharacterStateMachine.State.Idle, this);
-        }
-
-        public bool Move (bool direction)
-        {
-            if (SetMoveVelocity (direction))
-            {
-                StateMachine.SetNextState (CharacterStateMachine.State.Run, this);
-                return true;
-            }
-            return false;
-        }
-
-        public bool Appeal ()
-        {
-            return StateMachine.SetNextState (CharacterStateMachine.State.Appeal, this);
-        }
-
-        public bool Jump (Vector2 position, bool force = false)
-        {
-            if (StateMachine.SetNextState (CharacterStateMachine.State.Jump, this, force))
-            {
-                _transform.position = position;
-                _rigidbody.velocity = new Vector2 ((_moveVelocity * Time.deltaTime) + _rigidbody.velocity.x, Mathf.Sqrt (-2.0f * Physics2D.gravity.y * _jumpHeight));
-
-                if (!_isLanding)
+                if (direction == MoveDirection.Right)
                 {
-                    _aerialJumpCounter++;
+                    _transform.localScale = Vector2.one;
                 }
-
-                _isLanding = false;
-                return true;
-            }
-            return false;
-        }
-
-        public bool Land (Vector2 position)
-        {
-            Idle ();
-
-            _isLanding = true;
-            _rigidbody.velocity = new Vector2 (_rigidbody.velocity.x, 0);
-            _transform.position = position;
-            _aerialJumpCounter = 0;
-
-            return true;
-        }
-
-        protected override void FixedUpdate ()
-        {
-            base.FixedUpdate ();
-
-            if (_isLanding)
-            {
-                _rigidbody.MovePosition (_rigidbody.position + new Vector2 (_moveVelocity * Time.deltaTime, 0));
-            }
-            else
-            {
-                _rigidbody.velocity = new Vector2 (_moveVelocity, _rigidbody.velocity.y);
+                else
+                {
+                    _transform.localScale = new Vector2 (-1, 1);
+                }
             }
 
-            _moveVelocity = 0f;
-        }
-
-        private bool SetMoveVelocity (bool direction)
-        {
-            if (StateMachine.CurrentState == CharacterStateMachine.State.Dead ||
-                StateMachine.CurrentState == CharacterStateMachine.State.Squat ||
-                StateMachine.CurrentState == CharacterStateMachine.State.Appeal)
-            {
-                return false;
-            }
-
-            _moveVelocity = _moveSpeed * (direction ? 1.0f : -1.0f);
+            var prevDirection = _direction;
             _direction = direction;
 
-            if (direction)
+            if (prevDirection != direction)
             {
-                _transform.localScale = Vector2.one;
+                onChangedMoveDirection.SafeInvoke (direction);
             }
-            else
-            {
-                _transform.localScale = new Vector2 (-1, 1);
-            }
+        }
 
-            return true;
+        public void CountAerialJump ()
+        {
+            _aerialJumpCounter++;
+        }
+
+        public void ResetAerialJumpCounter ()
+        {
+            _aerialJumpCounter = 0;
         }
 
         void OnTriggerEnter2D (Collider2D collision)
         {
             if (collision.gameObject.tag == IngameSettings.Tags.GoalPoint)
             {
-                Appeal ();
+                StateMachine.SetNextState (CharacterStateMachine.State.Appeal);
             }
-            else if (!_isLanding && _isPlayer)
-            {
-                if (Land (worldPosition))
-                {
-                    var packet = new CharacterObjectLand ()
-                    {
-                        x = worldPosition.x,
-                        y = worldPosition.y,
-                    };
-                    Gs2Manager.Instance.SendRelayMessage (packet);
-                }
-            }
-        }
-
-        void OnTriggerExit2D (Collider2D collision)
-        {
-            _isLanding = false;
-        }
-
-        void IIngameLoadCompleteEvent.OnIngameLoadComplete ()
-        {
-            SetPositionToStartPoint ();
         }
     }
 }

@@ -16,6 +16,7 @@ namespace Chsopoly.GameScene.Ingame
     {
         public class Param : IGameSceneParam
         {
+            public string gatheringId;
             public uint stageId;
             public uint characterId;
             public Dictionary<uint, Profile> otherPlayers;
@@ -32,19 +33,23 @@ namespace Chsopoly.GameScene.Ingame
 
         private Dictionary<uint, Profile> _otherPlayers = new Dictionary<uint, Profile> ();
         private Dictionary<uint, int> _otherPlayerIndexMap = new Dictionary<uint, int> ();
+        private string _gatheringId = string.Empty;
 
         void Start ()
         {
             Gs2Manager.Instance.onRelayRealtimeMessage += OnRelayMessage;
+            Gs2Manager.Instance.onCloseRealtime += OnCloseConnection;
         }
 
         void Destroy ()
         {
             Gs2Manager.Instance.onRelayRealtimeMessage -= OnRelayMessage;
+            Gs2Manager.Instance.onCloseRealtime -= OnCloseConnection;
         }
 
         protected override IEnumerator LoadProc (Param param)
         {
+            _gatheringId = param.gatheringId;
             _otherPlayers = param.otherPlayers;
             foreach (var kv in param.otherPlayers)
             {
@@ -80,6 +85,11 @@ namespace Chsopoly.GameScene.Ingame
             }
 
             _stage.ApplyRelayMessage (_otherPlayerIndexMap[connectionId], model);
+        }
+
+        private void OnCloseConnection (uint connectionId, string reason, bool wasClean)
+        {
+            _stage.DestroyOtherPlayerCharacter (_otherPlayerIndexMap[connectionId]);
         }
     }
 }

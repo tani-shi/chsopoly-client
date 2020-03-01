@@ -8,16 +8,12 @@ namespace Chsopoly.GameScene.Ingame.UI
 {
     public class PlayerController : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerUpHandler
     {
-        [SerializeField]
-        private float _tapTimeThreshold = 0.3f;
-        [SerializeField]
-        private float _tapDistanceThreshold = 10f;
+        private const int DefaultDraggingId = -999;
+
         [SerializeField]
         private float _dragSpeedThreshold = 10f;
 
         private CharacterObject _playerCharacter = null;
-        private bool _dragging = false;
-        private bool _draggingDirection = false;
         private float _lastPointDownTime = 0f;
         private Vector2 _lastPointDownPosition = Vector2.zero;
 
@@ -26,36 +22,9 @@ namespace Chsopoly.GameScene.Ingame.UI
             _playerCharacter = playerCharacter;
         }
 
-        void Update ()
+        public void OnClickJump ()
         {
-            if (_playerCharacter == null)
-            {
-                return;
-            }
-
-#if UNITY_EDITOR
-            if (Input.GetKeyDown (KeyCode.A) || Input.GetKey (KeyCode.A))
-            {
-                Move (false);
-            }
-            if (Input.GetKeyDown (KeyCode.D) || Input.GetKey (KeyCode.D))
-            {
-                Move (true);
-            }
-            if (Input.GetKeyDown (KeyCode.Space))
-            {
-                Jump ();
-            }
-            if (Input.GetKeyDown (KeyCode.R))
-            {
-                _playerCharacter.SetPositionToStartPoint ();
-            }
-#endif
-
-            if (_dragging)
-            {
-                Move (_draggingDirection);
-            }
+            _playerCharacter.StateMachine.SetNextState (CharacterStateMachine.State.Jump);
         }
 
         void IDragHandler.OnDrag (PointerEventData eventData)
@@ -67,8 +36,14 @@ namespace Chsopoly.GameScene.Ingame.UI
 
             if (eventData.delta.sqrMagnitude > _dragSpeedThreshold)
             {
-                _dragging = true;
-                _draggingDirection = eventData.delta.x > 0;
+                if (_playerCharacter.StateMachine.CurrentState == CharacterStateMachine.State.Idle ||
+                    _playerCharacter.StateMachine.CurrentState == CharacterStateMachine.State.Fall ||
+                    _playerCharacter.StateMachine.CurrentState == CharacterStateMachine.State.Run ||
+                    _playerCharacter.StateMachine.CurrentState == CharacterStateMachine.State.Jump)
+                {
+                    _playerCharacter.StateMachine.SetNextState (CharacterStateMachine.State.Run);
+                    _playerCharacter.SetMoveDirection (eventData.delta.x > 0 ? CharacterObject.MoveDirection.Right : CharacterObject.MoveDirection.Left);
+                }
             }
         }
 
@@ -90,38 +65,7 @@ namespace Chsopoly.GameScene.Ingame.UI
                 return;
             }
 
-            _dragging = false;
-
-            if ((_lastPointDownPosition - eventData.position).sqrMagnitude < _tapDistanceThreshold &&
-                (Time.time - _lastPointDownTime) < _tapTimeThreshold)
-            {
-                _playerCharacter.Jump (_playerCharacter.worldPosition);
-            }
-        }
-
-        private void Move (bool direction)
-        {
-            if (_playerCharacter.Move (direction))
-            {
-                var packet = new CharacterObjectMove ()
-                {
-                    direction = direction
-                };
-                Gs2Manager.Instance.SendRelayMessage (packet);
-            }
-        }
-
-        private void Jump ()
-        {
-            if (_playerCharacter.Jump (_playerCharacter.worldPosition))
-            {
-                var packet = new CharacterObjectJump ()
-                {
-                    x = _playerCharacter.worldPosition.x,
-                    y = _playerCharacter.worldPosition.y,
-                };
-                Gs2Manager.Instance.SendRelayMessage (packet);
-            }
+            _playerCharacter.SetMoveDirection (CharacterObject.MoveDirection.None);
         }
     }
 }

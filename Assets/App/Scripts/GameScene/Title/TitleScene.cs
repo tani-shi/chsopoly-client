@@ -14,13 +14,14 @@ namespace Chsopoly.GameScene.Title
     {
         private const string MessageCreateAccount = "Create Account...";
         private const string MessageLogin = "Login Processing Now...";
-        private const string MessageWaitForTapScreen = "Tap Screen to Start";
         private const string MessageErrorFormat = "{0}\n{1}";
 
         [SerializeField]
         private Text _userIdText = default;
         [SerializeField]
         private Text _guideText = default;
+        [SerializeField]
+        private GameObject _buttonContainer = default;
 
         private enum State
         {
@@ -53,7 +54,7 @@ namespace Chsopoly.GameScene.Title
                     _guideText.text = MessageLogin;
                     break;
                 case State.WaitForTapScreen:
-                    _guideText.text = MessageWaitForTapScreen;
+                    _guideText.text = string.Empty;
                     break;
                 case State.Error:
                     _guideText.text = string.Format (MessageErrorFormat, _exception.GetType ().FullName, _exception.Message);
@@ -68,6 +69,8 @@ namespace Chsopoly.GameScene.Title
 
         protected override IEnumerator LoadProc (Param param)
         {
+            _buttonContainer.SetActive (false);
+
             var account = UserDataManager.Instance.Load<Account> ();
             if (account == null)
             {
@@ -79,6 +82,7 @@ namespace Chsopoly.GameScene.Title
                     account.Gs2AccountId = r.Result.Item.UserId;
                     account.Gs2Password = r.Result.Item.Password;
                     account.Gs2CreatedAt = r.Result.Item.CreatedAt;
+                    account.CharacterId = 1;
                     UserDataManager.Instance.Save (account);
 
                     StartCoroutine (DoLogin ());
@@ -92,17 +96,38 @@ namespace Chsopoly.GameScene.Title
             yield break;
         }
 
-        public void OnClickScreen ()
+        public void OnClickMatch ()
         {
             if (_currentState != State.WaitForTapScreen)
             {
                 return;
             }
 
-            GameSceneManager.Instance.ChangeScene (GameSceneType.Matching, new MatchingScene.Param ()
+            var param = new MatchingScene.Param ()
             {
                 capacity = 2,
-            });
+            };
+            GameSceneManager.Instance.ChangeScene (GameSceneType.Matching, param);
+
+            _buttonContainer.SetActive (false);
+        }
+
+        public void OnClickSingle ()
+        {
+            if (_currentState != State.WaitForTapScreen)
+            {
+                return;
+            }
+
+            var param = new Chsopoly.GameScene.Ingame.IngameScene.Param ()
+            {
+                stageId = 1,
+                otherPlayers = new System.Collections.Generic.Dictionary<uint, Gs2.Models.Profile> (),
+                characterId = 1,
+            };
+            GameSceneManager.Instance.ChangeScene (GameSceneType.Ingame, param);
+
+            _buttonContainer.SetActive (false);
         }
 
         private IEnumerator DoLogin ()
@@ -115,6 +140,8 @@ namespace Chsopoly.GameScene.Title
             yield return Gs2Manager.Instance.LoginAccount (account.Gs2AccountId, account.Gs2Password, _ =>
             {
                 SetState (State.WaitForTapScreen);
+
+                _buttonContainer.SetActive (true);
             });
         }
 

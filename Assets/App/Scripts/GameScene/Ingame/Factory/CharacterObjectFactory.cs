@@ -26,9 +26,11 @@ namespace Chsopoly.GameScene.Ingame.Factory
             }
 
             var obj = handle.Result.CreateInstance (parent);
+            obj.layer = IngameSettings.Layers.Character;
+
             var characterObject = obj.SafeAddComponent<CharacterObject> ();
             obj.SafeAddComponent<CharacterObjectModel> ();
-            obj.SafeAddComponent<CharacterStateMachine> ();
+            obj.SafeAddComponent<CharacterStateMachine> ().Initialize (characterObject);
             (obj.transform as RectTransform).pivot = new Vector2 (0.5f, 0);
 
             var image = obj.GetComponent<Image> ();
@@ -37,16 +39,7 @@ namespace Chsopoly.GameScene.Ingame.Factory
             var rigidbody = obj.SafeAddComponent<Rigidbody2D> ();
             rigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
             rigidbody.mass = data.weight;
-
-            var collider = obj.GetComponentInChildren<BoxCollider2D> ();
-            var foot = new GameObject ("Foot");
-            var footRect = foot.SafeAddComponent<RectTransform> ();
-            footRect.SetParent (collider.transform);
-            footRect.sizeDelta = new Vector2 (collider.size.x - 1, 1);
-            footRect.anchoredPosition = new Vector2 (0, -collider.size.y / 2.0f - image.rectTransform.sizeDelta.y / 2.0f) + collider.offset;
-            var footTrigger = foot.SafeAddComponent<BoxCollider2D> ();
-            footTrigger.isTrigger = true;
-            footTrigger.size = new Vector2 (collider.size.x - 10, 1);
+            rigidbody.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
 
             characterObject.Initialize (characterId);
 

@@ -63,7 +63,7 @@ namespace Chsopoly.GameScene.Ingame.Object
             {
                 return;
             }
-            StateMachine.Execute (this as OBJ);
+            StateMachine.Execute ();
         }
     }
 }

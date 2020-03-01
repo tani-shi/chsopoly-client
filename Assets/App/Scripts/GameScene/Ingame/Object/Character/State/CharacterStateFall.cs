@@ -3,27 +3,32 @@ using UnityEngine;
 
 namespace Chsopoly.GameScene.Ingame.Object.Character.State
 {
-    public class CharacterStateRun : IObjectState<CharacterStateMachine.State, CharacterObjectModel.Animation, CharacterObject>
+    public class CharacterStateFall : IObjectState<CharacterStateMachine.State, CharacterObjectModel.Animation, CharacterObject>
     {
         void IObjectState<CharacterStateMachine.State, CharacterObjectModel.Animation, CharacterObject>.OnEnter (CharacterObject owner)
         {
-            owner.Model.PlayAnimation (CharacterObjectModel.Animation.Run);
             owner.StateMachine.SetStateTimerInfinite ();
+            owner.IsLanded = false;
         }
 
         void IObjectState<CharacterStateMachine.State, CharacterObjectModel.Animation, CharacterObject>.OnUpdate (CharacterObject owner)
         {
-            if (!owner.IsGround)
+            if (owner.IsGround)
             {
-                owner.StateMachine.SetNextState (CharacterStateMachine.State.Fall);
-            }
-            else if (owner.Direction != CharacterObject.MoveDirection.None)
-            {
-                owner.Rigidbody.MovePosition (owner.Rigidbody.position + new Vector2 (owner.MoveVelocity * Time.deltaTime, 0));
+                owner.IsLanded = true;
+
+                if (owner.Direction != CharacterObject.MoveDirection.None)
+                {
+                    owner.StateMachine.SetNextState (CharacterStateMachine.State.Run);
+                }
+                else
+                {
+                    owner.StateMachine.SetNextState (CharacterStateMachine.State.Idle);
+                }
             }
             else
             {
-                owner.StateMachine.SetNextState (CharacterStateMachine.State.Idle);
+                owner.Rigidbody.velocity = new Vector2 (owner.MoveVelocity, owner.Rigidbody.velocity.y);
             }
         }
 
@@ -34,7 +39,8 @@ namespace Chsopoly.GameScene.Ingame.Object.Character.State
 
         void IObjectState<CharacterStateMachine.State, CharacterObjectModel.Animation, CharacterObject>.OnExit (CharacterObject owner)
         {
-
+            owner.ResetAerialJumpCounter ();
+            owner.Rigidbody.velocity = new Vector2 (owner.Rigidbody.velocity.x, 0);
         }
     }
 }

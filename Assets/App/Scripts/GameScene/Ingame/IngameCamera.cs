@@ -10,8 +10,6 @@ namespace Chsopoly.GameScene.Ingame
         private Camera _mainCamera = default;
         [SerializeField]
         private Vector2 _offset = new Vector2 (200, 100);
-        [SerializeField]
-        private float _screenScale = 2.0f;
 
         public Camera MainCamera
         {
@@ -32,15 +30,13 @@ namespace Chsopoly.GameScene.Ingame
 
         public void SetBounds (Vector2 fieldSize)
         {
-            var width = Screen.width * _screenScale;
-            var height = Screen.height * _screenScale;
+            var height = _mainCamera.orthographicSize * 2.0f;
+            var width = height * _mainCamera.aspect;
 
             _hBounds.x = width - (fieldSize.x.Half () + width / 2);
             _hBounds.y = (fieldSize.x.Half () + width / 2) - width;
             _vBounds.x = height - (fieldSize.y.Half () + height / 2);
             _vBounds.y = (fieldSize.y.Half () + height / 2) - height;
-
-            _mainCamera.orthographicSize = height / 2;
         }
 
         void LateUpdate ()

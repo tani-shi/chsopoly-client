@@ -55,26 +55,42 @@ namespace Chsopoly.GameScene.Ingame.Object
             }
         }
 
-        private STATE _previousState = default;
+        public OBJ Owner
+        {
+            get
+            {
+                return _owner;
+            }
+        }
+
+        [SerializeField]
         private STATE _currentState = default;
+
+        private STATE _previousState = default;
         private STATE _nextState = default;
         private IObjectState<STATE, ANIM, OBJ> _state = null;
         private Stack<STATE> _stateStack = new Stack<STATE> ();
         private int _stateElapsedFrames = 0;
         private int _stateTimer = 0;
+        private OBJ _owner = null;
 
         public BaseStateMachine ()
         {
             _nextState = DefaultState;
         }
 
-        public void Execute (OBJ owner)
+        public virtual void Initialize (OBJ owner)
+        {
+            _owner = owner;
+        }
+
+        public void Execute ()
         {
             _stateStack.Clear ();
 
             UpdateStateTimer ();
-            UpdateState (owner);
-            ExecuteState (owner);
+            UpdateState ();
+            ExecuteState ();
         }
 
         public void SetStateTimer (int timer)
@@ -87,9 +103,9 @@ namespace Chsopoly.GameScene.Ingame.Object
             _stateTimer = -1;
         }
 
-        public bool SetNextState (STATE state, OBJ owner, bool force = false)
+        public bool SetNextState (STATE state, bool force = false)
         {
-            if (CanSetState (state, owner) || force)
+            if (CanSetState (state) || force)
             {
                 _nextState = state;
                 return true;
@@ -98,18 +114,18 @@ namespace Chsopoly.GameScene.Ingame.Object
             return false;
         }
 
-        public bool CanSetState (STATE state, OBJ owner)
+        public bool CanSetState (STATE state)
         {
             if (_stateTimer == 0)
             {
-                return CanConnectState (state, owner);
+                return CanConnectState (state);
             }
-            return CanInterruptState (state, owner);
+            return CanInterruptState (state);
         }
 
         protected abstract IObjectState<STATE, ANIM, OBJ> CreateState (STATE state);
-        protected abstract bool CanInterruptState (STATE state, OBJ owner);
-        protected abstract bool CanConnectState (STATE state, OBJ owner);
+        protected abstract bool CanInterruptState (STATE state);
+        protected abstract bool CanConnectState (STATE state);
 
         private void UpdateStateTimer ()
         {
@@ -123,7 +139,7 @@ namespace Chsopoly.GameScene.Ingame.Object
             }
         }
 
-        private void UpdateState (OBJ owner)
+        private void UpdateState ()
         {
             _stateStack.Push (_currentState);
             if (_stateStack.Count > StateMaxDepth)
@@ -147,9 +163,9 @@ namespace Chsopoly.GameScene.Ingame.Object
                 {
                     if (_stateTimer == 0)
                     {
-                        _state.OnComplete (owner);
+                        _state.OnComplete (_owner);
                     }
-                    _state.OnExit (owner);
+                    _state.OnExit (_owner);
                 }
                 if (!_nextState.Equals (default (STATE)))
                 {
@@ -164,7 +180,7 @@ namespace Chsopoly.GameScene.Ingame.Object
                         onStateChanged (_previousState, _currentState);
                     }
 
-                    _state.OnEnter (owner);
+                    _state.OnEnter (_owner);
                 }
                 else
                 {
@@ -181,15 +197,15 @@ namespace Chsopoly.GameScene.Ingame.Object
             // state has completed with a frame.
             if (_stateTimer == 0)
             {
-                UpdateState (owner);
+                UpdateState ();
             }
         }
 
-        private void ExecuteState (OBJ owner)
+        private void ExecuteState ()
         {
             if (_state != null)
             {
-                _state.OnUpdate (owner);
+                _state.OnUpdate (_owner);
             }
         }
     }

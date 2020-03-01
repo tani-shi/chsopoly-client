@@ -63,6 +63,7 @@ namespace Chsopoly.BaseSystem.UserData
                 entity.Gs2AccountId = Cipher.Decrypt (encryptedEntity.p9f8f4c20cf8b22b6dae34559daafc1c08ef63f3927c00d0b8be758cde29f9feb, "chsopoly");
                 entity.Gs2Password = Cipher.Decrypt (encryptedEntity.pba88ac0aa5fd0c2c906d037104f1dcf0afb340684e87d90a871129910e96c215, "chsopoly");
                 entity.Gs2CreatedAt = System.Int64.Parse (Cipher.Decrypt (encryptedEntity.p5498dd13b7f1904db60aa00a58303a8b97862ed05d965da3fdaf62d3d1ede812, "chsopoly"));
+                entity.CharacterId = System.UInt32.Parse (Cipher.Decrypt (encryptedEntity.p6675390ca6b0c7cba333937d1c0f53c9a82e61911c5f7e97a8b526631912e25c, "chsopoly"));
                 return entity as T;
             }
             return null;
@@ -83,6 +84,7 @@ namespace Chsopoly.BaseSystem.UserData
                 encrypted.p9f8f4c20cf8b22b6dae34559daafc1c08ef63f3927c00d0b8be758cde29f9feb = Cipher.Encrypt (targetEntity.Gs2AccountId.ToString (), "chsopoly");
                 encrypted.pba88ac0aa5fd0c2c906d037104f1dcf0afb340684e87d90a871129910e96c215 = Cipher.Encrypt (targetEntity.Gs2Password.ToString (), "chsopoly");
                 encrypted.p5498dd13b7f1904db60aa00a58303a8b97862ed05d965da3fdaf62d3d1ede812 = Cipher.Encrypt (targetEntity.Gs2CreatedAt.ToString (), "chsopoly");
+                encrypted.p6675390ca6b0c7cba333937d1c0f53c9a82e61911c5f7e97a8b526631912e25c = Cipher.Encrypt (targetEntity.CharacterId.ToString (), "chsopoly");
                 return encrypted;
             }
             return null;
