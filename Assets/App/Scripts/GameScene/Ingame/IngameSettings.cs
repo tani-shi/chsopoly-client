@@ -5,6 +5,11 @@ namespace Chsopoly.GameScene.Ingame
 {
     public static class IngameSettings
     {
+        public static class Gs2
+        {
+            public const uint PlayerConnectionId = 0;
+        }
+
         public static class Rules
         {
             public const int MaxPlayerCount = 4;

@@ -14,7 +14,7 @@ namespace Chsopoly.GameScene.Ingame.Factory
 {
     public class CharacterObjectFactory
     {
-        public IEnumerator CreateCharacter (uint characterId, Transform parent, Action<GameObject> callback = null)
+        public IEnumerator CreateCharacter (uint characterId, uint connectionId, Transform parent, Action<GameObject> callback = null)
         {
             var data = MasterDataManager.Instance.Get<CharacterDAO> ().Get (characterId);
             var handle = LoadCharacter (data.assetName);
@@ -42,6 +42,7 @@ namespace Chsopoly.GameScene.Ingame.Factory
             rigidbody.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
 
             characterObject.Initialize (characterId);
+            characterObject.SetIdentity (connectionId);
 
             callback.SafeInvoke (obj);
         }

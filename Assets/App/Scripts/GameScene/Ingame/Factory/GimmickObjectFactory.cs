@@ -12,7 +12,7 @@ namespace Chsopoly.GameScene.Ingame.Factory
 {
     public class GimmickObjectFactory
     {
-        public IEnumerator CreateGimmick (uint gimmickId, Transform parent, Action<GameObject> callback = null)
+        public IEnumerator CreateGimmick (uint gimmickId, uint connectionId, Transform parent, Action<GameObject> callback = null, int uniqueId = 0, Vector2 position = new Vector2 ())
         {
             var data = MasterDataManager.Instance.Get<GimmickDAO> ().Get (gimmickId);
             var handle = LoadGimmick (data.assetName);
@@ -23,9 +23,11 @@ namespace Chsopoly.GameScene.Ingame.Factory
             obj.SafeAddComponent<GimmickObjectModel> ();
             obj.SafeAddComponent<GimmickStateMachine> ().Initialize (gimmick);
             (obj.transform as RectTransform).pivot = new Vector2 (0.5f, 0.5f);
+            obj.transform.position = position;
             obj.SetLayerRecursively (IngameSettings.Layers.Gimmick);
 
             gimmick.Initialize (gimmickId);
+            gimmick.SetIdentity (connectionId, uniqueId != 0 ? uniqueId : gimmick.GetHashCode ());
 
             callback.SafeInvoke (obj);
         }

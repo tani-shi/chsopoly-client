@@ -13,6 +13,22 @@ namespace Chsopoly.GameScene.Ingame.Object.Character
     {
         public event Action<MoveDirection> onChangedMoveDirection;
 
+        public bool IsPlayer
+        {
+            get
+            {
+                return _connectionId == IngameSettings.Gs2.PlayerConnectionId;
+            }
+        }
+
+        public uint ConnectionId
+        {
+            get
+            {
+                return _connectionId;
+            }
+        }
+
         public float MoveSpeed
         {
             get
@@ -123,10 +139,10 @@ namespace Chsopoly.GameScene.Ingame.Object.Character
         private int _aerialJumpCount = 0;
         private int _aerialJumpCounter = 0;
         private bool _isLanded = false;
+        private uint _connectionId = 0;
         private Rigidbody2D _rigidbody = null;
         private BoxCollider2D _collider = null;
         private Transform _transform = null;
-        private bool _isPlayer = false;
         private MoveDirection _direction = MoveDirection.None;
 
         public override void Initialize (uint id)
@@ -143,9 +159,9 @@ namespace Chsopoly.GameScene.Ingame.Object.Character
             _aerialJumpCount = data.aerialJumpCount;
         }
 
-        public void SetPlayerCharacter (bool isPlayer)
+        public void SetIdentity (uint connectionId)
         {
-            _isPlayer = isPlayer;
+            _connectionId = connectionId;
         }
 
         public void SetMoveDirection (MoveDirection direction)

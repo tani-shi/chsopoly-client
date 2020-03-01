@@ -32,7 +32,6 @@ namespace Chsopoly.GameScene.Ingame
         private GimmickBox _gimmickBox = default;
 
         private Dictionary<uint, Profile> _otherPlayers = new Dictionary<uint, Profile> ();
-        private Dictionary<uint, int> _otherPlayerIndexMap = new Dictionary<uint, int> ();
         private string _gatheringId = string.Empty;
 
         void Start ()
@@ -51,15 +50,10 @@ namespace Chsopoly.GameScene.Ingame
         {
             _gatheringId = param.gatheringId;
             _otherPlayers = param.otherPlayers;
-            foreach (var kv in param.otherPlayers)
-            {
-                _otherPlayerIndexMap.Add (kv.Key, _otherPlayers.Keys.ToList ().IndexOf (kv.Key));
-            }
 
-            var characterIds = param.otherPlayers.Values.ToList ().ConvertAll (o => o.characterId).ToArray ();
             var gimmickIds = MasterDataManager.Instance.Get<GimmickDAO> ().FindAll (o => o.id > 0).ConvertAll (o => o.id).ToArray ();
 
-            yield return _stage.Load (param.stageId, param.characterId, characterIds, gimmickIds);
+            yield return _stage.Load (param.stageId, param.characterId, param.otherPlayers, gimmickIds);
             yield return _gimmickBox.LoadTextures (gimmickIds);
 
             _controller.SetPlayer (_stage.PlayerCharacter);
@@ -79,17 +73,12 @@ namespace Chsopoly.GameScene.Ingame
 
         private void OnRelayMessage (uint connectionId, Gs2PacketModel model)
         {
-            if (!_otherPlayerIndexMap.ContainsKey (connectionId))
-            {
-                return;
-            }
-
-            _stage.ApplyRelayMessage (_otherPlayerIndexMap[connectionId], model);
+            _stage.ApplyRelayMessage (connectionId, model);
         }
 
         private void OnCloseConnection (uint connectionId, string reason, bool wasClean)
         {
-            _stage.DestroyOtherPlayerCharacter (_otherPlayerIndexMap[connectionId]);
+            _stage.DestroyOtherPlayerCharacter (connectionId);
         }
     }
 }

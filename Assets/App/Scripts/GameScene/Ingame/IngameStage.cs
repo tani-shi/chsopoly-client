@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Chsopoly.BaseSystem.Gs2;
 using Chsopoly.BaseSystem.MasterData;
 using Chsopoly.GameScene.Ingame.Event;
@@ -45,48 +46,18 @@ namespace Chsopoly.GameScene.Ingame
             }
         }
 
-        public IEnumerable<GameObject> StageObjects
-        {
-            get
-            {
-                return _stageObjects;
-            }
-        }
-
-        public IEnumerable<GimmickObject> GimmickObjects
-        {
-            get
-            {
-                return _gimmickObjects;
-            }
-        }
-
-        public IEnumerable<CharacterObject> CharacterObjects
-        {
-            get
-            {
-                return _characterObjects;
-            }
-        }
-
-        public IEnumerable<CharacterObject> OtherCharacterObjects
-        {
-            get
-            {
-                return _otherCharacterObjects;
-            }
-        }
-
         private List<GameObject> _stageObjects = new List<GameObject> ();
-        private List<CharacterObject> _otherCharacterObjects = new List<CharacterObject> ();
         private List<CharacterObject> _characterObjects = new List<CharacterObject> ();
         private List<GimmickObject> _gimmickObjects = new List<GimmickObject> ();
-        private GameObject _field = null;
         private CharacterObject _playerCharacter = null;
+        private Dictionary<int, GimmickObject> _playerGimmickObjectMap = new Dictionary<int, GimmickObject> ();
+        private Dictionary<uint, CharacterObject> _otherCharacterObjectMap = new Dictionary<uint, CharacterObject> ();
+        private Dictionary<uint, Dictionary<int, GimmickObject>> _otherGimmickObjectMaps = new Dictionary<uint, Dictionary<int, GimmickObject>> ();
+        private GameObject _field = null;
         private StageVO _stageData = null;
         private uint[] _gimmickLotteryTable = null;
 
-        public IEnumerator Load (uint stageId, uint playerCharacterId, uint[] otherCharacterIds, uint[] gimmickIds)
+        public IEnumerator Load (uint stageId, uint playerCharacterId, Dictionary<uint, Profile> otherPlayers, uint[] gimmickIds)
         {
             if (_stageData != null)
             {
@@ -108,14 +79,16 @@ namespace Chsopoly.GameScene.Ingame
             _gimmickLotteryTable = lotteryTable.ToArray ();
 
             yield return new FieldFactory ().CreateField (_stageData.fieldName, transform, OnCreateField);
-            yield return new CharacterObjectFactory ().CreateCharacter (playerCharacterId, transform, OnCreateObject);
-            for (int i = 0; i < otherCharacterIds.Length; i++)
+            yield return new CharacterObjectFactory ().CreateCharacter (playerCharacterId, IngameSettings.Gs2.PlayerConnectionId, transform, OnCreateObject);
+            foreach (var kv in otherPlayers)
             {
-                yield return new CharacterObjectFactory ().CreateCharacter (otherCharacterIds[i], transform, OnCreateObject);
+                _otherGimmickObjectMaps.Add (kv.Key, new Dictionary<int, GimmickObject> ());
+
+                yield return new CharacterObjectFactory ().CreateCharacter (kv.Value.characterId, kv.Key, transform, OnCreateObject);
             }
             for (int i = 0; i < IngameSettings.Rules.MaxGimmickQueueCount; i++)
             {
-                yield return new GimmickObjectFactory ().CreateGimmick (DrawGimmickId (), transform, OnCreateObject);
+                yield return new GimmickObjectFactory ().CreateGimmick (DrawGimmickId (), IngameSettings.Gs2.PlayerConnectionId, transform, OnCreateObject);
             }
 
             Physics2D.gravity = new Vector2 (0, IngameSettings.Field.Gravity (_stageData.fieldGravity));
@@ -132,12 +105,21 @@ namespace Chsopoly.GameScene.Ingame
                 gimmick.transform.position = position;
             }
 
-            StartCoroutine (new GimmickObjectFactory ().CreateGimmick (DrawGimmickId (), transform, OnCreateObject));
+            StartCoroutine (new GimmickObjectFactory ().CreateGimmick (DrawGimmickId (), IngameSettings.Gs2.PlayerConnectionId, transform, OnCreateObject));
+
+            var packet = new GimmickObjectPut ()
+            {
+                uniqueId = gimmick.UniqueId,
+                gimmickId = gimmick.Id,
+                x = position.x,
+                y = position.y,
+            };
+            SendRelayMessage (packet);
         }
 
         public void SendRelayMessage (Gs2PacketModel model)
         {
-            if (_otherCharacterObjects.Count == 0 || _otherCharacterObjects.Exists (o => o == null))
+            if (_otherCharacterObjectMap.Count == 0 || _otherCharacterObjectMap.Values.Any (o => o == null))
             {
                 return;
             }
@@ -158,26 +140,32 @@ namespace Chsopoly.GameScene.Ingame
             SendRelayMessage (model);
         }
 
-        public void ApplyRelayMessage (int playerIndex, Gs2PacketModel model)
+        public void ApplyRelayMessage (uint connectionId, Gs2PacketModel model)
         {
-            if (playerIndex < 0 || playerIndex >= _otherCharacterObjects.Count || _otherCharacterObjects[playerIndex] == null)
+            if (!_otherCharacterObjectMap.ContainsKey (connectionId) || _otherCharacterObjectMap[connectionId] == null)
             {
                 return;
             }
 
-            if (model is CharacterObjectSync sync)
+            if (model is CharacterObjectSync characterObjectSync)
             {
-                _otherCharacterObjects[playerIndex].worldPosition = new Vector2 (sync.x, sync.y);
-                _otherCharacterObjects[playerIndex].SetMoveDirection ((CharacterObject.MoveDirection) sync.direction);
-                _otherCharacterObjects[playerIndex].StateMachine.SetNextState (
-                    (CharacterState) sync.state,
-                    _otherCharacterObjects[playerIndex].StateMachine.CurrentState != (CharacterState) sync.state);
+                _otherCharacterObjectMap[connectionId].worldPosition = new Vector2 (characterObjectSync.x, characterObjectSync.y);
+                _otherCharacterObjectMap[connectionId].SetMoveDirection ((CharacterObject.MoveDirection) characterObjectSync.direction);
+                _otherCharacterObjectMap[connectionId].StateMachine.SetNextState (
+                    (CharacterState) characterObjectSync.state,
+                    _otherCharacterObjectMap[connectionId].StateMachine.CurrentState != (CharacterState) characterObjectSync.state);
+            }
+            else if (model is GimmickObjectPut gimmickObjectPut)
+            {
+                StartCoroutine (new GimmickObjectFactory ().CreateGimmick (
+                    gimmickObjectPut.gimmickId, connectionId, transform, OnCreateObject,
+                    gimmickObjectPut.uniqueId, new Vector2 (gimmickObjectPut.x, gimmickObjectPut.y)));
             }
         }
 
-        public void DestroyOtherPlayerCharacter (int playerIndex)
+        public void DestroyOtherPlayerCharacter (uint connectionId)
         {
-            Destroy (_otherCharacterObjects[playerIndex]);
+            Destroy (_otherCharacterObjectMap[connectionId]);
         }
 
         private void OnLoadComplete ()
@@ -211,25 +199,21 @@ namespace Chsopoly.GameScene.Ingame
             }
 
             _stageObjects.Add (obj);
-            _characterObjects.AddIfNotNull (obj.GetComponent<CharacterObject> ());
-            _gimmickObjects.AddIfNotNull (obj.GetComponent<GimmickObject> ());
 
             if (obj.HasComponent<CharacterObject> ())
             {
                 var character = obj.GetComponent<CharacterObject> ();
+                _characterObjects.Add (character);
 
-                // The character object that is created first will be a player character.
-                if (_playerCharacter == null)
+                if (character.IsPlayer)
                 {
                     _playerCharacter = character;
-                    _playerCharacter.SetPlayerCharacter (true);
                     _playerCharacter.StateMachine.onStateChanged += (_, __) => SendPlayerSyncMessage ();
                     _playerCharacter.onChangedMoveDirection += (_) => SendPlayerSyncMessage ();
                 }
                 else
                 {
-                    _otherCharacterObjects.Add (character);
-                    character.SetPlayerCharacter (false);
+                    _otherCharacterObjectMap.Add (character.ConnectionId, character);
                 }
 
                 var startPoint = GameObject.FindWithTag (IngameSettings.Tags.StartPoint);
@@ -242,7 +226,18 @@ namespace Chsopoly.GameScene.Ingame
 
             if (obj.HasComponent<GimmickObject> ())
             {
-                _gimmickPool.Enqueue (obj.GetComponent<GimmickObject> ());
+                var gimmick = obj.GetComponent<GimmickObject> ();
+                _gimmickObjects.Add (gimmick);
+
+                if (gimmick.IsPlayer)
+                {
+                    _playerGimmickObjectMap.Add (gimmick.GetHashCode (), gimmick);
+                    _gimmickPool.Enqueue (gimmick);
+                }
+                else
+                {
+                    _otherGimmickObjectMaps[gimmick.ConnectionId].Add (gimmick.UniqueId, gimmick);
+                }
             }
 
             SetPhysicsMaterialsRecursively (obj);

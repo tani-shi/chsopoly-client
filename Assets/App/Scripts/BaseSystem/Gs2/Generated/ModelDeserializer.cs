@@ -12,6 +12,8 @@ namespace Chsopoly.BaseSystem.Gs2
             {
                 case 2415485155:
                     return new Chsopoly.Gs2.Models.CharacterObjectSync ().Deserialize (data);
+                case 3047453915:
+                    return new Chsopoly.Gs2.Models.GimmickObjectPut ().Deserialize (data);
                 case 2559275900:
                     return new Chsopoly.Gs2.Models.Profile ().Deserialize (data);
                 default:
