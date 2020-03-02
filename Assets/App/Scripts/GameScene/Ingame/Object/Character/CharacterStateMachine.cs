@@ -58,7 +58,7 @@ namespace Chsopoly.GameScene.Ingame.Object.Character
             {
                 case State.Idle:
                     return CurrentState == State.Run ||
-                        CurrentState == State.Fall ||
+                        (CurrentState == State.Fall && Owner.IsLanded) ||
                         CurrentState == State.Guard;
                 case State.Run:
                     return CurrentState == State.Idle ||
@@ -99,6 +99,8 @@ namespace Chsopoly.GameScene.Ingame.Object.Character
             {
                 case State.Dead:
                     return CurrentState == State.Dying;
+                case State.Fall:
+                    return CurrentState == State.Jump;
             }
 
             return false;

@@ -97,7 +97,6 @@ namespace Chsopoly.GameScene.Ingame.UI
         private Image CreateDraggingImageObject ()
         {
             var obj = new GameObject ("GimmickDraggingImage");
-            obj.layer = IngameSettings.Layers.Gimmick;
             obj.transform.SetParent (_draggingRoot);
             obj.transform.position = Vector3.zero;
             obj.transform.localScale = Vector3.one;

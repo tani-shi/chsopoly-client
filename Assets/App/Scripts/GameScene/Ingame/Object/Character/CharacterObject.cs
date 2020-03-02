@@ -73,7 +73,7 @@ namespace Chsopoly.GameScene.Ingame.Object.Character
         {
             get
             {
-                var layerMask = LayerMask.GetMask (nameof (IngameSettings.Layers.Field), nameof (IngameSettings.Layers.Gimmick));
+                var layerMask = LayerMask.GetMask (LayerMask.LayerToName (IngameSettings.Layers.Field), LayerMask.LayerToName (IngameSettings.Layers.Gimmick));
                 return Physics2D.Raycast (worldPosition + new Vector2 (_collider.offset.x * _transform.localScale.x, _collider.offset.y) + (new Vector2 (-(_collider.size.x - 10), -_collider.size.y) / 2.0f), Vector2.down, 1, layerMask) ||
                     Physics2D.Raycast (worldPosition + new Vector2 (_collider.offset.x * _transform.localScale.x, _collider.offset.y) + (new Vector2 ((_collider.size.x - 10), -_collider.size.y) / 2.0f), Vector2.down, 1, layerMask);
             }
@@ -138,7 +138,7 @@ namespace Chsopoly.GameScene.Ingame.Object.Character
         private float _jumpHeight = 0;
         private int _aerialJumpCount = 0;
         private int _aerialJumpCounter = 0;
-        private bool _isLanded = false;
+        private bool _isLanded = true;
         private uint _connectionId = 0;
         private Rigidbody2D _rigidbody = null;
         private BoxCollider2D _collider = null;
