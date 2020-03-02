@@ -14,7 +14,7 @@ namespace Chsopoly.GameScene.Ingame.Object.Character
             Run,
             Jump,
             Fall,
-            Squat,
+            Guard,
             Damage,
             Appeal,
         }
@@ -45,6 +45,8 @@ namespace Chsopoly.GameScene.Ingame.Object.Character
                     return new CharacterStateDying ();
                 case State.Dead:
                     return new CharacterStateDead ();
+                case State.Guard:
+                    return new CharacterStateGuard ();
             }
             Debug.LogError ("A unknown character state was specified. " + state.ToString ());
             return new CharacterStateIdle ();
@@ -56,27 +58,36 @@ namespace Chsopoly.GameScene.Ingame.Object.Character
             {
                 case State.Idle:
                     return CurrentState == State.Run ||
-                        CurrentState == State.Fall;
+                        CurrentState == State.Fall ||
+                        CurrentState == State.Guard;
                 case State.Run:
                     return CurrentState == State.Idle ||
-                        (CurrentState == State.Fall && Owner.IsLanded);
+                        (CurrentState == State.Fall && Owner.IsLanded) ||
+                        CurrentState == State.Guard;
                 case State.Jump:
                     return CurrentState == State.Idle ||
                         (CurrentState == State.Run && Owner.CanJump) ||
-                        (CurrentState == State.Fall && Owner.CanJump);
+                        (CurrentState == State.Fall && Owner.CanJump) ||
+                        CurrentState == State.Guard;
                 case State.Fall:
                     return CurrentState == State.Run ||
-                        CurrentState == State.Jump;
+                        CurrentState == State.Jump ||
+                        CurrentState == State.Guard;
                 case State.Appeal:
                     return CurrentState == State.Idle ||
                         CurrentState == State.Jump ||
                         CurrentState == State.Fall ||
-                        CurrentState == State.Run;
+                        CurrentState == State.Run ||
+                        CurrentState == State.Guard;
                 case State.Dying:
                     return CurrentState == State.Idle ||
                         CurrentState == State.Jump ||
                         CurrentState == State.Run ||
-                        CurrentState == State.Fall;
+                        CurrentState == State.Fall ||
+                        CurrentState == State.Guard;
+                case State.Guard:
+                    return CurrentState == State.Idle ||
+                        CurrentState == State.Run;
             }
 
             return false;

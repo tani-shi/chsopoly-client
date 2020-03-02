@@ -166,6 +166,13 @@ namespace Chsopoly.GameScene.Ingame.Object.Character
 
         public void SetMoveDirection (MoveDirection direction)
         {
+            if (StateMachine.CurrentState != CharacterStateMachine.State.Run &&
+                StateMachine.CurrentState != CharacterStateMachine.State.Jump &&
+                StateMachine.CurrentState != CharacterStateMachine.State.Fall)
+            {
+                return;
+            }
+
             if (direction != MoveDirection.None)
             {
                 if (direction == MoveDirection.Right)

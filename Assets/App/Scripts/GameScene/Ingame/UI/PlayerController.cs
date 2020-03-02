@@ -14,8 +14,8 @@ namespace Chsopoly.GameScene.Ingame.UI
         private float _dragSpeedThreshold = 10f;
 
         private CharacterObject _playerCharacter = null;
-        private float _lastPointDownTime = 0f;
-        private Vector2 _lastPointDownPosition = Vector2.zero;
+        private bool _dragging = false;
+        private CharacterObject.MoveDirection _draggingDirection = CharacterObject.MoveDirection.None;
 
         public void SetPlayer (CharacterObject playerCharacter)
         {
@@ -27,6 +27,31 @@ namespace Chsopoly.GameScene.Ingame.UI
             _playerCharacter.StateMachine.SetNextState (CharacterStateMachine.State.Jump);
         }
 
+        void Update ()
+        {
+            if (_playerCharacter == null)
+            {
+                return;
+            }
+
+            if (_dragging)
+            {
+                if (_draggingDirection == CharacterObject.MoveDirection.None)
+                {
+                    _playerCharacter.StateMachine.SetNextState (CharacterStateMachine.State.Guard);
+                }
+                else
+                {
+                    _playerCharacter.StateMachine.SetNextState (CharacterStateMachine.State.Run);
+                    _playerCharacter.SetMoveDirection (_draggingDirection);
+                }
+            }
+            else
+            {
+                _playerCharacter.StateMachine.SetNextState (CharacterStateMachine.State.Idle);
+            }
+        }
+
         void IDragHandler.OnDrag (PointerEventData eventData)
         {
             if (_playerCharacter == null)
@@ -36,26 +61,22 @@ namespace Chsopoly.GameScene.Ingame.UI
 
             if (eventData.delta.sqrMagnitude > _dragSpeedThreshold)
             {
-                if (_playerCharacter.StateMachine.CurrentState == CharacterStateMachine.State.Idle ||
-                    _playerCharacter.StateMachine.CurrentState == CharacterStateMachine.State.Fall ||
-                    _playerCharacter.StateMachine.CurrentState == CharacterStateMachine.State.Run ||
-                    _playerCharacter.StateMachine.CurrentState == CharacterStateMachine.State.Jump)
+                _dragging = true;
+
+                if (Mathf.Abs (eventData.delta.x) * -2.0f > eventData.delta.y)
                 {
-                    _playerCharacter.StateMachine.SetNextState (CharacterStateMachine.State.Run);
-                    _playerCharacter.SetMoveDirection (eventData.delta.x > 0 ? CharacterObject.MoveDirection.Right : CharacterObject.MoveDirection.Left);
+                    _draggingDirection = CharacterObject.MoveDirection.None;
+                }
+                else
+                {
+                    _draggingDirection = eventData.delta.x > 0 ? CharacterObject.MoveDirection.Right : CharacterObject.MoveDirection.Left;
                 }
             }
         }
 
         void IPointerDownHandler.OnPointerDown (PointerEventData eventData)
         {
-            if (_playerCharacter == null)
-            {
-                return;
-            }
 
-            _lastPointDownPosition = eventData.position;
-            _lastPointDownTime = Time.time;
         }
 
         void IPointerUpHandler.OnPointerUp (PointerEventData eventData)
@@ -65,6 +86,7 @@ namespace Chsopoly.GameScene.Ingame.UI
                 return;
             }
 
+            _dragging = false;
             _playerCharacter.SetMoveDirection (CharacterObject.MoveDirection.None);
         }
     }

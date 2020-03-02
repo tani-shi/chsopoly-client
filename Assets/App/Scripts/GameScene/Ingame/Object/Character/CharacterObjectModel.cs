@@ -9,6 +9,7 @@ namespace Chsopoly.GameScene.Ingame.Object.Character
             Jump,
             Appeal,
             Dying,
+            Guard,
         }
     }
 }
