@@ -34,6 +34,34 @@ namespace Chsopoly.GameScene.Ingame.UI
                 return;
             }
 
+#if UNITY_EDITOR
+            if (Input.GetKeyDown (KeyCode.Space))
+            {
+                _playerCharacter.StateMachine.SetNextState (CharacterStateMachine.State.Jump);
+            }
+            if (Input.GetKey (KeyCode.A) || Input.GetKey (KeyCode.D) || Input.GetKey (KeyCode.S))
+            {
+                _dragging = true;
+
+                if (Input.GetKey (KeyCode.A))
+                {
+                    _draggingDirection = CharacterObject.MoveDirection.Left;
+                }
+                if (Input.GetKey (KeyCode.D))
+                {
+                    _draggingDirection = CharacterObject.MoveDirection.Right;
+                }
+                if (Input.GetKey (KeyCode.S))
+                {
+                    _draggingDirection = CharacterObject.MoveDirection.None;
+                }
+            }
+            else if (Input.GetKeyUp (KeyCode.A) || Input.GetKeyUp (KeyCode.D) || Input.GetKeyUp (KeyCode.S))
+            {
+                _dragging = false;
+            }
+#endif
+
             if (_dragging)
             {
                 if (_draggingDirection == CharacterObject.MoveDirection.None)
