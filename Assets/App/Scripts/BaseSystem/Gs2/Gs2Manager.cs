@@ -26,8 +26,6 @@ namespace Chsopoly.BaseSystem.Gs2
 {
     public class Gs2Manager : SingletonMonoBehaviour<Gs2Manager>
     {
-        private const string KeyJoinedGatheringName = "Gs2JoinedGatheringName";
-
         public event Action<Gs2Exception> onError;
         public event Action<string> onJoinMatchingPlayer;
         public event Action<string> onLeaveMatchingPlayer;
@@ -40,6 +38,22 @@ namespace Chsopoly.BaseSystem.Gs2
         public event Action<uint, string, bool> onCloseRealtime;
         public event Action<string> onErrorRealtime;
         public event Action<string> onGeneralErrorRealtime;
+
+        public bool ConnectedRealtimeSession
+        {
+            get
+            {
+                return _realtimeSession != null && _realtimeSession.Connected;
+            }
+        }
+
+        public bool HasLogin
+        {
+            get
+            {
+                return _gameSession != null;
+            }
+        }
 
         private Profile _profile = null;
         private global::Gs2.Unity.Client _client = null;
@@ -125,15 +139,6 @@ namespace Chsopoly.BaseSystem.Gs2
 
             _gameSession = result1.Result;
 
-            var joinedGathering = PlayerPrefs.GetString (KeyJoinedGatheringName);
-            if (!string.IsNullOrEmpty (joinedGathering))
-            {
-                yield return CancelGathering (joinedGathering, r =>
-                {
-                    PlayerPrefs.SetString (KeyJoinedGatheringName, string.Empty);
-                });
-            }
-
             callback.Invoke (result1);
         }
 
@@ -168,11 +173,6 @@ namespace Chsopoly.BaseSystem.Gs2
                 yield break;
             }
 
-            if (result.Result.Item != null)
-            {
-                PlayerPrefs.SetString (KeyJoinedGatheringName, result.Result.Item.GatheringId);
-            }
-
             callback.SafeInvoke (result);
         }
 
@@ -199,17 +199,12 @@ namespace Chsopoly.BaseSystem.Gs2
                 yield break;
             }
 
-            if (result.Result.Item != null)
-            {
-                PlayerPrefs.SetString (KeyJoinedGatheringName, result.Result.Item.GatheringId);
-            }
-
             callback.Invoke (result);
         }
 
-        public void CancelGathering (string gatheringName)
+        public void StartCancelGathering (string gatheringName, Action<AsyncResult<EzCancelMatchmakingResult>> callback)
         {
-            StartCoroutine (CancelGathering (gatheringName, null));
+            StartCoroutine (CancelGathering (gatheringName, callback));
         }
 
         public IEnumerator CancelGathering (string gatheringName, Action<AsyncResult<EzCancelMatchmakingResult>> callback)
@@ -259,6 +254,8 @@ namespace Chsopoly.BaseSystem.Gs2
 
                 yield return new WaitForSeconds (1f);
             }
+
+            onError.SafeInvoke (new RequestTimeoutException ("The request timed out."));
         }
 
         public IEnumerator ConnectRoom (string ipAddress, int port, string encryptionKey, Gs2PacketModel profile, Action<AsyncResult<RealtimeSession>> callback)
@@ -322,12 +319,42 @@ namespace Chsopoly.BaseSystem.Gs2
             {
                 yield break;
             }
+            else if (!session.Connected)
+            {
+                onError.SafeInvoke (new RequestTimeoutException ("The request timed out."));
+                yield break;
+            }
 
             _realtimeSession = session;
             callback.SafeInvoke (new AsyncResult<RealtimeSession> (session, null));
         }
 
-        public void SendRelayMessage (Gs2PacketModel model)
+        public void StartCloseRoomConnection (Action callback)
+        {
+            if (ConnectedRealtimeSession)
+            {
+                StartCoroutine (CloseRoomConnection (callback));
+            }
+            else
+            {
+                callback.Invoke ();
+            }
+        }
+
+        public IEnumerator CloseRoomConnection (Action callback)
+        {
+            Debug.Log ("Gs2-CloseRoomConnection");
+
+            ValidateGameSession ();
+            ValidateRealtimeSession ();
+
+            yield return _realtimeSession.Close ();
+
+            _realtimeSession = null;
+            callback.SafeInvoke ();
+        }
+
+        public void StartSendRelayMessage (Gs2PacketModel model)
         {
             StartCoroutine (SendRelayMessage (model, null));
         }

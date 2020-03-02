@@ -9,6 +9,7 @@ namespace Chsopoly.GameScene.Ingame.Object.Character
         {
             None,
             Idle,
+            Dying,
             Dead,
             Run,
             Jump,
@@ -40,6 +41,10 @@ namespace Chsopoly.GameScene.Ingame.Object.Character
                     return new CharacterStateFall ();
                 case State.Appeal:
                     return new CharacterStateAppeal ();
+                case State.Dying:
+                    return new CharacterStateDying ();
+                case State.Dead:
+                    return new CharacterStateDead ();
             }
             Debug.LogError ("A unknown character state was specified. " + state.ToString ());
             return new CharacterStateIdle ();
@@ -67,6 +72,11 @@ namespace Chsopoly.GameScene.Ingame.Object.Character
                         CurrentState == State.Jump ||
                         CurrentState == State.Fall ||
                         CurrentState == State.Run;
+                case State.Dying:
+                    return CurrentState == State.Idle ||
+                        CurrentState == State.Jump ||
+                        CurrentState == State.Run ||
+                        CurrentState == State.Fall;
             }
 
             return false;
@@ -74,6 +84,12 @@ namespace Chsopoly.GameScene.Ingame.Object.Character
 
         protected override bool CanConnectState (State state)
         {
+            switch (state)
+            {
+                case State.Dead:
+                    return CurrentState == State.Dying;
+            }
+
             return false;
         }
     }

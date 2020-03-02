@@ -15,6 +15,8 @@ namespace Chsopoly.GameScene.Ingame.Factory
             yield return handle;
 
             var obj = handle.Result.CreateInstance (parent);
+            obj.transform.position = new Vector2 (0, (obj.transform as RectTransform).sizeDelta.y / 2.0f);
+
             CreateSideWall (false, obj.transform as RectTransform);
             CreateSideWall (true, obj.transform as RectTransform);
 

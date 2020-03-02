@@ -30,6 +30,11 @@ namespace Chsopoly.GameScene.Ingame.Object.Character.State
             {
                 owner.Rigidbody.velocity = new Vector2 (owner.MoveVelocity, owner.Rigidbody.velocity.y);
             }
+
+            if (owner.worldPosition.y + (owner.transform as RectTransform).rect.height < 0)
+            {
+                owner.StateMachine.SetNextState (CharacterStateMachine.State.Dying);
+            }
         }
 
         void IObjectState<CharacterStateMachine.State, CharacterObjectModel.Animation, CharacterObject>.OnComplete (CharacterObject owner)

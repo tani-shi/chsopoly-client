@@ -25,6 +25,8 @@ namespace Chsopoly.GameScene.Matching
         private const string MessageWaitForCreateRoom = "Waiting For Create Room...";
         private const string MessageConnectRoom = "Connecting Room...";
         private const string MessageWaitForOtherPlayers = "Waiting For Joining Other Players...";
+        private const string MessageCloseRoomConnection = "Closing Room Connection...";
+        private const string MessageCancelGathering = "Cancel Gathering...";
         private const string MessageErrorFormat = "{0}\n{1}";
 
         public class Param : IGameSceneParam
@@ -34,17 +36,21 @@ namespace Chsopoly.GameScene.Matching
 
         [SerializeField]
         private Text _progressText = default;
+        [SerializeField]
+        private Button _backButton = default;
 
         private enum State
         {
             None,
+            Error,
             FindGathering,
             CreateGathering,
             Matching,
             WaitForCreateRoom,
             ConnectRoom,
             WaitForOtherPlayers,
-            Error,
+            CloseRoomConnection,
+            CancelGathering,
         }
 
         private int _capacity = 0;
@@ -79,6 +85,12 @@ namespace Chsopoly.GameScene.Matching
                 case State.WaitForOtherPlayers:
                     _progressText.text = MessageWaitForOtherPlayers;
                     break;
+                case State.CloseRoomConnection:
+                    _progressText.text = MessageCloseRoomConnection;
+                    break;
+                case State.CancelGathering:
+                    _progressText.text = MessageCancelGathering;
+                    break;
                 case State.Error:
                     _progressText.text = string.Format (MessageErrorFormat, _exception.GetType ().FullName, _exception.Message);
                     break;
@@ -92,6 +104,30 @@ namespace Chsopoly.GameScene.Matching
             Gs2Manager.Instance.onError -= OnGs2Error;
         }
 
+        public void OnClickBackButton ()
+        {
+            _backButton.interactable = false;
+
+            SetState (State.CloseRoomConnection);
+
+            Gs2Manager.Instance.StartCloseRoomConnection (() =>
+            {
+                if (_gathering != null)
+                {
+                    SetState (State.CancelGathering);
+
+                    Gs2Manager.Instance.StartCancelGathering (_gathering.GatheringId, result =>
+                    {
+                        GameSceneManager.Instance.ChangeScene (GameSceneType.Title);
+                    });
+                }
+                else
+                {
+                    GameSceneManager.Instance.ChangeScene (GameSceneType.Title);
+                }
+            });
+        }
+
         protected override IEnumerator LoadProc (Param param)
         {
             Gs2Manager.Instance.onCompleteMatching += OnMatchingComplete;
@@ -100,6 +136,7 @@ namespace Chsopoly.GameScene.Matching
 
             SetState (State.FindGathering);
             _capacity = param.capacity;
+            _backButton.gameObject.SetActive (false);
 
             StartCoroutine (Gs2Manager.Instance.JoinGathering (r1 =>
             {
@@ -148,14 +185,23 @@ namespace Chsopoly.GameScene.Matching
 
         private void OnGs2Error (Gs2Exception e)
         {
-            SetState (State.Error);
+            SetState (State.Error, true);
 
             _exception = e;
+            _backButton.gameObject.SetActive (true);
+            _backButton.interactable = true;
         }
 
-        private void SetState (State state)
+        private void SetState (State state, bool force = false)
         {
-            _currentState = (State) Mathf.Max ((int) state, (int) _currentState);
+            if (force)
+            {
+                _currentState = state;
+            }
+            else
+            {
+                _currentState = (State) Mathf.Max ((int) state, (int) _currentState);
+            }
         }
 
         private void StartConnectRoom (string roomName)

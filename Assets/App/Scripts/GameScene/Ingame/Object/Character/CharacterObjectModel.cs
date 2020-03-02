@@ -8,6 +8,7 @@ namespace Chsopoly.GameScene.Ingame.Object.Character
             Run,
             Jump,
             Appeal,
+            Dying,
         }
     }
 }

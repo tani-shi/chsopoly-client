@@ -22,6 +22,14 @@ namespace Chsopoly.GameScene.Ingame
         [SerializeField]
         private GimmickObjectPool _gimmickPool = default;
 
+        public IEnumerable<GameObject> StageObjects
+        {
+            get
+            {
+                return _stageObjects;
+            }
+        }
+
         public GameObject Field
         {
             get
@@ -124,7 +132,7 @@ namespace Chsopoly.GameScene.Ingame
                 return;
             }
 
-            Gs2Manager.Instance.SendRelayMessage (model);
+            Gs2Manager.Instance.StartSendRelayMessage (model);
         }
 
         public void SendPlayerSyncMessage ()
@@ -208,8 +216,8 @@ namespace Chsopoly.GameScene.Ingame
                 if (character.IsPlayer)
                 {
                     _playerCharacter = character;
-                    _playerCharacter.StateMachine.onStateChanged += (_, __) => SendPlayerSyncMessage ();
-                    _playerCharacter.onChangedMoveDirection += (_) => SendPlayerSyncMessage ();
+                    _playerCharacter.StateMachine.onStateChanged += OnChangedPlayerState;
+                    _playerCharacter.onChangedMoveDirection += OnChangedPlayerDirection;
                 }
                 else
                 {
@@ -241,6 +249,16 @@ namespace Chsopoly.GameScene.Ingame
             }
 
             SetPhysicsMaterialsRecursively (obj);
+        }
+
+        private void OnChangedPlayerState (CharacterState before, CharacterState after)
+        {
+            SendPlayerSyncMessage ();
+        }
+
+        private void OnChangedPlayerDirection (CharacterObject.MoveDirection direction)
+        {
+            SendPlayerSyncMessage ();
         }
 
         private uint DrawGimmickId ()

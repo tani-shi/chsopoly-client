@@ -35,8 +35,8 @@ namespace Chsopoly.GameScene.Ingame
 
             _hBounds.x = width - (fieldSize.x.Half () + width / 2);
             _hBounds.y = (fieldSize.x.Half () + width / 2) - width;
-            _vBounds.x = height - (fieldSize.y.Half () + height / 2);
-            _vBounds.y = (fieldSize.y.Half () + height / 2) - height;
+            _vBounds.x = height - height / 2;
+            _vBounds.y = (fieldSize.y + height / 2) - height;
         }
 
         void LateUpdate ()

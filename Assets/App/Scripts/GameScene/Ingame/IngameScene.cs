@@ -9,11 +9,15 @@ using Chsopoly.GameScene.Ingame.UI;
 using Chsopoly.Gs2.Models;
 using Chsopoly.MasterData.DAO.Ingame;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Chsopoly.GameScene.Ingame
 {
     public class IngameScene : BaseGameScene<IngameScene.Param>
     {
+        private const string ResultDeadMessage = "Dead";
+        private const string ResultGoalMessage = "Goal";
+
         public class Param : IGameSceneParam
         {
             public string gatheringId;
@@ -30,6 +34,10 @@ namespace Chsopoly.GameScene.Ingame
         private IngameCamera _camera = default;
         [SerializeField]
         private GimmickBox _gimmickBox = default;
+        [SerializeField]
+        private Button _resultScreenButton = default;
+        [SerializeField]
+        private Text _resultText = default;
 
         private Dictionary<uint, Profile> _otherPlayers = new Dictionary<uint, Profile> ();
         private string _gatheringId = string.Empty;
@@ -44,6 +52,26 @@ namespace Chsopoly.GameScene.Ingame
         {
             Gs2Manager.Instance.onRelayRealtimeMessage -= OnRelayMessage;
             Gs2Manager.Instance.onCloseRealtime -= OnCloseConnection;
+        }
+
+        public void OnClickScreen ()
+        {
+            _resultScreenButton.interactable = false;
+
+            Gs2Manager.Instance.StartCloseRoomConnection (() =>
+            {
+                if (!string.IsNullOrEmpty(_gatheringId))
+                {
+                    Gs2Manager.Instance.StartCancelGathering (_gatheringId, result =>
+                    {
+                        GameSceneManager.Instance.ChangeScene (GameSceneType.Title);
+                    });
+                }
+                else
+                {
+                    GameSceneManager.Instance.ChangeScene (GameSceneType.Title);
+                }
+            });
         }
 
         protected override IEnumerator LoadProc (Param param)
@@ -61,6 +89,8 @@ namespace Chsopoly.GameScene.Ingame
             _gimmickBox.SetPutGimmickCallback (OnPutGimmick);
             _camera.SetTarget (_stage.PlayerCharacter.transform);
             _camera.SetBounds ((_stage.Field.transform as RectTransform).sizeDelta);
+            _stage.PlayerCharacter.StateMachine.onStateChanged += OnChangedPlayerState;
+            _resultScreenButton.gameObject.SetActive (false);
         }
 
         private void OnPutGimmick (int index, Vector2 screenPos)
@@ -79,6 +109,32 @@ namespace Chsopoly.GameScene.Ingame
         private void OnCloseConnection (uint connectionId, string reason, bool wasClean)
         {
             _stage.DestroyOtherPlayerCharacter (connectionId);
+        }
+
+        private void OnChangedPlayerState (CharacterStateMachine.State before, CharacterStateMachine.State after)
+        {
+            if (after == CharacterStateMachine.State.Dead)
+            {
+                OnDeadPlayer ();
+            }
+            else if (after == CharacterStateMachine.State.Appeal)
+            {
+                OnGoalPlayer ();
+            }
+        }
+
+        private void OnDeadPlayer ()
+        {
+            _resultScreenButton.gameObject.SetActive (true);
+            _resultScreenButton.interactable = true;
+            _resultText.text = ResultDeadMessage;
+        }
+
+        private void OnGoalPlayer ()
+        {
+            _resultScreenButton.gameObject.SetActive (true);
+            _resultScreenButton.interactable = true;
+            _resultText.text = ResultGoalMessage;
         }
     }
 }

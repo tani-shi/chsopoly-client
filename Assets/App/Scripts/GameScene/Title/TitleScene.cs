@@ -132,15 +132,21 @@ namespace Chsopoly.GameScene.Title
 
         private IEnumerator DoLogin ()
         {
-            SetState (State.Login);
-
             var account = UserDataManager.Instance.Load<Account> ();
             _userIdText.text = account.Gs2AccountId;
+
+            if (Gs2Manager.Instance.HasLogin)
+            {
+                SetState (State.WaitForTapScreen);
+                _buttonContainer.SetActive (true);
+                yield break;
+            }
+
+            SetState (State.Login);
 
             yield return Gs2Manager.Instance.LoginAccount (account.Gs2AccountId, account.Gs2Password, _ =>
             {
                 SetState (State.WaitForTapScreen);
-
                 _buttonContainer.SetActive (true);
             });
         }
