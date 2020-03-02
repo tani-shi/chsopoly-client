@@ -45,13 +45,13 @@ namespace Chsopoly.GameScene.Ingame
         void Start ()
         {
             Gs2Manager.Instance.onRelayRealtimeMessage += OnRelayMessage;
-            Gs2Manager.Instance.onCloseRealtime += OnCloseConnection;
+            Gs2Manager.Instance.onLeaveRealtimePlayer += OnLeavePlayer;
         }
 
         void Destroy ()
         {
             Gs2Manager.Instance.onRelayRealtimeMessage -= OnRelayMessage;
-            Gs2Manager.Instance.onCloseRealtime -= OnCloseConnection;
+            Gs2Manager.Instance.onLeaveRealtimePlayer -= OnLeavePlayer;
         }
 
         public void OnClickScreen ()
@@ -60,7 +60,7 @@ namespace Chsopoly.GameScene.Ingame
 
             Gs2Manager.Instance.StartCloseRoomConnection (() =>
             {
-                if (!string.IsNullOrEmpty(_gatheringId))
+                if (!string.IsNullOrEmpty (_gatheringId))
                 {
                     Gs2Manager.Instance.StartCancelGathering (_gatheringId, result =>
                     {
@@ -106,7 +106,7 @@ namespace Chsopoly.GameScene.Ingame
             _stage.ApplyRelayMessage (connectionId, model);
         }
 
-        private void OnCloseConnection (uint connectionId, string reason, bool wasClean)
+        private void OnLeavePlayer (uint connectionId, Gs2PacketModel model)
         {
             _stage.DestroyOtherPlayerCharacter (connectionId);
         }
