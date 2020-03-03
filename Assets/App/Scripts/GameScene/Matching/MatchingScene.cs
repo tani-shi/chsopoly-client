@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Chsopoly.Audio;
+using Chsopoly.BaseSystem.Audio;
 using Chsopoly.BaseSystem.GameScene;
 using Chsopoly.BaseSystem.Gs2;
 using Chsopoly.BaseSystem.UserData;
@@ -158,6 +160,8 @@ namespace Chsopoly.GameScene.Matching
                     _gathering = r1.Result.Item;
                 }
             }));
+
+            AudioManager.Instance.PlayBgm (Bgm.Main);
 
             yield break;
         }

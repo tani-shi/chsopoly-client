@@ -5,6 +5,7 @@ namespace Chsopoly.Audio
     public enum Bgm
     {
         None,
+        Ingame,
         Main,
     }
 

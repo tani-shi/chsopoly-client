@@ -78,10 +78,11 @@ namespace Chsopoly.GameScene.Title
         {
             _buttonContainer.SetActive (false);
 
+            AudioManager.Instance.PlayBgm (Bgm.Main);
+
             if (Gs2Manager.Instance.HasLogin)
             {
-                SetState (State.WaitForTapScreen);
-                _buttonContainer.SetActive (true);
+                WaitForTapScreen ();
                 yield break;
             }
 
@@ -103,21 +104,15 @@ namespace Chsopoly.GameScene.Title
                         account.CharacterId = 1;
                         UserDataManager.Instance.Save (account);
 
-                        _userIdText.text = r.Result.Item.UserId;
-
-                        StartCoroutine (DoLogin ());
+                        DoLogin ();
                     }));
                 }
                 else
                 {
-                    _userIdText.text = account.Gs2AccountId;
-
-                    StartCoroutine (DoLogin ());
+                    DoLogin ();
                 }
 
             }));
-
-            AudioManager.Instance.PlayBgm (Bgm.Main);
 
             yield break;
         }
@@ -158,17 +153,26 @@ namespace Chsopoly.GameScene.Title
             _buttonContainer.SetActive (false);
         }
 
-        private IEnumerator DoLogin ()
+        private void DoLogin ()
         {
-            var account = UserDataManager.Instance.Load<Account> ();
-
             SetState (State.Login);
 
-            yield return Gs2Manager.Instance.LoginAccount (account.Gs2AccountId, account.Gs2Password, _ =>
+            var account = UserDataManager.Instance.Load<Account> ();
+
+            StartCoroutine (Gs2Manager.Instance.LoginAccount (account.Gs2AccountId, account.Gs2Password, _ =>
             {
-                SetState (State.WaitForTapScreen);
-                _buttonContainer.SetActive (true);
-            });
+                WaitForTapScreen ();
+            }));
+        }
+
+        private void WaitForTapScreen ()
+        {
+            SetState (State.WaitForTapScreen);
+
+            var account = UserDataManager.Instance.Load<Account> ();
+
+            _buttonContainer.SetActive (true);
+            _userIdText.text = account.Gs2AccountId;
         }
 
         private void OnErrorGs2 (Gs2Exception e)

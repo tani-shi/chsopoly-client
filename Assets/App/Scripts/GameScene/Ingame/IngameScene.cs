@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Chsopoly.Audio;
+using Chsopoly.BaseSystem.Audio;
 using Chsopoly.BaseSystem.GameScene;
 using Chsopoly.BaseSystem.Gs2;
 using Chsopoly.BaseSystem.MasterData;
@@ -91,6 +93,8 @@ namespace Chsopoly.GameScene.Ingame
             _camera.SetBounds ((_stage.Field.transform as RectTransform).sizeDelta);
             _stage.PlayerCharacter.StateMachine.onStateChanged += OnChangedPlayerState;
             _resultScreenButton.gameObject.SetActive (false);
+
+            AudioManager.Instance.PlayBgm (Bgm.Ingame);
         }
 
         private void OnPutGimmick (int index, Vector2 screenPos)

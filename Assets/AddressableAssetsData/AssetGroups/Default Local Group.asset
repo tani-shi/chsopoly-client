@@ -108,6 +108,14 @@ MonoBehaviour:
     - Common
     m_mainAssetType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  - m_GUID: 6a953ecf4686a4b62991d9f89a9c2b85
+    m_Address: Assets/App/AddressableAssets/Audio/Bgm/bgm_ingame.mp3
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Audio
+    - Bgm
+    m_mainAssetType: UnityEngine.AudioClip, UnityEngine.AudioModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   - m_GUID: 70b2ca149987b43998c745a91b2668fb
     m_Address: Assets/App/AddressableAssets/Animations/Character/chr_rabbit.controller
     m_ReadOnly: 1
