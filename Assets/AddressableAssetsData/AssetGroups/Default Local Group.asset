@@ -17,6 +17,13 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: 31f49c861a2a34f72a0d7ed3a37f4f46
   m_SerializeEntries:
+  - m_GUID: 0744525343f464972a9dfff5b1798da4
+    m_Address: Assets/App/AddressableAssets/Textures/UI/bg_main.png
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Textures
+    - UI
+    m_mainAssetType: 
   - m_GUID: 0758b7ee6f11a47ee8fdf3de6b004421
     m_Address: Assets/App/AddressableAssets/Audio/Efx/efx_button_01.mp3
     m_ReadOnly: 1
@@ -43,11 +50,12 @@ MonoBehaviour:
     m_mainAssetType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   - m_GUID: 351c6e0d24c7d49108e17e8efb18cf4b
-    m_Address: Assets/App/AddressableAssets/Textures/Common/flag.png
+    m_Address: Assets/App/AddressableAssets/Textures/Field/flag.png
     m_ReadOnly: 1
     m_SerializedLabels:
     - Textures
     - Common
+    - Field
     m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   - m_GUID: 3e98160221e744e77b677696a9d664d4
@@ -83,7 +91,7 @@ MonoBehaviour:
     m_mainAssetType: Chsopoly.MasterData.DTO.Ingame.CharacterDTO, Assembly-CSharp,
       Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   - m_GUID: 52cea7118c41a405288088bd1bff75ef
-    m_Address: Assets/App/AddressableAssets/Textures/Field/field_01/grass.png
+    m_Address: Assets/App/AddressableAssets/Textures/Field/grass.png
     m_ReadOnly: 1
     m_SerializedLabels:
     - Textures
@@ -175,7 +183,7 @@ MonoBehaviour:
     m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   - m_GUID: 8dcf0ed930e7d4774a61ec604c7bfdde
-    m_Address: Assets/App/AddressableAssets/Textures/Field/field_01/bg_01.png
+    m_Address: Assets/App/AddressableAssets/Textures/Field/bg_01.png
     m_ReadOnly: 1
     m_SerializedLabels:
     - Textures

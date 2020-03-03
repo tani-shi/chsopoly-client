@@ -401,4 +401,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _fadeCanvasGroup: {fileID: 919407970}
   _fadeImage: {fileID: 919407968}
-  _defaultSceneType: 3

@@ -111,7 +111,6 @@ namespace Chsopoly.GameScene.Title
                 {
                     DoLogin ();
                 }
-
             }));
 
             yield break;
