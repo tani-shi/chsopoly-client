@@ -8,8 +8,6 @@ namespace Chsopoly.GameScene.Ingame.UI
 {
     public class PlayerController : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerUpHandler
     {
-        private const int DefaultDraggingId = -999;
-
         [SerializeField]
         private float _dragSpeedThreshold = 10f;
 

@@ -23,6 +23,10 @@ namespace Chsopoly.BaseSystem.AddressableAssets.Editor
         {
             if (_defaultSettings == null)
             {
+                _defaultSettings = AddressableAssetSettingsDefaultObject.Settings;
+            }
+            if (_defaultSettings == null)
+            {
                 Debug.LogError ("Not found a addressable assets default settings file.");
                 return;
             }
@@ -51,6 +55,10 @@ namespace Chsopoly.BaseSystem.AddressableAssets.Editor
         {
             if (_defaultSettings == null)
             {
+                _defaultSettings = AddressableAssetSettingsDefaultObject.Settings;
+            }
+            if (_defaultSettings == null)
+            {
                 return;
             }
 
@@ -71,13 +79,14 @@ namespace Chsopoly.BaseSystem.AddressableAssets.Editor
             var group = _defaultSettings.DefaultGroup;
             var guid = AssetDatabase.AssetPathToGUID (path);
             var entry = group.GetAssetEntry (guid);
-            if (entry != null)
+            if (entry == null)
             {
-                entry.SetAddress (path);
+                entry = _defaultSettings.CreateOrMoveEntry (guid, group, true);
             }
-            else
+            entry.SetAddress (path);
+            foreach (var label in Path.GetDirectoryName (path).Replace (AssetRootPath + "/", "").Split ('/'))
             {
-                _defaultSettings.CreateOrMoveEntry (guid, group, true);
+                entry.SetLabel (label, true, true);
             }
         }
     }

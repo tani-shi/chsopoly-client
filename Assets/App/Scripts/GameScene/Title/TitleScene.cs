@@ -1,4 +1,6 @@
 using System.Collections;
+using Chsopoly.Audio;
+using Chsopoly.BaseSystem.Audio;
 using Chsopoly.BaseSystem.GameScene;
 using Chsopoly.BaseSystem.Gs2;
 using Chsopoly.BaseSystem.UserData;
@@ -12,6 +14,7 @@ namespace Chsopoly.GameScene.Title
 {
     public class TitleScene : BaseGameScene
     {
+        private const string MessageInitializeGs2 = "Initialize Gs2...";
         private const string MessageCreateAccount = "Create Account...";
         private const string MessageLogin = "Login Processing Now...";
         private const string MessageErrorFormat = "{0}\n{1}";
@@ -26,6 +29,7 @@ namespace Chsopoly.GameScene.Title
         private enum State
         {
             None,
+            InitializeGs2,
             CreateAccount,
             Login,
             WaitForTapScreen,
@@ -46,6 +50,9 @@ namespace Chsopoly.GameScene.Title
             {
                 case State.None:
                     _guideText.text = string.Empty;
+                    break;
+                case State.InitializeGs2:
+                    _guideText.text = MessageInitializeGs2;
                     break;
                 case State.CreateAccount:
                     _guideText.text = MessageCreateAccount;
@@ -71,27 +78,46 @@ namespace Chsopoly.GameScene.Title
         {
             _buttonContainer.SetActive (false);
 
-            var account = UserDataManager.Instance.Load<Account> ();
-            if (account == null)
+            if (Gs2Manager.Instance.HasLogin)
             {
-                SetState (State.CreateAccount);
+                SetState (State.WaitForTapScreen);
+                _buttonContainer.SetActive (true);
+                yield break;
+            }
 
-                StartCoroutine (Gs2Manager.Instance.CreateAccount (r =>
+            SetState (State.InitializeGs2);
+
+            StartCoroutine (Gs2Manager.Instance.Initialize (() =>
+            {
+                var account = UserDataManager.Instance.Load<Account> ();
+                if (account == null)
                 {
-                    account = new Account ();
-                    account.Gs2AccountId = r.Result.Item.UserId;
-                    account.Gs2Password = r.Result.Item.Password;
-                    account.Gs2CreatedAt = r.Result.Item.CreatedAt;
-                    account.CharacterId = 1;
-                    UserDataManager.Instance.Save (account);
+                    SetState (State.CreateAccount);
+
+                    StartCoroutine (Gs2Manager.Instance.CreateAccount (r =>
+                    {
+                        account = new Account ();
+                        account.Gs2AccountId = r.Result.Item.UserId;
+                        account.Gs2Password = r.Result.Item.Password;
+                        account.Gs2CreatedAt = r.Result.Item.CreatedAt;
+                        account.CharacterId = 1;
+                        UserDataManager.Instance.Save (account);
+
+                        _userIdText.text = r.Result.Item.UserId;
+
+                        StartCoroutine (DoLogin ());
+                    }));
+                }
+                else
+                {
+                    _userIdText.text = account.Gs2AccountId;
 
                     StartCoroutine (DoLogin ());
-                }));
-            }
-            else
-            {
-                StartCoroutine (DoLogin ());
-            }
+                }
+
+            }));
+
+            AudioManager.Instance.PlayBgm (Bgm.Main);
 
             yield break;
         }
@@ -119,6 +145,8 @@ namespace Chsopoly.GameScene.Title
                 return;
             }
 
+            AudioManager.Instance.PlayEfx (Efx.Button01);
+
             var param = new Chsopoly.GameScene.Ingame.IngameScene.Param ()
             {
                 stageId = 1,
@@ -133,14 +161,6 @@ namespace Chsopoly.GameScene.Title
         private IEnumerator DoLogin ()
         {
             var account = UserDataManager.Instance.Load<Account> ();
-            _userIdText.text = account.Gs2AccountId;
-
-            if (Gs2Manager.Instance.HasLogin)
-            {
-                SetState (State.WaitForTapScreen);
-                _buttonContainer.SetActive (true);
-                yield break;
-            }
 
             SetState (State.Login);
 

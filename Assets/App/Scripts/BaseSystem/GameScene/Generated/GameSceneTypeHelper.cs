@@ -1,7 +1,8 @@
 // DON'T EDIT. THIS IS GENERATED AUTOMATICALLY.
 using System;
+using Chsopoly.GameScene;
 
-namespace Chsopoly.GameScene
+namespace Chsopoly.BaseSystem.GameScene
 {
     public static class GameSceneTypeHelper
     {
@@ -15,8 +16,9 @@ namespace Chsopoly.GameScene
                     return "Assets/App/AddressableAssets/Prefabs/GameScene/MatchingScene.prefab";
                 case GameSceneType.Title:
                     return "Assets/App/AddressableAssets/Prefabs/GameScene/TitleScene.prefab";
+                default:
+                    throw new ArgumentOutOfRangeException ("Undefined GameSceneType was specified. " + type.ToString ());
             }
-            throw new ArgumentOutOfRangeException ("Undefined GameSceneType was found. " + type.ToString ());
         }
     }
 }

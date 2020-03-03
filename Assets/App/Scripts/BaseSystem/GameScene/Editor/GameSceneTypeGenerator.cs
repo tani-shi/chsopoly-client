@@ -12,10 +12,10 @@ namespace Chsopoly.BaseSystem.GameScene.Editor
 {
     public class GameSceneTypeGenerator : AssetPostprocessor
     {
-        private const string kPathGameSceneTypeScript = "Assets/App/Scripts/GameScene/Generated/GameSceneType.cs";
-        private const string kPathGameSceneTypeHelperScript = "Assets/App/Scripts/GameScene/Generated/GameSceneTypeHelper.cs";
+        private const string PathGameSceneTypeScript = "Assets/App/Scripts/GameScene/Generated/GameSceneType.cs";
+        private const string PathGameSceneTypeHelperScript = "Assets/App/Scripts/BaseSystem/GameScene/Generated/GameSceneTypeHelper.cs";
 
-        private const string kTemplateGameSceneTypeScript = @"// DON'T EDIT. THIS IS GENERATED AUTOMATICALLY.
+        private const string TemplateGameSceneTypeScript = @"// DON'T EDIT. THIS IS GENERATED AUTOMATICALLY.
 
 namespace Chsopoly.GameScene
 {
@@ -25,10 +25,11 @@ namespace Chsopoly.GameScene
 ${TYPES}
     }
 }";
-        private const string kTemplateGameSceneTypeHelperScript = @"// DON'T EDIT. THIS IS GENERATED AUTOMATICALLY.
+        private const string TemplateGameSceneTypeHelperScript = @"// DON'T EDIT. THIS IS GENERATED AUTOMATICALLY.
 using System;
+using Chsopoly.GameScene;
 
-namespace Chsopoly.GameScene
+namespace Chsopoly.BaseSystem.GameScene
 {
     public static class GameSceneTypeHelper
     {
@@ -37,16 +38,48 @@ namespace Chsopoly.GameScene
             switch (type)
             {
 ${PATH_CASES}
+                default:
+                    throw new ArgumentOutOfRangeException (""Undefined GameSceneType was specified. "" + type.ToString ());
             }
-            throw new ArgumentOutOfRangeException (""Undefined GameSceneType was found. "" + type.ToString ());
         }
     }
 }";
 
-        [MenuItem ("Project/Update GameScene Types")]
+        [MenuItem ("Project/Game Scene/Update GameScene Types")]
         public static void Generate ()
         {
-            var typeBuilder = new StringBuilder ();
+            GenerateTypeScript ();
+            GenerateHelperScript ();
+
+            AssetDatabase.Refresh ();
+        }
+
+        private static void GenerateTypeScript ()
+        {
+            var builder = new StringBuilder ();
+
+            var tempList = new List<string> ();
+            foreach (var guid in AssetDatabase.FindAssets ("t:prefab"))
+            {
+                var path = AssetDatabase.GUIDToAssetPath (guid);
+                if (IsGameScenePath (path) && !tempList.Contains (path))
+                {
+                    tempList.Add (path);
+                }
+            }
+
+            foreach (var path in tempList)
+            {
+                var name = Path.GetFileNameWithoutExtension (path).Replace ("Scene", "");
+                builder.AppendLine (string.Format ("{0},", name).Indent (8));
+            }
+
+            Directory.CreateDirectory (Path.GetDirectoryName (PathGameSceneTypeScript));
+            File.WriteAllText (PathGameSceneTypeScript, TemplateGameSceneTypeScript.Replace ("${TYPES}", builder.ToString ().RemoveLast ()));
+        }
+
+        private static void GenerateHelperScript ()
+        {
             var caseBuilder = new StringBuilder ();
             var pathCaseBuilder = new StringBuilder ();
 
@@ -63,19 +96,15 @@ ${PATH_CASES}
             foreach (var path in tempList)
             {
                 var name = Path.GetFileNameWithoutExtension (path).Replace ("Scene", "");
-                typeBuilder.AppendLine (string.Format ("{0},", name).Indent (8));
                 pathCaseBuilder.AppendLine (string.Format ("case GameSceneType.{0}:", name).Indent (16));
                 pathCaseBuilder.AppendLine (string.Format ("return \"{0}\";", path).Indent (20));
             }
 
-            File.WriteAllText (kPathGameSceneTypeScript, kTemplateGameSceneTypeScript.Replace ("${TYPES}", typeBuilder.ToString ().RemoveLast ()));
-
-            var helperScript = kTemplateGameSceneTypeHelperScript
+            var helperScript = TemplateGameSceneTypeHelperScript
                 .Replace ("${CASES}", caseBuilder.ToString ().RemoveLast ())
                 .Replace ("${PATH_CASES}", pathCaseBuilder.ToString ().RemoveLast ());
-            File.WriteAllText (kPathGameSceneTypeHelperScript, helperScript);
-
-            AssetDatabase.Refresh ();
+            Directory.CreateDirectory (Path.GetDirectoryName (PathGameSceneTypeHelperScript));
+            File.WriteAllText (PathGameSceneTypeHelperScript, helperScript);
         }
 
         private static bool IsGameScenePath (string path)

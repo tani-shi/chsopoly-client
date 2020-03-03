@@ -17,129 +17,213 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: 31f49c861a2a34f72a0d7ed3a37f4f46
   m_SerializeEntries:
+  - m_GUID: 0758b7ee6f11a47ee8fdf3de6b004421
+    m_Address: Assets/App/AddressableAssets/Audio/Efx/efx_button_01.mp3
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Audio
+    - Efx
+    m_mainAssetType: UnityEngine.AudioClip, UnityEngine.AudioModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  - m_GUID: 1f13d801a6e4b493d8e835d3ec3ec9a5
+    m_Address: Assets/App/AddressableAssets/Textures/Character/chr_rabbit/chr_rabbit_dying.png
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Textures
+    - Character
+    - chr_rabbit
+    m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   - m_GUID: 22c9bb32158b84d96ac39a9156b6b250
     m_Address: Assets/App/AddressableAssets/Prefabs/Gimmick/gim_wood_step.prefab
     m_ReadOnly: 1
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - Prefabs
+    - Gimmick
     m_mainAssetType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   - m_GUID: 351c6e0d24c7d49108e17e8efb18cf4b
     m_Address: Assets/App/AddressableAssets/Textures/Common/flag.png
     m_ReadOnly: 1
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - Textures
+    - Common
     m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  - m_GUID: 3e98160221e744e77b677696a9d664d4
+    m_Address: Assets/App/AddressableAssets/Audio/Bgm/bgm_main.mp3
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Audio
+    - Bgm
+    m_mainAssetType: UnityEngine.AudioClip, UnityEngine.AudioModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   - m_GUID: 41a2ddc62d85545c2954c3fc0d5568ba
     m_Address: Assets/App/AddressableAssets/Prefabs/Character/chr_rabbit.prefab
     m_ReadOnly: 1
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - Prefabs
+    - Character
     m_mainAssetType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   - m_GUID: 4a42604bdd11744af84c9b79df115847
     m_Address: Assets/App/AddressableAssets/Prefabs/GameScene/IngameScene.prefab
     m_ReadOnly: 1
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - Prefabs
+    - GameScene
     m_mainAssetType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   - m_GUID: 4aa648242a8654cd4be1e3beb46f3d80
     m_Address: Assets/App/AddressableAssets/MasterData/Ingame/Character.asset
     m_ReadOnly: 1
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - MasterData
+    - Ingame
     m_mainAssetType: Chsopoly.MasterData.DTO.Ingame.CharacterDTO, Assembly-CSharp,
       Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   - m_GUID: 52cea7118c41a405288088bd1bff75ef
     m_Address: Assets/App/AddressableAssets/Textures/Field/field_01/grass.png
     m_ReadOnly: 1
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - Textures
+    - Field
+    - field_01
     m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   - m_GUID: 580f85a19eefe4698883ac8f5ef363df
     m_Address: Assets/App/AddressableAssets/Textures/Character/chr_rabbit/chr_rabbit_jump.png
     m_ReadOnly: 1
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - Textures
+    - Character
+    - chr_rabbit
     m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   - m_GUID: 6880ebce6527249918518c8b3ea384bf
     m_Address: Assets/App/AddressableAssets/Prefabs/Common/StartPoint.prefab
     m_ReadOnly: 1
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - Prefabs
+    - Common
     m_mainAssetType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   - m_GUID: 70b2ca149987b43998c745a91b2668fb
     m_Address: Assets/App/AddressableAssets/Animations/Character/chr_rabbit.controller
     m_ReadOnly: 1
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - Animations
+    - Character
     m_mainAssetType: UnityEditor.Animations.AnimatorController, UnityEditor, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   - m_GUID: 71c885f193d364d22b2d59b00a80264e
     m_Address: Assets/App/AddressableAssets/Prefabs/GameScene/MatchingScene.prefab
     m_ReadOnly: 1
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - Prefabs
+    - GameScene
     m_mainAssetType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   - m_GUID: 77fa383ffebf943c491b16b6a8cc8e3f
     m_Address: Assets/App/AddressableAssets/Textures/Character/chr_rabbit/chr_rabbit_appeal.png
     m_ReadOnly: 1
-    m_SerializedLabels: []
-    m_mainAssetType: 
+    m_SerializedLabels:
+    - Textures
+    - Character
+    - chr_rabbit
+    m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   - m_GUID: 7a3264676fe6f448d85fbe0144c0fde1
     m_Address: Assets/App/AddressableAssets/MasterData/Ingame/Stage.asset
     m_ReadOnly: 1
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - MasterData
+    - Ingame
     m_mainAssetType: Chsopoly.MasterData.DTO.Ingame.StageDTO, Assembly-CSharp, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   - m_GUID: 7f5f01ba375d24981ab2c91cf312d9f0
     m_Address: Assets/App/AddressableAssets/Textures/Capture/Gimmick/gim_wood_step.png
     m_ReadOnly: 1
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - Textures
+    - Capture
+    - Gimmick
     m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   - m_GUID: 83e7688545cbb43b69495475386674f4
     m_Address: Assets/App/AddressableAssets/Prefabs/GameScene/TitleScene.prefab
     m_ReadOnly: 1
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - Prefabs
+    - GameScene
     m_mainAssetType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   - m_GUID: 86281ec286acb4adf91726f7c4aea212
     m_Address: Assets/App/AddressableAssets/Textures/Gimmick/wood_step.png
     m_ReadOnly: 1
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - Textures
+    - Gimmick
     m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   - m_GUID: 8dcf0ed930e7d4774a61ec604c7bfdde
     m_Address: Assets/App/AddressableAssets/Textures/Field/field_01/bg_01.png
     m_ReadOnly: 1
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - Textures
+    - Field
+    - field_01
     m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   - m_GUID: b53e6839613a24467931da3c61c49a84
     m_Address: Assets/App/AddressableAssets/Prefabs/Common/GoalPoint.prefab
     m_ReadOnly: 1
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - Prefabs
+    - Common
     m_mainAssetType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  - m_GUID: cefef51a3e59e489fbbdab6f801cc3fd
+    m_Address: Assets/App/AddressableAssets/Textures/Character/chr_rabbit/chr_rabbit_guard.png
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Textures
+    - Character
+    - chr_rabbit
+    m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   - m_GUID: de98bddf91e934619b1ab2bd7702cdee
     m_Address: Assets/App/AddressableAssets/Prefabs/Field/field_01.prefab
     m_ReadOnly: 1
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - Prefabs
+    - Field
     m_mainAssetType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   - m_GUID: e65bdc01cf7ce4322b40b417a73e4037
     m_Address: Assets/App/AddressableAssets/MasterData/Ingame/Gimmick.asset
     m_ReadOnly: 1
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - MasterData
+    - Ingame
     m_mainAssetType: Chsopoly.MasterData.DTO.Ingame.GimmickDTO, Assembly-CSharp,
       Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   - m_GUID: e7c2dbcbebd804707a6e4e70fab0027e
     m_Address: Assets/App/AddressableAssets/Textures/Character/chr_rabbit/chr_rabbit_idle.png
     m_ReadOnly: 1
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - Textures
+    - Character
+    - chr_rabbit
     m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   - m_GUID: fbf5c23a2fa6f48a08778c4684e8b729
     m_Address: Assets/App/AddressableAssets/Textures/Character/chr_rabbit/chr_rabbit_run.png
     m_ReadOnly: 1
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - Textures
+    - Character
+    - chr_rabbit
     m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   m_ReadOnly: 0

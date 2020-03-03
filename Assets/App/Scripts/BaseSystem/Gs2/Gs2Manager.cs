@@ -69,7 +69,7 @@ namespace Chsopoly.BaseSystem.Gs2
             }
         }
 
-        public IEnumerator Initialize ()
+        public IEnumerator Initialize (Action callback)
         {
             Debug.Log ("Gs2-Initialize");
 
@@ -85,6 +85,8 @@ namespace Chsopoly.BaseSystem.Gs2
             }
 
             _profile.Gs2Session.OnNotificationMessage += OnNotificationMessage;
+
+            callback.SafeInvoke ();
         }
 
         public IEnumerator CreateAccount (Action<AsyncResult<EzCreateResult>> callback)

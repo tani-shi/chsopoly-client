@@ -36,6 +36,11 @@ namespace Chsopoly.Libs.Extensions
             return str;
         }
 
+        public static string Snake2Pascal (this string str)
+        {
+            return Regex.Replace (str, "(^[a-zA-Z]|_[a-zA-Z0-9])", s => s.ToString ().ToUpper ().Replace ("_", ""));
+        }
+
         public static string ToSha256Hash (this string str)
         {
             using (var sha256 = SHA256.Create ())

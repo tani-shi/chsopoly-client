@@ -22,8 +22,6 @@ namespace Chsopoly.BaseSystem.GameScene
         private CanvasGroup _fadeCanvasGroup = default;
         [SerializeField]
         private Image _fadeImage = default;
-        [SerializeField]
-        private GameSceneType _defaultSceneType = GameSceneType.None;
 
         public static IGameScene CurrentScene
         {
@@ -60,9 +58,15 @@ namespace Chsopoly.BaseSystem.GameScene
         private float _fadeRate;
         private IGameScene _gameScene;
         private AsyncOperationHandle<GameObject> _loader;
+        private GameSceneType _defaultSceneType = GameSceneType.None;
 
         public void ChangeScene (GameSceneType type, IGameSceneParam param = null)
         {
+            if (_defaultSceneType == GameSceneType.None)
+            {
+                _defaultSceneType = type;
+            }
+
             _nextSceneInfo = new GameSceneInfo (type, param);
 
             Debug.Log ("Change scene: " + type.ToString ());
