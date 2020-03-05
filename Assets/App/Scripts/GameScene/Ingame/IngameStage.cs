@@ -159,9 +159,7 @@ namespace Chsopoly.GameScene.Ingame
             {
                 _otherCharacterObjectMap[connectionId].worldPosition = new Vector2 (characterObjectSync.x, characterObjectSync.y);
                 _otherCharacterObjectMap[connectionId].SetMoveDirection ((CharacterObject.MoveDirection) characterObjectSync.direction);
-                _otherCharacterObjectMap[connectionId].StateMachine.SetNextState (
-                    (CharacterState) characterObjectSync.state,
-                    _otherCharacterObjectMap[connectionId].StateMachine.CurrentState != (CharacterState) characterObjectSync.state);
+                _otherCharacterObjectMap[connectionId].StateMachine.SetNextState ((CharacterState) characterObjectSync.state, true);
             }
             else if (model is GimmickObjectPut gimmickObjectPut)
             {
@@ -253,11 +251,23 @@ namespace Chsopoly.GameScene.Ingame
 
         private void OnChangedPlayerState (CharacterState before, CharacterState after)
         {
+            if (before == CharacterState.Jump && after == CharacterState.Fall)
+            {
+                return;
+            }
+
             SendPlayerSyncMessage ();
         }
 
         private void OnChangedPlayerDirection (CharacterObject.MoveDirection direction)
         {
+            if (_playerCharacter.StateMachine.CurrentState != CharacterState.Run &&
+                _playerCharacter.StateMachine.CurrentState != CharacterState.Fall &&
+                _playerCharacter.StateMachine.CurrentState != CharacterState.Jump)
+            {
+                return;
+            }
+
             SendPlayerSyncMessage ();
         }
 
