@@ -13,7 +13,7 @@ namespace Chsopoly.GameScene.Components.Button
         [Serializable]
         public class PointerEvent : UnityEvent<PointerEventData> { }
 
-        public UnityEvent onClick = default;
+        public PointerEvent onClick = default;
         public PointerEvent onPressDown = default;
         public PointerEvent onPressUp = default;
         public PointerEvent onDrag = default;
@@ -42,7 +42,7 @@ namespace Chsopoly.GameScene.Components.Button
         private Image _image = null;
         private float _lastPressedDownTime = 0f;
 
-        void Start ()
+        protected virtual void Start ()
         {
             if (_image == null)
             {
@@ -68,7 +68,7 @@ namespace Chsopoly.GameScene.Components.Button
             if ((eventData.pressPosition - eventData.position).sqrMagnitude < (_distanceToClickThreshold * _distanceToClickThreshold) &&
                 (Time.time - _lastPressedDownTime) < _secondsToClickThreshold)
             {
-                onClick.Invoke ();
+                onClick.Invoke (eventData);
             }
         }
 

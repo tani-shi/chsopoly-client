@@ -19,3 +19,4 @@ MonoBehaviour:
     weight: 100
     jumpHeight: 200
     aerialJumpCount: 1
+    power: 2

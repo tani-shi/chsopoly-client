@@ -52,9 +52,9 @@ namespace Chsopoly.GameScene.Ingame.Object
             return Animator.IsPlaying (animation.ToString ());
         }
 
-        public void PlayAnimation (ANIM animation)
+        public void PlayAnimation (ANIM animation, bool force = false)
         {
-            if (Animator != null && !IsPlayingAnimation (animation))
+            if (Animator != null && (!IsPlayingAnimation (animation) || force))
             {
                 Animator.Play (animation.ToString ());
             }

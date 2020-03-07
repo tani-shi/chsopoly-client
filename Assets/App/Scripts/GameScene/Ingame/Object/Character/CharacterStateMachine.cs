@@ -17,6 +17,7 @@ namespace Chsopoly.GameScene.Ingame.Object.Character
             Guard,
             Damage,
             Appeal,
+            Destroy,
         }
 
         public override State DefaultState
@@ -47,6 +48,8 @@ namespace Chsopoly.GameScene.Ingame.Object.Character
                     return new CharacterStateDead ();
                 case State.Guard:
                     return new CharacterStateGuard ();
+                case State.Destroy:
+                    return new CharacterStateDestroy ();
             }
             Debug.LogError ("A unknown character state was specified. " + state.ToString ());
             return new CharacterStateIdle ();
@@ -88,6 +91,9 @@ namespace Chsopoly.GameScene.Ingame.Object.Character
                 case State.Guard:
                     return CurrentState == State.Idle ||
                         CurrentState == State.Run;
+                case State.Destroy:
+                    return Owner.TargetGimmick != null &&
+                        (CurrentState == State.Idle || CurrentState == State.Run);
             }
 
             return false;
@@ -101,6 +107,8 @@ namespace Chsopoly.GameScene.Ingame.Object.Character
                     return CurrentState == State.Dying;
                 case State.Fall:
                     return CurrentState == State.Jump;
+                case State.Idle:
+                    return CurrentState == State.Destroy;
             }
 
             return false;

@@ -23,7 +23,8 @@ MonoBehaviour:
     m_SerializedLabels:
     - Textures
     - UI
-    m_mainAssetType: 
+    m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   - m_GUID: 0758b7ee6f11a47ee8fdf3de6b004421
     m_Address: Assets/App/AddressableAssets/Audio/Efx/efx_button_01.mp3
     m_ReadOnly: 1
@@ -208,6 +209,13 @@ MonoBehaviour:
     - chr_rabbit
     m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  - m_GUID: d1f08035483bd4b399c79248c4d4362a
+    m_Address: Assets/App/AddressableAssets/Animations/Gimmick/gim_wood_step.controller
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Animations
+    - Gimmick
+    m_mainAssetType: 
   - m_GUID: de98bddf91e934619b1ab2bd7702cdee
     m_Address: Assets/App/AddressableAssets/Prefabs/Field/field_01.prefab
     m_ReadOnly: 1

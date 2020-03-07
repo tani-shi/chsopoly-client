@@ -8,5 +8,7 @@ namespace Chsopoly.Gs2.Models
         public int state;
         public float x;
         public float y;
+        public uint targetGimmickConnectionId;
+        public int targetGimmickUniqueId;
     }
 }

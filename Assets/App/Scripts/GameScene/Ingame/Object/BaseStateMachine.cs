@@ -8,7 +8,7 @@ namespace Chsopoly.GameScene.Ingame.Object
     {
         private const int StateMaxDepth = 5;
 
-        public event Action<STATE, STATE> onStateChanged = null;
+        public event Action<STATE, STATE> onStateChanged;
 
         public abstract STATE DefaultState
         {
@@ -153,7 +153,7 @@ namespace Chsopoly.GameScene.Ingame.Object
                         trace += "<<";
                     }
                 }
-                Debug.LogWarning ("too deep state depth. trace:" + trace);
+                Debug.LogWarning ("too deep state depth. trace:" + trace + " " + name);
                 return;
             }
 
@@ -184,13 +184,13 @@ namespace Chsopoly.GameScene.Ingame.Object
                 }
                 else
                 {
-                    Debug.LogWarning ("state has exited but next state is null.");
+                    Debug.LogWarning ("state has exited but next state is null. " + name);
                     _nextState = DefaultState;
                 }
             }
             else if (_stateTimer == 0)
             {
-                Debug.LogWarning ("state has completed but next state is null.");
+                Debug.LogWarning ("state has completed but next state is null. " + name);
                 _nextState = DefaultState;
             }
 

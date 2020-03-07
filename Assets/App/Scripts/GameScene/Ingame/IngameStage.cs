@@ -14,6 +14,7 @@ using Chsopoly.MasterData.DAO.Ingame;
 using Chsopoly.MasterData.VO.Ingame;
 using UnityEngine;
 using CharacterState = Chsopoly.GameScene.Ingame.Object.Character.CharacterStateMachine.State;
+using GimmickState = Chsopoly.GameScene.Ingame.Object.Gimmick.GimmickStateMachine.State;
 
 namespace Chsopoly.GameScene.Ingame
 {
@@ -56,11 +57,9 @@ namespace Chsopoly.GameScene.Ingame
 
         private List<GameObject> _stageObjects = new List<GameObject> ();
         private List<CharacterObject> _characterObjects = new List<CharacterObject> ();
-        private List<GimmickObject> _gimmickObjects = new List<GimmickObject> ();
         private CharacterObject _playerCharacter = null;
-        private Dictionary<int, GimmickObject> _playerGimmickObjectMap = new Dictionary<int, GimmickObject> ();
+        private List<GimmickObject> _gimmickObjects = new List<GimmickObject> ();
         private Dictionary<uint, CharacterObject> _otherCharacterObjectMap = new Dictionary<uint, CharacterObject> ();
-        private Dictionary<uint, Dictionary<int, GimmickObject>> _otherGimmickObjectMaps = new Dictionary<uint, Dictionary<int, GimmickObject>> ();
         private GameObject _field = null;
         private StageVO _stageData = null;
         private uint[] _gimmickLotteryTable = null;
@@ -90,8 +89,6 @@ namespace Chsopoly.GameScene.Ingame
             yield return new CharacterObjectFactory ().CreateCharacter (playerCharacterId, IngameSettings.Gs2.PlayerConnectionId, transform, OnCreateObject);
             foreach (var kv in otherPlayers)
             {
-                _otherGimmickObjectMaps.Add (kv.Key, new Dictionary<int, GimmickObject> ());
-
                 yield return new CharacterObjectFactory ().CreateCharacter (kv.Value.characterId, kv.Key, transform, OnCreateObject);
             }
             for (int i = 0; i < IngameSettings.Rules.MaxGimmickQueueCount; i++)
@@ -143,6 +140,8 @@ namespace Chsopoly.GameScene.Ingame
                 y = _playerCharacter.worldPosition.y,
                 state = (int) _playerCharacter.StateMachine.CurrentState,
                 direction = (int) _playerCharacter.Direction,
+                targetGimmickConnectionId = _playerCharacter.TargetGimmick != null ? _playerCharacter.TargetGimmick.ConnectionId : 0,
+                targetGimmickUniqueId = _playerCharacter.TargetGimmick != null ? _playerCharacter.TargetGimmick.UniqueId : 0,
             };
 
             SendRelayMessage (model);
@@ -157,6 +156,10 @@ namespace Chsopoly.GameScene.Ingame
 
             if (model is CharacterObjectSync characterObjectSync)
             {
+                var targetGimmickConnectionId = characterObjectSync.targetGimmickConnectionId == 0 ?
+                    connectionId : characterObjectSync.targetGimmickConnectionId;
+                _otherCharacterObjectMap[connectionId].TargetGimmick = _gimmickObjects.FirstOrDefault (
+                    o => o.ConnectionId == targetGimmickConnectionId && o.UniqueId == characterObjectSync.targetGimmickUniqueId);
                 _otherCharacterObjectMap[connectionId].worldPosition = new Vector2 (characterObjectSync.x, characterObjectSync.y);
                 _otherCharacterObjectMap[connectionId].SetMoveDirection ((CharacterObject.MoveDirection) characterObjectSync.direction);
                 _otherCharacterObjectMap[connectionId].StateMachine.SetNextState ((CharacterState) characterObjectSync.state, true);
@@ -237,13 +240,21 @@ namespace Chsopoly.GameScene.Ingame
 
                 if (gimmick.IsPlayer)
                 {
-                    _playerGimmickObjectMap.Add (gimmick.GetHashCode (), gimmick);
                     _gimmickPool.Enqueue (gimmick);
                 }
-                else
+
+                gimmick.StateMachine.onStateChanged += (prev, after) =>
                 {
-                    _otherGimmickObjectMaps[gimmick.ConnectionId].Add (gimmick.UniqueId, gimmick);
-                }
+                    if (after == GimmickState.Dead)
+                    {
+                        if (_gimmickObjects.Contains (gimmick))
+                        {
+                            _gimmickObjects.Remove (gimmick);
+                        }
+
+                        Destroy (gimmick.gameObject);
+                    }
+                };
             }
 
             SetPhysicsMaterialsRecursively (obj);

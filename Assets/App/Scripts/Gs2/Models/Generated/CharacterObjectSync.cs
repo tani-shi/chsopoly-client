@@ -28,6 +28,10 @@ namespace Chsopoly.Gs2.Models
             size += sizeof (System.Single);
             var d4 = BitConverter.GetBytes (y);
             size += sizeof (System.Single);
+            var d5 = BitConverter.GetBytes (targetGimmickConnectionId);
+            size += sizeof (System.UInt32);
+            var d6 = BitConverter.GetBytes (targetGimmickUniqueId);
+            size += sizeof (System.Int32);
 
             var pos = 0;
             var buffer = new byte [size];
@@ -41,6 +45,10 @@ namespace Chsopoly.Gs2.Models
             pos += sizeof (System.Single);
             Buffer.BlockCopy (d4, 0, buffer, pos, d4.Length);
             pos += sizeof (System.Single);
+            Buffer.BlockCopy (d5, 0, buffer, pos, d5.Length);
+            pos += sizeof (System.UInt32);
+            Buffer.BlockCopy (d6, 0, buffer, pos, d6.Length);
+            pos += sizeof (System.Int32);
 
             return ByteString.CopyFrom (buffer);
         }
@@ -57,6 +65,10 @@ namespace Chsopoly.Gs2.Models
             pos += sizeof (System.Single);
             y = BitConverter.ToSingle (bytes, pos);
             pos += sizeof (System.Single);
+            targetGimmickConnectionId = BitConverter.ToUInt32 (bytes, pos);
+            pos += sizeof (System.UInt32);
+            targetGimmickUniqueId = BitConverter.ToInt32 (bytes, pos);
+            pos += sizeof (System.Int32);
 
             return this;
         }

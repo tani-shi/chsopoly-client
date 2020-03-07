@@ -2,6 +2,7 @@ using System;
 using Chsopoly.BaseSystem.Gs2;
 using Chsopoly.BaseSystem.MasterData;
 using Chsopoly.GameScene.Ingame.Event;
+using Chsopoly.GameScene.Ingame.Object.Gimmick;
 using Chsopoly.Gs2.Models;
 using Chsopoly.Libs.Extensions;
 using Chsopoly.MasterData.DAO.Ingame;
@@ -54,6 +55,14 @@ namespace Chsopoly.GameScene.Ingame.Object.Character
             get
             {
                 return _jumpHeight;
+            }
+        }
+
+        public int Power
+        {
+            get
+            {
+                return _power;
             }
         }
 
@@ -127,6 +136,18 @@ namespace Chsopoly.GameScene.Ingame.Object.Character
             }
         }
 
+        public GimmickObject TargetGimmick
+        {
+            get
+            {
+                return _targetGimmick;
+            }
+            set
+            {
+                _targetGimmick = value;
+            }
+        }
+
         public enum MoveDirection
         {
             None,
@@ -138,12 +159,14 @@ namespace Chsopoly.GameScene.Ingame.Object.Character
         private float _jumpHeight = 0;
         private int _aerialJumpCount = 0;
         private int _aerialJumpCounter = 0;
+        private int _power = 0;
         private bool _isLanded = true;
         private uint _connectionId = 0;
         private Rigidbody2D _rigidbody = null;
         private BoxCollider2D _collider = null;
         private Transform _transform = null;
         private MoveDirection _direction = MoveDirection.None;
+        private GimmickObject _targetGimmick = null;
 
         public override void Initialize (uint id)
         {
@@ -157,6 +180,7 @@ namespace Chsopoly.GameScene.Ingame.Object.Character
             _moveSpeed = data.moveSpeed;
             _jumpHeight = data.jumpHeight;
             _aerialJumpCount = data.aerialJumpCount;
+            _power = data.power;
         }
 
         public void SetIdentity (uint connectionId)

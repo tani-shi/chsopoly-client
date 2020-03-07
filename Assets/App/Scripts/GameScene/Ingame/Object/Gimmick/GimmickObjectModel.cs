@@ -7,7 +7,8 @@ namespace Chsopoly.GameScene.Ingame.Object.Gimmick
         public enum Animation
         {
             Idle,
-            Run,
+            Damage,
+            Dying,
         }
     }
 }

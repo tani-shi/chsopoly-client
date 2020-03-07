@@ -1,6 +1,7 @@
 using Chsopoly.BaseSystem.Gs2;
 using Chsopoly.GameScene.Components.Button;
 using Chsopoly.GameScene.Ingame.Object.Character;
+using Chsopoly.GameScene.Ingame.Object.Gimmick;
 using Chsopoly.Gs2.Models;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -12,24 +13,17 @@ namespace Chsopoly.GameScene.Ingame.UI
     {
         [SerializeField]
         private float _dragSpeedThreshold = 10f;
-
-        private enum Mode
-        {
-            None,
-            ControlPlayer,
-            DestroyGimmick,
-        }
+        [SerializeField]
+        private Camera _stageCamera = default;
 
         private CharacterObject _playerCharacter = null;
         private bool _dragging = false;
         private CharacterObject.MoveDirection _draggingDirection = CharacterObject.MoveDirection.None;
         private bool _guarding = false;
-        private Mode _mode = Mode.None;
 
         public void SetPlayer (CharacterObject playerCharacter)
         {
             _playerCharacter = playerCharacter;
-            _mode = Mode.ControlPlayer;
         }
 
         public void OnClickJump ()
@@ -49,7 +43,7 @@ namespace Chsopoly.GameScene.Ingame.UI
 
         public void OnDragController (PointerEventData eventData)
         {
-            if (_playerCharacter == null || _mode != Mode.ControlPlayer)
+            if (_playerCharacter == null)
             {
                 return;
             }
@@ -58,6 +52,17 @@ namespace Chsopoly.GameScene.Ingame.UI
             {
                 _dragging = true;
                 _draggingDirection = eventData.delta.x > 0 ? CharacterObject.MoveDirection.Right : CharacterObject.MoveDirection.Left;
+            }
+        }
+
+        public void OnClickController (PointerEventData eventData)
+        {
+            var worldPoint = _stageCamera.ScreenToWorldPoint (new Vector3 (eventData.position.x, eventData.position.y));
+            var hit = Physics2D.Raycast (worldPoint, Vector2.one, 1f, LayerMask.GetMask (LayerMask.LayerToName (IngameSettings.Layers.Gimmick)));
+            if (hit)
+            {
+                _playerCharacter.TargetGimmick = hit.collider.gameObject.GetComponent<GimmickObject> ();
+                _playerCharacter.StateMachine.SetNextState (CharacterStateMachine.State.Destroy);
             }
         }
 
@@ -73,18 +78,6 @@ namespace Chsopoly.GameScene.Ingame.UI
                 return;
             }
 
-            switch (_mode)
-            {
-                case Mode.ControlPlayer:
-                    ControlPlayer ();
-                    break;
-                case Mode.DestroyGimmick:
-                    break;
-            }
-        }
-
-        private void ControlPlayer ()
-        {
 #if UNITY_EDITOR
             if (Input.GetKeyDown (KeyCode.Space))
             {
@@ -120,7 +113,10 @@ namespace Chsopoly.GameScene.Ingame.UI
             }
             else
             {
-                _playerCharacter.StateMachine.SetNextState (CharacterStateMachine.State.Idle);
+                if (!_playerCharacter.StateMachine.SetNextState (CharacterStateMachine.State.Idle))
+                {
+                    _playerCharacter.SetMoveDirection (CharacterObject.MoveDirection.None);
+                }
             }
         }
     }

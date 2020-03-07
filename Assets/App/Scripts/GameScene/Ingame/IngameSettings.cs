@@ -15,6 +15,7 @@ namespace Chsopoly.GameScene.Ingame
             public const int MaxPlayerCount = 4;
             public const int MaxGimmickQueueCount = 4;
             public const int MaxGimmickBoxCount = 3;
+            public const int GameSetPoint = 2;
         }
 
         public static class Layers

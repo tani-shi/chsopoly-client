@@ -10,6 +10,7 @@ namespace Chsopoly.GameScene.Ingame.Object.Character
             Appeal,
             Dying,
             Guard,
+            Destroy,
         }
     }
 }

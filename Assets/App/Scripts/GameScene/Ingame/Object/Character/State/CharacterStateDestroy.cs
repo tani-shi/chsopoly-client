@@ -3,14 +3,15 @@ using UnityEngine;
 
 namespace Chsopoly.GameScene.Ingame.Object.Character.State
 {
-    public class CharacterStateIdle : IObjectState<CharacterStateMachine.State, CharacterObjectModel.Animation, CharacterObject>
+    public class CharacterStateDestroy : IObjectState<CharacterStateMachine.State, CharacterObjectModel.Animation, CharacterObject>
     {
         void IObjectState<CharacterStateMachine.State, CharacterObjectModel.Animation, CharacterObject>.OnEnter (CharacterObject owner)
         {
-            owner.Model.PlayAnimation (CharacterObjectModel.Animation.Idle);
-            owner.StateMachine.SetStateTimerInfinite ();
+            owner.Model.PlayAnimation (CharacterObjectModel.Animation.Destroy);
+            owner.StateMachine.SetStateTimer (Application.targetFrameRate / 2);
             owner.SetMoveDirection (CharacterObject.MoveDirection.None);
             owner.Rigidbody.velocity = new Vector2 (0, owner.Rigidbody.velocity.y);
+            owner.TargetGimmick.Damage (owner.Power);
         }
 
         void IObjectState<CharacterStateMachine.State, CharacterObjectModel.Animation, CharacterObject>.OnUpdate (CharacterObject owner)
@@ -23,7 +24,7 @@ namespace Chsopoly.GameScene.Ingame.Object.Character.State
 
         void IObjectState<CharacterStateMachine.State, CharacterObjectModel.Animation, CharacterObject>.OnComplete (CharacterObject owner)
         {
-
+            owner.StateMachine.SetNextState (CharacterStateMachine.State.Idle);
         }
 
         void IObjectState<CharacterStateMachine.State, CharacterObjectModel.Animation, CharacterObject>.OnExit (CharacterObject owner)
