@@ -17,3 +17,4 @@ MonoBehaviour:
     assetName: gim_wood_step
     lotteryWeight: 1
     hitPoint: 5
+    coolTime: 5

@@ -62,7 +62,10 @@ namespace Chsopoly.GameScene.Ingame.UI
                 if (i < _gimmickPool.Gimmicks.Count)
                 {
                     var gimmick = _gimmickPool.Gimmicks[i];
-                    _items[i].Initialize (gimmick.Id, _gimmickIconTextureMap[gimmick.Id]);
+                    if (_items[i].GimmickId != gimmick.Id)
+                    {
+                        _items[i].Initialize (gimmick.Id, _gimmickIconTextureMap[gimmick.Id]);
+                    }
                 }
                 else
                 {

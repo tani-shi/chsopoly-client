@@ -13,6 +13,7 @@ namespace Chsopoly.MasterData.VO.Ingame
         public string assetName;
         public int lotteryWeight;
         public int hitPoint;
+        public float coolTime;
 
         public uint GetKey ()
         {

@@ -1,5 +1,7 @@
 using System;
+using Chsopoly.BaseSystem.MasterData;
 using Chsopoly.Libs.Extensions;
+using Chsopoly.MasterData.DAO.Ingame;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
@@ -14,45 +16,92 @@ namespace Chsopoly.GameScene.Ingame.UI
         [SerializeField]
         private int _index = 0;
         [SerializeField]
-        private Image _image = default;
+        private Image _gimmickImage = default;
         [SerializeField]
         private float _dragToPickThreshold = 10f;
         [SerializeField]
         private Transform _draggingRoot = default;
         [SerializeField]
         private Camera _stageCamera = default;
+        [SerializeField]
+        private GameObject _gaugeContainer = default;
+        [SerializeField]
+        private Image _gaugeImage = default;
+
+        public uint GimmickId
+        {
+            get
+            {
+                return _gimmickId;
+            }
+        }
 
         private Vector2 _dragStartPos = Vector2.zero;
         private Image _draggingImage = null;
         private Sprite _texture = null;
         private uint _gimmickId = 0;
+        private float _coolTimeCounter = 0f;
+        private float _coolTime = 0f;
+        private bool _first = true;
 
         public void Initialize (uint id, Sprite texture)
         {
-            if (id == _gimmickId)
+            _gimmickId = id;
+            _texture = texture;
+
+            if (_gimmickImage.sprite != null)
+            {
+                Destroy (_gimmickImage.sprite);
+                _gimmickImage.sprite = null;
+                _gimmickImage.color = Color.clear;
+            }
+            if (texture != null)
+            {
+                _gimmickImage.sprite = Instantiate (_texture);
+                _gimmickImage.color = Color.white;
+            }
+
+            if (_gaugeContainer != null)
+            {
+                if (id != 0)
+                {
+                    var data = MasterDataManager.Instance.Get<GimmickDAO> ().Get (id);
+                    _coolTime = data.coolTime;
+                    _coolTimeCounter = 0;
+
+                    // Skip coolTime at just first time.
+                    _gaugeContainer.SetActive (_coolTime > 0 && !_first);
+                }
+                else
+                {
+                    _gaugeContainer.SetActive (false);
+                }
+            }
+
+            _first = false;
+        }
+
+        void Update ()
+        {
+            if (_gaugeContainer == null || !_gaugeContainer.activeSelf)
             {
                 return;
             }
 
-            _gimmickId = id;
-            _texture = texture;
+            _coolTimeCounter = Mathf.Min (_coolTime, _coolTimeCounter + Time.deltaTime);
+            var position = _gaugeImage.rectTransform.anchoredPosition;
+            position.y = Mathf.Lerp (0, _gaugeImage.rectTransform.sizeDelta.y, _coolTimeCounter / _coolTime);
+            _gaugeImage.rectTransform.anchoredPosition = position;
 
-            if (_image.sprite != null)
+            if (_coolTimeCounter >= _coolTime)
             {
-                Destroy (_image.sprite);
-                _image.sprite = null;
-                _image.color = Color.clear;
-            }
-            if (texture != null)
-            {
-                _image.sprite = Instantiate (_texture);
-                _image.color = Color.white;
+                _gaugeContainer.SetActive (false);
             }
         }
 
         void IDragHandler.OnDrag (PointerEventData eventData)
         {
-            if (_gimmickId == 0 || _texture == null)
+            if (_gimmickId == 0 || _texture == null || _gaugeContainer == null || _gaugeContainer.activeSelf)
             {
                 return;
             }
@@ -70,7 +119,7 @@ namespace Chsopoly.GameScene.Ingame.UI
 
         void IPointerDownHandler.OnPointerDown (PointerEventData eventData)
         {
-            if (_gimmickId == 0 || _texture == null)
+            if (_gimmickId == 0 || _texture == null || _gaugeContainer == null || _gaugeContainer.activeSelf)
             {
                 return;
             }
@@ -80,7 +129,7 @@ namespace Chsopoly.GameScene.Ingame.UI
 
         void IPointerUpHandler.OnPointerUp (PointerEventData eventData)
         {
-            if (_gimmickId == 0 || _texture == null)
+            if (_gimmickId == 0 || _texture == null || _gaugeContainer == null || _gaugeContainer.activeSelf)
             {
                 return;
             }
@@ -91,6 +140,7 @@ namespace Chsopoly.GameScene.Ingame.UI
             {
                 Destroy (_draggingImage.gameObject);
                 onPutGimmick.SafeInvoke (_index, eventData.position);
+                Initialize (0, null);
             }
         }
 
