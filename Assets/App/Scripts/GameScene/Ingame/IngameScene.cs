@@ -7,7 +7,7 @@ using Chsopoly.BaseSystem.GameScene;
 using Chsopoly.BaseSystem.Gs2;
 using Chsopoly.BaseSystem.MasterData;
 using Chsopoly.GameScene.Ingame.Object.Character;
-using Chsopoly.GameScene.Ingame.UI;
+using Chsopoly.GameScene.Ingame.Components;
 using Chsopoly.Gs2.Models;
 using Chsopoly.MasterData.DAO.Ingame;
 using UnityEngine;

@@ -19,9 +19,20 @@ namespace Chsopoly.GameScene.Ingame
             }
         }
 
+        public Rect ViewRect
+        {
+            get
+            {
+                var height = _mainCamera.orthographicSize * 2.0f;
+                var width = height * _mainCamera.aspect;
+                return new Rect (_transform.position.x - width / 2, _transform.position.y - height / 2, height, width);
+            }
+        }
+
         private Vector2 _hBounds = Vector2.zero;
         private Vector2 _vBounds = Vector2.zero;
         private Transform _target = null;
+        private Transform _transform = null;
 
         public void SetTarget (Transform target)
         {
@@ -37,6 +48,11 @@ namespace Chsopoly.GameScene.Ingame
             _hBounds.y = (fieldSize.x.Half () + width / 2) - width;
             _vBounds.x = height - height / 2;
             _vBounds.y = (fieldSize.y + height / 2) - height;
+        }
+
+        void Awake ()
+        {
+            _transform = transform;
         }
 
         void LateUpdate ()

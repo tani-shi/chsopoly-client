@@ -43,7 +43,7 @@ namespace Chsopoly.Editor
                 {
                     EditorUtility.DisplayProgressBar (string.Empty, string.Format ("Capturing all object models... {0} / {1}", index, total), (float) index / (float) total);
 
-                    var path = IngameSettings.Paths.GimmickIcon (data.assetName);
+                    var path = IngameSettings.Paths.GimmickCapture (data.assetName);
                     Directory.CreateDirectory (Path.GetDirectoryName (path));
 
                     var canvas = GameObject.Find ("Canvas");

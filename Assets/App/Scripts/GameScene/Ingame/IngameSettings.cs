@@ -49,7 +49,12 @@ namespace Chsopoly.GameScene.Ingame
                 return string.Format ("Assets/App/AddressableAssets/Prefabs/Gimmick/{0}.prefab", assetName);
             }
 
-            public static string GimmickIcon (string assetName)
+            public static string CharacterIcon (string assetName)
+            {
+                return string.Format ("Assets/App/AddressableAssets/Textures/Icon/Character/{0}.png", assetName);
+            }
+
+            public static string GimmickCapture (string assetName)
             {
                 return string.Format ("Assets/App/AddressableAssets/Textures/Capture/Gimmick/{0}.png", assetName);
             }

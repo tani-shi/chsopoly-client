@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace Chsopoly.GameScene.Ingame.UI
+namespace Chsopoly.GameScene.Ingame.Components
 {
     public class PlayerController : MonoBehaviour
     {

@@ -200,6 +200,14 @@ MonoBehaviour:
     - Common
     m_mainAssetType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  - m_GUID: c8b9b0c3c860347b18773c687a4f2a2a
+    m_Address: Assets/App/AddressableAssets/Prefabs/Components/GimmickBoxItem.prefab
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Prefabs
+    - UI
+    - Components
+    m_mainAssetType: 
   - m_GUID: cefef51a3e59e489fbbdab6f801cc3fd
     m_Address: Assets/App/AddressableAssets/Textures/Character/chr_rabbit/chr_rabbit_guard.png
     m_ReadOnly: 1
@@ -215,7 +223,8 @@ MonoBehaviour:
     m_SerializedLabels:
     - Animations
     - Gimmick
-    m_mainAssetType: 
+    m_mainAssetType: UnityEditor.Animations.AnimatorController, UnityEditor, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   - m_GUID: de98bddf91e934619b1ab2bd7702cdee
     m_Address: Assets/App/AddressableAssets/Prefabs/Field/field_01.prefab
     m_ReadOnly: 1
@@ -232,6 +241,13 @@ MonoBehaviour:
     - Ingame
     m_mainAssetType: Chsopoly.MasterData.DTO.Ingame.GimmickDTO, Assembly-CSharp,
       Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  - m_GUID: e6bd9339eb7674c83802ecce52d4cd6d
+    m_Address: Assets/App/AddressableAssets/Prefabs/Components/CharacterMonitorIcon.prefab
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Prefabs
+    - Components
+    m_mainAssetType: 
   - m_GUID: e7c2dbcbebd804707a6e4e70fab0027e
     m_Address: Assets/App/AddressableAssets/Textures/Character/chr_rabbit/chr_rabbit_idle.png
     m_ReadOnly: 1

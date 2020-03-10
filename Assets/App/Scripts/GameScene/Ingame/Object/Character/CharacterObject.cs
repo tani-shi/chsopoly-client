@@ -148,6 +148,19 @@ namespace Chsopoly.GameScene.Ingame.Object.Character
             }
         }
 
+        public Rect ColliderRect
+        {
+            get
+            {
+                return new Rect (
+                    _transform.position.x + _collider.offset.x - _collider.size.x.Half (),
+                    _transform.position.y + _collider.offset.y - _collider.size.y.Half (),
+                    _collider.size.x,
+                    _collider.size.y
+                );
+            }
+        }
+
         public enum MoveDirection
         {
             None,
