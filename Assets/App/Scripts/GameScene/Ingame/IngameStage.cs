@@ -238,7 +238,7 @@ namespace Chsopoly.GameScene.Ingame
                 {
                     _otherCharacterObjectMap.Add (character.ConnectionId, character);
 
-                    var monitor = _characterMonitorIconPrefab.CreateInstance (transform);
+                    var monitor = _characterMonitorIconPrefab.CreateInstance (_characterContainer);
                     monitor.Initialize (character);
                     _otherCharacterMonitorMap.Add (character.ConnectionId, monitor);
                 }

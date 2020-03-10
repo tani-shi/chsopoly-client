@@ -35,7 +35,7 @@ namespace Chsopoly.GameScene.Ingame.Components
             camera.depth = -1;
             camera.clearFlags = CameraClearFlags.SolidColor;
             camera.backgroundColor = Color.clear;
-            camera.orthographicSize = size / 2;
+            camera.orthographicSize = size * 0.75f;
             camera.targetTexture = renderTexture;
             camera.cullingMask = LayerMask.GetMask (LayerMask.LayerToName (IngameSettings.Layers.Character));
 

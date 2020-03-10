@@ -25,7 +25,7 @@ namespace Chsopoly.GameScene.Ingame
             {
                 var height = _mainCamera.orthographicSize * 2.0f;
                 var width = height * _mainCamera.aspect;
-                return new Rect (_transform.position.x - width / 2, _transform.position.y - height / 2, height, width);
+                return new Rect (_transform.position.x - width / 2, _transform.position.y - height / 2, width, height);
             }
         }
 
