@@ -13,7 +13,6 @@ namespace Chsopoly.GameScene.Ingame
         public static class Rules
         {
             public const int MaxPlayerCount = 4;
-            public const int MaxGimmickQueueCount = 4;
             public const int MaxGimmickBoxCount = 3;
             public const int GameSetPoint = 2;
         }
@@ -49,11 +48,6 @@ namespace Chsopoly.GameScene.Ingame
                 return string.Format ("Assets/App/AddressableAssets/Prefabs/Gimmick/{0}.prefab", assetName);
             }
 
-            public static string CharacterIcon (string assetName)
-            {
-                return string.Format ("Assets/App/AddressableAssets/Textures/Icon/Character/{0}.png", assetName);
-            }
-
             public static string GimmickCapture (string assetName)
             {
                 return string.Format ("Assets/App/AddressableAssets/Textures/Capture/Gimmick/{0}.png", assetName);
@@ -77,6 +71,9 @@ namespace Chsopoly.GameScene.Ingame
         public static class Character
         {
             public const float JumpIntervalTime = 0.5f;
+            public const float DamageJumpHeight = 50f;
+            public const float DamageBackForce = 50f;
+            public const float InvincibleTime = 2.0f;
         }
 
         public static class Field

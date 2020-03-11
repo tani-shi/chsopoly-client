@@ -42,9 +42,8 @@ namespace Chsopoly.GameScene.Ingame.Components
         private uint _gimmickId = 0;
         private float _coolTimeCounter = 0f;
         private float _coolTime = 0f;
-        private bool _first = true;
 
-        public void Initialize (uint id, Sprite texture)
+        public void Initialize (uint id, Sprite texture, bool resetCoolTime = false)
         {
             _gimmickId = id;
             _texture = texture;
@@ -63,22 +62,18 @@ namespace Chsopoly.GameScene.Ingame.Components
 
             if (_gaugeContainer != null)
             {
-                if (id != 0)
+                if (id != 0 && resetCoolTime)
                 {
                     var data = MasterDataManager.Instance.Get<GimmickDAO> ().Get (id);
                     _coolTime = data.coolTime;
                     _coolTimeCounter = 0;
-
-                    // Skip coolTime at just first time.
-                    _gaugeContainer.SetActive (_coolTime > 0 && !_first);
+                    _gaugeContainer.SetActive (_coolTime > 0);
                 }
                 else
                 {
                     _gaugeContainer.SetActive (false);
                 }
             }
-
-            _first = false;
         }
 
         void Update ()
@@ -140,7 +135,6 @@ namespace Chsopoly.GameScene.Ingame.Components
             {
                 Destroy (_draggingImage.gameObject);
                 onPutGimmick.SafeInvoke (_index, eventData.position);
-                Initialize (0, null);
             }
         }
 

@@ -11,6 +11,7 @@ namespace Chsopoly.GameScene.Ingame.Object.Character
             Dying,
             Guard,
             Destroy,
+            Damage,
         }
     }
 }

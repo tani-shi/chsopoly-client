@@ -1,5 +1,6 @@
 using System;
 using Chsopoly.BaseSystem.MasterData;
+using Chsopoly.GameScene.Ingame.Object.Gimmick.Parts;
 using Chsopoly.MasterData.DAO.Ingame;
 using UnityEngine;
 
@@ -78,6 +79,11 @@ namespace Chsopoly.GameScene.Ingame.Object.Gimmick
             var data = MasterDataManager.Instance.Get<GimmickDAO> ().Get (id);
             _maxHitPoint = data.hitPoint;
             _hitPoint = data.hitPoint;
+
+            foreach (var parts in transform.GetComponentsInChildren<BaseGimmickParts> ())
+            {
+                parts.Initialize (id);
+            }
         }
 
         public void SetIdentity (uint connectionId, int uniqueId)

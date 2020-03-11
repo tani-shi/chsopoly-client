@@ -18,3 +18,10 @@ MonoBehaviour:
     lotteryWeight: 1
     hitPoint: 5
     coolTime: 5
+    damage: 0
+  - id: 2
+    assetName: gim_damage_wood_step
+    lotteryWeight: 1
+    hitPoint: 5
+    coolTime: 5
+    damage: 1

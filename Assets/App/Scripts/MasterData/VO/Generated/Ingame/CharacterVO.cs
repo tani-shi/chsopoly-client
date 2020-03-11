@@ -16,6 +16,7 @@ namespace Chsopoly.MasterData.VO.Ingame
         public float jumpHeight;
         public int aerialJumpCount;
         public int power;
+        public int hp;
 
         public uint GetKey ()
         {

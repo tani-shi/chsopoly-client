@@ -100,7 +100,7 @@ namespace Chsopoly.GameScene.Ingame
             {
                 yield return new CharacterObjectFactory ().CreateCharacter (kv.Value.characterId, kv.Key, _characterContainer, OnCreateObject);
             }
-            for (int i = 0; i < IngameSettings.Rules.MaxGimmickQueueCount; i++)
+            for (int i = 0; i < IngameSettings.Rules.MaxGimmickBoxCount + 1; i++)
             {
                 yield return new GimmickObjectFactory ().CreateGimmick (DrawGimmickId (), IngameSettings.Gs2.PlayerConnectionId, _gimmickPool.transform, OnCreateObject);
             }

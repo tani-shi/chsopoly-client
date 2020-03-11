@@ -50,6 +50,8 @@ namespace Chsopoly.GameScene.Ingame.Object.Character
                     return new CharacterStateGuard ();
                 case State.Destroy:
                     return new CharacterStateDestroy ();
+                case State.Damage:
+                    return new CharacterStateDamage ();
             }
             Debug.LogError ("A unknown character state was specified. " + state.ToString ());
             return new CharacterStateIdle ();
@@ -94,6 +96,12 @@ namespace Chsopoly.GameScene.Ingame.Object.Character
                 case State.Destroy:
                     return Owner.TargetGimmick != null &&
                         (CurrentState == State.Idle || CurrentState == State.Run);
+                case State.Damage:
+                    return !Owner.HasStatus (CharacterObject.Status.Invincible) &&
+                        (CurrentState == State.Idle ||
+                            CurrentState == State.Run ||
+                            CurrentState == State.Jump ||
+                            CurrentState == State.Fall);
             }
 
             return false;
@@ -106,9 +114,15 @@ namespace Chsopoly.GameScene.Ingame.Object.Character
                 case State.Dead:
                     return CurrentState == State.Dying;
                 case State.Fall:
-                    return CurrentState == State.Jump;
+                    return CurrentState == State.Jump ||
+                        CurrentState == State.Damage;
                 case State.Idle:
                     return CurrentState == State.Destroy;
+                case State.Dying:
+                    return CurrentState == State.Damage;
+                case State.Damage:
+                    return !Owner.HasStatus (CharacterObject.Status.Invincible) &&
+                        CurrentState == State.Jump;
             }
 
             return false;

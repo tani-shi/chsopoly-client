@@ -6,9 +6,10 @@ using Chsopoly.BaseSystem.Audio;
 using Chsopoly.BaseSystem.GameScene;
 using Chsopoly.BaseSystem.Gs2;
 using Chsopoly.BaseSystem.MasterData;
-using Chsopoly.GameScene.Ingame.Object.Character;
 using Chsopoly.GameScene.Ingame.Components;
+using Chsopoly.GameScene.Ingame.Object.Character;
 using Chsopoly.Gs2.Models;
+using Chsopoly.Libs.Extensions;
 using Chsopoly.MasterData.DAO.Ingame;
 using UnityEngine;
 using UnityEngine.UI;
@@ -40,9 +41,14 @@ namespace Chsopoly.GameScene.Ingame
         private Button _resultScreenButton = default;
         [SerializeField]
         private Text _resultText = default;
+        [SerializeField]
+        private Transform _playerHpContainer = default;
+        [SerializeField]
+        private GameObject _playerHpPrefab = default;
 
         private Dictionary<uint, Profile> _otherPlayers = new Dictionary<uint, Profile> ();
         private string _gatheringId = string.Empty;
+        private List<GameObject> _playerHpList = new List<GameObject> ();
 
         void Start ()
         {
@@ -95,6 +101,8 @@ namespace Chsopoly.GameScene.Ingame
             _resultScreenButton.gameObject.SetActive (false);
 
             AudioManager.Instance.PlayBgm (Bgm.Ingame);
+
+            UpdatePlayerHpObjects (_stage.PlayerCharacter.Hp);
         }
 
         private void OnPutGimmick (int index, Vector2 screenPos)
@@ -125,6 +133,11 @@ namespace Chsopoly.GameScene.Ingame
             {
                 OnGoalPlayer ();
             }
+
+            if (_stage.PlayerCharacter.Hp != _playerHpList.Count)
+            {
+                UpdatePlayerHpObjects (_stage.PlayerCharacter.Hp);
+            }
         }
 
         private void OnDeadPlayer ()
@@ -139,6 +152,28 @@ namespace Chsopoly.GameScene.Ingame
             _resultScreenButton.gameObject.SetActive (true);
             _resultScreenButton.interactable = true;
             _resultText.text = ResultGoalMessage;
+        }
+
+        private void UpdatePlayerHpObjects (int hp)
+        {
+            var diff = Mathf.Abs (hp - _playerHpList.Count);
+            if (_playerHpList.Count < hp)
+            {
+                for (int i = 0; i < diff; i++)
+                {
+                    var obj = _playerHpPrefab.CreateInstance (_playerHpContainer);
+                    _playerHpList.Add (obj);
+                }
+            }
+            else if (_playerHpList.Count > hp)
+            {
+                for (int i = 0; i < diff; i++)
+                {
+                    var obj = _playerHpList.Last ();
+                    _playerHpList.Remove (obj);
+                    Destroy (obj);
+                }
+            }
         }
     }
 }
