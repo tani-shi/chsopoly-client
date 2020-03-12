@@ -42,13 +42,12 @@ namespace Chsopoly.GameScene.Ingame
         [SerializeField]
         private Text _resultText = default;
         [SerializeField]
-        private Transform _playerHpContainer = default;
+        private LimitTimeCounter _timeCounter = default;
         [SerializeField]
-        private GameObject _playerHpPrefab = default;
+        private PlayerLifeGauge _playerLifeGauge = default;
 
         private Dictionary<uint, Profile> _otherPlayers = new Dictionary<uint, Profile> ();
         private string _gatheringId = string.Empty;
-        private List<GameObject> _playerHpList = new List<GameObject> ();
 
         void Start ()
         {
@@ -99,10 +98,11 @@ namespace Chsopoly.GameScene.Ingame
             _camera.SetBounds ((_stage.Field.transform as RectTransform).sizeDelta);
             _stage.PlayerCharacter.StateMachine.onStateChanged += OnChangedPlayerState;
             _resultScreenButton.gameObject.SetActive (false);
+            _timeCounter.SetFrames (_stage.StageData.limitTime * Application.targetFrameRate);
+            _timeCounter.StartCount ();
+            _playerLifeGauge.SetLife (_stage.PlayerCharacter.MaxHp);
 
             AudioManager.Instance.PlayBgm (Bgm.Ingame);
-
-            UpdatePlayerHpObjects (_stage.PlayerCharacter.Hp);
         }
 
         private void OnPutGimmick (int index, Vector2 screenPos)
@@ -125,23 +125,23 @@ namespace Chsopoly.GameScene.Ingame
 
         private void OnChangedPlayerState (CharacterStateMachine.State before, CharacterStateMachine.State after)
         {
-            if (after == CharacterStateMachine.State.Dead)
+            switch (after)
             {
-                OnDeadPlayer ();
-            }
-            else if (after == CharacterStateMachine.State.Appeal)
-            {
-                OnGoalPlayer ();
-            }
-
-            if (_stage.PlayerCharacter.Hp != _playerHpList.Count)
-            {
-                UpdatePlayerHpObjects (_stage.PlayerCharacter.Hp);
+                case CharacterStateMachine.State.Dead:
+                    OnDeadPlayer ();
+                    break;
+                case CharacterStateMachine.State.Appeal:
+                    OnGoalPlayer ();
+                    break;
+                case CharacterStateMachine.State.Damage:
+                    _playerLifeGauge.SetLife (_stage.PlayerCharacter.Hp);
+                    break;
             }
         }
 
         private void OnDeadPlayer ()
         {
+            _timeCounter.PauseCount ();
             _resultScreenButton.gameObject.SetActive (true);
             _resultScreenButton.interactable = true;
             _resultText.text = ResultDeadMessage;
@@ -149,31 +149,10 @@ namespace Chsopoly.GameScene.Ingame
 
         private void OnGoalPlayer ()
         {
+            _timeCounter.PauseCount ();
             _resultScreenButton.gameObject.SetActive (true);
             _resultScreenButton.interactable = true;
             _resultText.text = ResultGoalMessage;
-        }
-
-        private void UpdatePlayerHpObjects (int hp)
-        {
-            var diff = Mathf.Abs (hp - _playerHpList.Count);
-            if (_playerHpList.Count < hp)
-            {
-                for (int i = 0; i < diff; i++)
-                {
-                    var obj = _playerHpPrefab.CreateInstance (_playerHpContainer);
-                    _playerHpList.Add (obj);
-                }
-            }
-            else if (_playerHpList.Count > hp)
-            {
-                for (int i = 0; i < diff; i++)
-                {
-                    var obj = _playerHpList.Last ();
-                    _playerHpList.Remove (obj);
-                    Destroy (obj);
-                }
-            }
         }
     }
 }

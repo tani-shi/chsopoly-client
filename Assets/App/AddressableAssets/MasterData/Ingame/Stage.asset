@@ -16,3 +16,4 @@ MonoBehaviour:
   - id: 1
     fieldName: field_01
     fieldGravity: 1
+    limitTime: 180

@@ -60,12 +60,13 @@ MonoBehaviour:
     m_mainAssetType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   - m_GUID: 29acf971bf2db465286b8834b6d38175
-    m_Address: Assets/App/AddressableAssets/Prefabs/Components/PlayerHpItem.prefab
+    m_Address: Assets/App/AddressableAssets/Prefabs/Components/PlayerLifeItem.prefab
     m_ReadOnly: 1
     m_SerializedLabels:
     - Prefabs
     - Components
-    m_mainAssetType: 
+    m_mainAssetType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   - m_GUID: 351c6e0d24c7d49108e17e8efb18cf4b
     m_Address: Assets/App/AddressableAssets/Textures/Field/flag.png
     m_ReadOnly: 1

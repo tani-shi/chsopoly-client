@@ -60,6 +60,14 @@ namespace Chsopoly.GameScene.Ingame
             }
         }
 
+        public StageVO StageData
+        {
+            get
+            {
+                return _stageData;
+            }
+        }
+
         private List<GameObject> _stageObjects = new List<GameObject> ();
         private List<CharacterObject> _characterObjects = new List<CharacterObject> ();
         private CharacterObject _playerCharacter = null;
