@@ -55,6 +55,14 @@ MonoBehaviour:
     - Common
     m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  - m_GUID: 0a9a1e94ad11843cdba7beff48a9a7d6
+    m_Address: Assets/App/AddressableAssets/Textures/Capture/Gimmick/gim_rolling_saw.png
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Textures
+    - Capture
+    - Gimmick
+    m_mainAssetType: 
   - m_GUID: 0cb23f170b69f4135b1d47b68640d1c2
     m_Address: Assets/App/AddressableAssets/Textures/Character/Animation/chr_rabbit/chr_rabbit_damage.png
     m_ReadOnly: 1
@@ -136,7 +144,8 @@ MonoBehaviour:
     - Textures
     - GameScene
     - Ingame
-    m_mainAssetType: 
+    m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   - m_GUID: 3e98160221e744e77b677696a9d664d4
     m_Address: Assets/App/AddressableAssets/Audio/Bgm/bgm_main.mp3
     m_ReadOnly: 1
@@ -294,7 +303,8 @@ MonoBehaviour:
     - Textures
     - GameScene
     - Ingame
-    m_mainAssetType: 
+    m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   - m_GUID: 7f5f01ba375d24981ab2c91cf312d9f0
     m_Address: Assets/App/AddressableAssets/Textures/Capture/Gimmick/gim_wood_step.png
     m_ReadOnly: 1
@@ -320,6 +330,13 @@ MonoBehaviour:
     - Gimmick
     m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  - m_GUID: 888c1b4233fe1401a9d1aebe9fd61ec6
+    m_Address: Assets/App/AddressableAssets/Animations/Gimmick/gim_rolling_saw.controller
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Animations
+    - Gimmick
+    m_mainAssetType: 
   - m_GUID: 89e8e022a8a6846b7a60f170f478e9cf
     m_Address: Assets/App/AddressableAssets/Textures/GameScene/Ingame/icon_monitor_04.png
     m_ReadOnly: 1
@@ -347,20 +364,26 @@ MonoBehaviour:
     - Ingame
     m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  - m_GUID: 9cd5f2ac6186c4d09b13d3cc527a3280
+    m_Address: Assets/App/AddressableAssets/Textures/Gimmick/rolling_saw_base.png
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Textures
+    - Gimmick
+    m_mainAssetType: 
+  - m_GUID: b1941970a930e439593e76efb42b3df0
+    m_Address: Assets/App/AddressableAssets/Prefabs/Gimmick/gim_rolling_saw.prefab
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Prefabs
+    - Gimmick
+    m_mainAssetType: 
   - m_GUID: b53e6839613a24467931da3c61c49a84
     m_Address: Assets/App/AddressableAssets/Prefabs/Common/GoalPoint.prefab
     m_ReadOnly: 1
     m_SerializedLabels:
     - Prefabs
     - Common
-    m_mainAssetType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  - m_GUID: b76bcc33e11d74cfeb752227e5a860f9
-    m_Address: Assets/App/AddressableAssets/Prefabs/Gimmick/gim_damage_wood_step.prefab
-    m_ReadOnly: 1
-    m_SerializedLabels:
-    - Prefabs
-    - Gimmick
     m_mainAssetType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   - m_GUID: c013b2f84938c4e8eb4da4c9f9fe035c
@@ -370,7 +393,8 @@ MonoBehaviour:
     - Textures
     - GameScene
     - Ingame
-    m_mainAssetType: 
+    m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   - m_GUID: c8b9b0c3c860347b18773c687a4f2a2a
     m_Address: Assets/App/AddressableAssets/Prefabs/Components/GimmickBoxItem.prefab
     m_ReadOnly: 1
@@ -424,14 +448,6 @@ MonoBehaviour:
     - Textures
     - GameScene
     - Ingame
-    m_mainAssetType: 
-  - m_GUID: d63e366c5920b4f07ba717326d7a3775
-    m_Address: Assets/App/AddressableAssets/Textures/Capture/Gimmick/gim_damage_wood_step.png
-    m_ReadOnly: 1
-    m_SerializedLabels:
-    - Textures
-    - Capture
-    - Gimmick
     m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   - m_GUID: d665d82659d7e4fdcb5492d898ea7c3d
@@ -451,7 +467,8 @@ MonoBehaviour:
     - Textures
     - GameScene
     - Ingame
-    m_mainAssetType: 
+    m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   - m_GUID: de98bddf91e934619b1ab2bd7702cdee
     m_Address: Assets/App/AddressableAssets/Prefabs/Field/field_01.prefab
     m_ReadOnly: 1
@@ -460,6 +477,13 @@ MonoBehaviour:
     - Field
     m_mainAssetType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  - m_GUID: e2e25f09ca635484590552676e7b1ffe
+    m_Address: Assets/App/AddressableAssets/Textures/Gimmick/saw.png
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Textures
+    - Gimmick
+    m_mainAssetType: 
   - m_GUID: e3bdef001e2544f46a1989c0fdd8818a
     m_Address: Assets/App/AddressableAssets/Textures/GameScene/Ingame/icon_monitor_01.png
     m_ReadOnly: 1
