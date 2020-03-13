@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Chsopoly.BaseSystem.MasterData;
 using Chsopoly.Libs.Extensions;
 using Chsopoly.MasterData.DAO.Ingame;
@@ -24,9 +25,11 @@ namespace Chsopoly.GameScene.Ingame.Components
         [SerializeField]
         private Camera _stageCamera = default;
         [SerializeField]
-        private GameObject _gaugeContainer = default;
+        private Image _coolTimeCountImage = default;
         [SerializeField]
-        private Image _gaugeImage = default;
+        private List<Sprite> _coolTimeCountSprites = default;
+        [SerializeField]
+        private GameObject _touchBlocker = default;
 
         public uint GimmickId
         {
@@ -60,43 +63,36 @@ namespace Chsopoly.GameScene.Ingame.Components
                 _gimmickImage.color = Color.white;
             }
 
-            if (_gaugeContainer != null)
+            if (_touchBlocker != null)
             {
                 if (id != 0 && resetCoolTime)
                 {
                     var data = MasterDataManager.Instance.Get<GimmickDAO> ().Get (id);
                     _coolTime = data.coolTime;
                     _coolTimeCounter = 0;
-                    _gaugeContainer.SetActive (_coolTime > 0);
+                    UpdateCoolTimeCount (Mathf.CeilToInt (data.coolTime));
                 }
                 else
                 {
-                    _gaugeContainer.SetActive (false);
+                    UpdateCoolTimeCount (-1);
                 }
             }
         }
 
         void Update ()
         {
-            if (_gaugeContainer == null || !_gaugeContainer.activeSelf)
+            if (_touchBlocker == null || !_touchBlocker.activeSelf)
             {
                 return;
             }
 
             _coolTimeCounter = Mathf.Min (_coolTime, _coolTimeCounter + Time.deltaTime);
-            var position = _gaugeImage.rectTransform.anchoredPosition;
-            position.y = Mathf.Lerp (0, _gaugeImage.rectTransform.sizeDelta.y, _coolTimeCounter / _coolTime);
-            _gaugeImage.rectTransform.anchoredPosition = position;
-
-            if (_coolTimeCounter >= _coolTime)
-            {
-                _gaugeContainer.SetActive (false);
-            }
+            UpdateCoolTimeCount (Mathf.CeilToInt (_coolTime - _coolTimeCounter));
         }
 
         void IDragHandler.OnDrag (PointerEventData eventData)
         {
-            if (_gimmickId == 0 || _texture == null || _gaugeContainer == null || _gaugeContainer.activeSelf)
+            if (_gimmickId == 0 || _texture == null || _touchBlocker == null || _touchBlocker.activeSelf)
             {
                 return;
             }
@@ -114,7 +110,7 @@ namespace Chsopoly.GameScene.Ingame.Components
 
         void IPointerDownHandler.OnPointerDown (PointerEventData eventData)
         {
-            if (_gimmickId == 0 || _texture == null || _gaugeContainer == null || _gaugeContainer.activeSelf)
+            if (_gimmickId == 0 || _texture == null || _touchBlocker == null || _touchBlocker.activeSelf)
             {
                 return;
             }
@@ -124,7 +120,7 @@ namespace Chsopoly.GameScene.Ingame.Components
 
         void IPointerUpHandler.OnPointerUp (PointerEventData eventData)
         {
-            if (_gimmickId == 0 || _texture == null || _gaugeContainer == null || _gaugeContainer.activeSelf)
+            if (_gimmickId == 0 || _texture == null || _touchBlocker == null || _touchBlocker.activeSelf)
             {
                 return;
             }
@@ -158,6 +154,21 @@ namespace Chsopoly.GameScene.Ingame.Components
             var worldPoint = _stageCamera.ScreenToWorldPoint (point);
             worldPoint.z = 0;
             return worldPoint;
+        }
+
+        private void UpdateCoolTimeCount (int time)
+        {
+            if (time > 0)
+            {
+                var sprite = _coolTimeCountSprites[Mathf.Min (IngameSettings.Rules.MaxGimmickCoolTime, time) - 1];
+                if (_coolTimeCountImage.sprite != sprite)
+                {
+                    _coolTimeCountImage.sprite = sprite;
+                    _coolTimeCountImage.SetNativeSize ();
+                }
+            }
+
+            _touchBlocker.SetActive (time > 0);
         }
     }
 }

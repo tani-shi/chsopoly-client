@@ -34,6 +34,8 @@ namespace Chsopoly.GameScene.Ingame.Object.Character.State
             if (owner.worldPosition.y + (owner.transform as RectTransform).rect.height < 0)
             {
                 owner.StateMachine.SetNextState (CharacterStateMachine.State.Dying);
+                owner.Rigidbody.isKinematic = true;
+                owner.Rigidbody.velocity = Vector2.zero;
             }
         }
 

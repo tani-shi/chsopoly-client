@@ -15,6 +15,7 @@ namespace Chsopoly.GameScene.Ingame
             public const int MaxPlayerCount = 4;
             public const int MaxGimmickBoxCount = 3;
             public const int GameSetPoint = 2;
+            public const int MaxGimmickCoolTime = 5;
         }
 
         public static class Layers
@@ -41,6 +42,11 @@ namespace Chsopoly.GameScene.Ingame
             public static string FieldPrefab (string assetName)
             {
                 return string.Format ("Assets/App/AddressableAssets/Prefabs/Field/{0}.prefab", assetName);
+            }
+
+            public static string CharacterIcon (string assetName)
+            {
+                return string.Format ("Assets/App/AddressableAssets/Textures/Character/Icon/{0}.png", assetName);
             }
 
             public static string GimmickPrefab (string assetName)

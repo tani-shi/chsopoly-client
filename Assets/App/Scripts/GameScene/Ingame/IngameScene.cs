@@ -68,6 +68,8 @@ namespace Chsopoly.GameScene.Ingame
         private PlayerLifeGauge _playerLifeGauge = default;
         [SerializeField]
         private Animator _animator = default;
+        [SerializeField]
+        private List<CharacterMonitorIcon> _monitorIcons = default;
 
         public AnimationState CurrentState
         {
@@ -145,6 +147,17 @@ namespace Chsopoly.GameScene.Ingame
 
             yield return _stage.Load (param.stageId, param.characterId, param.otherPlayers, gimmickIds);
             yield return _gimmickBox.LoadTextures (gimmickIds);
+            yield return _playerLifeGauge.Load (param.characterId);
+            yield return _monitorIcons[0].Load (param.characterId);
+            _monitorIcons[0].StartMonitoring (_stage.PlayerCharacter);
+
+            var monitorIndex = 1;
+            foreach (var character in _stage.OtherCharacters)
+            {
+                yield return _monitorIcons[monitorIndex].Load (character.Id);
+                _monitorIcons[monitorIndex].StartMonitoring (character);
+                monitorIndex++;
+            }
 
             _stage.onGoalPlayer += OnGoalPlayer;
             _stage.onDeadPlayer += OnDeadPlayer;

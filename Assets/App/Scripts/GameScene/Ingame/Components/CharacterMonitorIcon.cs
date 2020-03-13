@@ -1,5 +1,9 @@
+using System.Collections;
+using Chsopoly.BaseSystem.MasterData;
 using Chsopoly.GameScene.Ingame.Object.Character;
+using Chsopoly.MasterData.DAO.Ingame;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using UnityEngine.UI;
 
 namespace Chsopoly.GameScene.Ingame.Components
@@ -7,54 +11,44 @@ namespace Chsopoly.GameScene.Ingame.Components
     public class CharacterMonitorIcon : MonoBehaviour
     {
         [SerializeField]
-        private RawImage _renderRawImage = default;
+        private Image _iconImage = default;
+        [SerializeField]
+        private Image _bgImage = default;
         [SerializeField]
         private CanvasGroup _canvasGroup = default;
         [SerializeField]
         private float _offsetCameraBounds = 10f;
+        [SerializeField]
+        private IngameCamera _stageCamera = default;
+        [SerializeField]
+        private Camera _uiCamera = default;
 
         private CharacterObject _targetCharacter = null;
-        private Transform _cameraTransform = null;
-        private Camera _monitoringCamera = default;
         private RectTransform _transform = null;
-        private IngameCamera _stageCamera = null;
 
-        public void Initialize (CharacterObject character)
+        public IEnumerator Load (uint characterId)
+        {
+            var data = MasterDataManager.Instance.Get<CharacterDAO> ().Get (characterId);
+            var handle = Addressables.LoadAssetAsync<Sprite> (IngameSettings.Paths.CharacterIcon (data.assetName));
+            yield return handle;
+            _iconImage.sprite = handle.Result;
+            _iconImage.SetNativeSize ();
+        }
+
+        public void StartMonitoring (CharacterObject character)
         {
             _targetCharacter = character;
             _transform = transform as RectTransform;
-
-            var size = (int) character.Collider.size.y;
-            var renderTexture = new RenderTexture (size, size, 16, RenderTextureFormat.ARGB64);
-            renderTexture.Create ();
-            _renderRawImage.texture = renderTexture;
-
-            var camera = new GameObject ("CharacterCamera").AddComponent<Camera> ();
-            camera.transform.SetParent (transform);
-            camera.orthographic = true;
-            camera.depth = -1;
-            camera.clearFlags = CameraClearFlags.SolidColor;
-            camera.backgroundColor = Color.clear;
-            camera.orthographicSize = size * 0.75f;
-            camera.targetTexture = renderTexture;
-            camera.cullingMask = LayerMask.GetMask (LayerMask.LayerToName (IngameSettings.Layers.Character));
-
-            _monitoringCamera = camera;
-            _cameraTransform = camera.transform;
-            _stageCamera = GameObject.FindObjectOfType (typeof (IngameCamera)) as IngameCamera;
+            _targetCharacter.StateMachine.onStateChanged += OnChangedCharacterState;
         }
 
         void Update ()
         {
-            if (_targetCharacter != null)
+            if (_targetCharacter != null && _targetCharacter.StateMachine.CurrentState != CharacterStateMachine.State.Dead)
             {
                 var stageCameraRect = _stageCamera.ViewRect;
                 var characterRect = _targetCharacter.ColliderRect;
 
-                if (_cameraTransform != null)
-                {
-                    _cameraTransform.position = new Vector3 (characterRect.center.x, characterRect.center.y, -10);
-                }
                 if (_transform != null)
                 {
                     var offset = new Vector2 (_offsetCameraBounds + _transform.rect.size.x / 2, _offsetCameraBounds + _transform.rect.size.y / 2);
@@ -63,10 +57,33 @@ namespace Chsopoly.GameScene.Ingame.Components
                     var position = characterRect.center;
                     position.x = Mathf.Clamp (position.x, vBounds.x, vBounds.y);
                     position.y = Mathf.Clamp (position.y, hBounds.x, hBounds.y);
-                    _transform.position = position;
+                    var diff = characterRect.center - position;
+                    var degree = (Mathf.Atan2 (diff.x, diff.y) * 180.0f / Mathf.PI) + 90.0f;
+                    position = _stageCamera.MainCamera.WorldToScreenPoint (position);
+                    position = _uiCamera.ScreenToWorldPoint (position) * _uiCamera.fieldOfView;
+                    _transform.anchoredPosition = position;
+                    _bgImage.transform.rotation = Quaternion.Euler (0, 0, degree);
                 }
 
                 _canvasGroup.alpha = stageCameraRect.Overlaps (characterRect) ? 0 : 1;
+            }
+            else
+            {
+                _canvasGroup.alpha = 0;
+            }
+        }
+
+        private void OnChangedCharacterState (CharacterStateMachine.State before, CharacterStateMachine.State after)
+        {
+            if (after == CharacterStateMachine.State.Damage ||
+                after == CharacterStateMachine.State.Dying ||
+                after == CharacterStateMachine.State.Dead)
+            {
+                _iconImage.color = Color.gray;
+            }
+            else
+            {
+                _iconImage.color = Color.white;
             }
         }
     }

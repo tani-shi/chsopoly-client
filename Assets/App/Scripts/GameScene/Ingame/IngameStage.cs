@@ -28,8 +28,6 @@ namespace Chsopoly.GameScene.Ingame
         public event Action<uint> onDeadOtherPlayer;
 
         [SerializeField]
-        private CharacterMonitorIcon _characterMonitorIconPrefab = default;
-        [SerializeField]
         private Transform _characterContainer = default;
         [SerializeField]
         private Transform _gimmickContainer = default;
@@ -58,6 +56,14 @@ namespace Chsopoly.GameScene.Ingame
             }
         }
 
+        public IEnumerable<CharacterObject> OtherCharacters
+        {
+            get
+            {
+                return _otherCharacterObjectMap.Values;
+            }
+        }
+
         public GimmickObjectPool GimmickPool
         {
             get
@@ -79,7 +85,6 @@ namespace Chsopoly.GameScene.Ingame
         private CharacterObject _playerCharacter = null;
         private List<GimmickObject> _gimmickObjects = new List<GimmickObject> ();
         private Dictionary<uint, CharacterObject> _otherCharacterObjectMap = new Dictionary<uint, CharacterObject> ();
-        private Dictionary<uint, CharacterMonitorIcon> _otherCharacterMonitorMap = new Dictionary<uint, CharacterMonitorIcon> ();
         private GameObject _field = null;
         private StageVO _stageData = null;
         private uint[] _gimmickLotteryTable = null;
@@ -193,7 +198,6 @@ namespace Chsopoly.GameScene.Ingame
                         onGoalOtherPlayer.SafeInvoke (connectionId);
                         break;
                     case CharacterState.Dead:
-                        _otherCharacterMonitorMap[connectionId].gameObject.SetActive (false);
                         onDeadOtherPlayer.SafeInvoke (connectionId);
                         break;
                 }
@@ -252,10 +256,6 @@ namespace Chsopoly.GameScene.Ingame
                 else
                 {
                     _otherCharacterObjectMap.Add (character.ConnectionId, character);
-
-                    var monitor = _characterMonitorIconPrefab.CreateInstance (_characterContainer);
-                    monitor.Initialize (character);
-                    _otherCharacterMonitorMap.Add (character.ConnectionId, monitor);
                 }
 
                 var startPoint = GameObject.FindWithTag (IngameSettings.Tags.StartPoint);

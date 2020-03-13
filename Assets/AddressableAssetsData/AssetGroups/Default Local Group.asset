@@ -25,7 +25,8 @@ MonoBehaviour:
     - UI
     - GameScene
     - Ingame
-    m_mainAssetType: 
+    m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   - m_GUID: 0744525343f464972a9dfff5b1798da4
     m_Address: Assets/App/AddressableAssets/Textures/GameScene/Title/bg_main.png
     m_ReadOnly: 1
@@ -44,13 +45,33 @@ MonoBehaviour:
     - Efx
     m_mainAssetType: UnityEngine.AudioClip, UnityEngine.AudioModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  - m_GUID: 08c57d0d816f84df6a730d839f1be1a1
+    m_Address: Assets/App/AddressableAssets/Textures/GameScene/Common/btn_gimmick_01.png
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Textures
+    - GameScene
+    - Ingame
+    - Common
+    m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   - m_GUID: 0cb23f170b69f4135b1d47b68640d1c2
-    m_Address: Assets/App/AddressableAssets/Textures/Character/chr_rabbit/chr_rabbit_damage.png
+    m_Address: Assets/App/AddressableAssets/Textures/Character/Animation/chr_rabbit/chr_rabbit_damage.png
     m_ReadOnly: 1
     m_SerializedLabels:
     - Textures
     - Character
     - chr_rabbit
+    - Animation
+    m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  - m_GUID: 0dc287c31305c4f6da148d8b155cf6fa
+    m_Address: Assets/App/AddressableAssets/Textures/Character/Icon/chr_rabbit.png
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Textures
+    - Character
+    - Icon
     m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   - m_GUID: 0dd9f9d7f9e584263aa2cb275dcf6a8c
@@ -61,7 +82,8 @@ MonoBehaviour:
     - UI
     - GameScene
     - Ingame
-    m_mainAssetType: 
+    m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   - m_GUID: 1cdac2d6ab67249669e7b30fca2a90a8
     m_Address: Assets/App/AddressableAssets/Animations/GameScene/IngameScene.controller
     m_ReadOnly: 1
@@ -71,12 +93,13 @@ MonoBehaviour:
     m_mainAssetType: UnityEditor.Animations.AnimatorController, UnityEditor, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   - m_GUID: 1f13d801a6e4b493d8e835d3ec3ec9a5
-    m_Address: Assets/App/AddressableAssets/Textures/Character/chr_rabbit/chr_rabbit_dying.png
+    m_Address: Assets/App/AddressableAssets/Textures/Character/Animation/chr_rabbit/chr_rabbit_dying.png
     m_ReadOnly: 1
     m_SerializedLabels:
     - Textures
     - Character
     - chr_rabbit
+    - Animation
     m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   - m_GUID: 22624ca927839463283b6a307daba1f6
@@ -87,21 +110,14 @@ MonoBehaviour:
     - UI
     - GameScene
     - Ingame
-    m_mainAssetType: 
+    m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   - m_GUID: 22c9bb32158b84d96ac39a9156b6b250
     m_Address: Assets/App/AddressableAssets/Prefabs/Gimmick/gim_wood_step.prefab
     m_ReadOnly: 1
     m_SerializedLabels:
     - Prefabs
     - Gimmick
-    m_mainAssetType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  - m_GUID: 29acf971bf2db465286b8834b6d38175
-    m_Address: Assets/App/AddressableAssets/Prefabs/Components/PlayerLifeItem.prefab
-    m_ReadOnly: 1
-    m_SerializedLabels:
-    - Prefabs
-    - Components
     m_mainAssetType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   - m_GUID: 351c6e0d24c7d49108e17e8efb18cf4b
@@ -113,6 +129,14 @@ MonoBehaviour:
     - Field
     m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  - m_GUID: 3e7847b2f64484fc986b43160cb0f93f
+    m_Address: Assets/App/AddressableAssets/Textures/GameScene/Ingame/count_04.png
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Textures
+    - GameScene
+    - Ingame
+    m_mainAssetType: 
   - m_GUID: 3e98160221e744e77b677696a9d664d4
     m_Address: Assets/App/AddressableAssets/Audio/Bgm/bgm_main.mp3
     m_ReadOnly: 1
@@ -137,7 +161,8 @@ MonoBehaviour:
     - UI
     - GameScene
     - Ingame
-    m_mainAssetType: 
+    m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   - m_GUID: 4a42604bdd11744af84c9b79df115847
     m_Address: Assets/App/AddressableAssets/Prefabs/GameScene/IngameScene.prefab
     m_ReadOnly: 1
@@ -164,12 +189,22 @@ MonoBehaviour:
     m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   - m_GUID: 580f85a19eefe4698883ac8f5ef363df
-    m_Address: Assets/App/AddressableAssets/Textures/Character/chr_rabbit/chr_rabbit_jump.png
+    m_Address: Assets/App/AddressableAssets/Textures/Character/Animation/chr_rabbit/chr_rabbit_jump.png
     m_ReadOnly: 1
     m_SerializedLabels:
     - Textures
     - Character
     - chr_rabbit
+    - Animation
+    m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  - m_GUID: 58c56705657eb46f093ebc5fa8a66d11
+    m_Address: Assets/App/AddressableAssets/Textures/GameScene/Ingame/icon_monitor_03.png
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Textures
+    - GameScene
+    - Ingame
     m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   - m_GUID: 66044ee2c7a8e41f9bec4c734738d650
@@ -180,7 +215,8 @@ MonoBehaviour:
     - UI
     - GameScene
     - Ingame
-    m_mainAssetType: 
+    m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   - m_GUID: 6880ebce6527249918518c8b3ea384bf
     m_Address: Assets/App/AddressableAssets/Prefabs/Common/StartPoint.prefab
     m_ReadOnly: 1
@@ -205,7 +241,18 @@ MonoBehaviour:
     - UI
     - GameScene
     - Ingame
-    m_mainAssetType: 
+    m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  - m_GUID: 6dbf68e4a760a4c55b5ad91e07f317d4
+    m_Address: Assets/App/AddressableAssets/Textures/GameScene/Common/btn_gimmick_02.png
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Textures
+    - GameScene
+    - Ingame
+    - Common
+    m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   - m_GUID: 70b2ca149987b43998c745a91b2668fb
     m_Address: Assets/App/AddressableAssets/Animations/Character/chr_rabbit.controller
     m_ReadOnly: 1
@@ -223,12 +270,13 @@ MonoBehaviour:
     m_mainAssetType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   - m_GUID: 77fa383ffebf943c491b16b6a8cc8e3f
-    m_Address: Assets/App/AddressableAssets/Textures/Character/chr_rabbit/chr_rabbit_appeal.png
+    m_Address: Assets/App/AddressableAssets/Textures/Character/Animation/chr_rabbit/chr_rabbit_appeal.png
     m_ReadOnly: 1
     m_SerializedLabels:
     - Textures
     - Character
     - chr_rabbit
+    - Animation
     m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   - m_GUID: 7a3264676fe6f448d85fbe0144c0fde1
@@ -239,6 +287,14 @@ MonoBehaviour:
     - Ingame
     m_mainAssetType: Chsopoly.MasterData.DTO.Ingame.StageDTO, Assembly-CSharp, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  - m_GUID: 7c380c00d36d044ab8e2160557f9f0a3
+    m_Address: Assets/App/AddressableAssets/Textures/GameScene/Ingame/count_01.png
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Textures
+    - GameScene
+    - Ingame
+    m_mainAssetType: 
   - m_GUID: 7f5f01ba375d24981ab2c91cf312d9f0
     m_Address: Assets/App/AddressableAssets/Textures/Capture/Gimmick/gim_wood_step.png
     m_ReadOnly: 1
@@ -264,6 +320,15 @@ MonoBehaviour:
     - Gimmick
     m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  - m_GUID: 89e8e022a8a6846b7a60f170f478e9cf
+    m_Address: Assets/App/AddressableAssets/Textures/GameScene/Ingame/icon_monitor_04.png
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Textures
+    - GameScene
+    - Ingame
+    m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   - m_GUID: 8dcf0ed930e7d4774a61ec604c7bfdde
     m_Address: Assets/App/AddressableAssets/Textures/Field/bg_01.png
     m_ReadOnly: 1
@@ -271,6 +336,15 @@ MonoBehaviour:
     - Textures
     - Field
     - field_01
+    m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  - m_GUID: 8df631d73605745d7ba50f45b2987ae7
+    m_Address: Assets/App/AddressableAssets/Textures/GameScene/Ingame/btn_guard.png
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Textures
+    - GameScene
+    - Ingame
     m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   - m_GUID: b53e6839613a24467931da3c61c49a84
@@ -289,6 +363,14 @@ MonoBehaviour:
     - Gimmick
     m_mainAssetType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  - m_GUID: c013b2f84938c4e8eb4da4c9f9fe035c
+    m_Address: Assets/App/AddressableAssets/Textures/GameScene/Ingame/count_02.png
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Textures
+    - GameScene
+    - Ingame
+    m_mainAssetType: 
   - m_GUID: c8b9b0c3c860347b18773c687a4f2a2a
     m_Address: Assets/App/AddressableAssets/Prefabs/Components/GimmickBoxItem.prefab
     m_ReadOnly: 1
@@ -298,13 +380,23 @@ MonoBehaviour:
     - Components
     m_mainAssetType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  - m_GUID: ce40466e18a1a42918212001794228ca
+    m_Address: Assets/App/AddressableAssets/Textures/GameScene/Ingame/icon_monitor_02.png
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Textures
+    - GameScene
+    - Ingame
+    m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   - m_GUID: cefef51a3e59e489fbbdab6f801cc3fd
-    m_Address: Assets/App/AddressableAssets/Textures/Character/chr_rabbit/chr_rabbit_guard.png
+    m_Address: Assets/App/AddressableAssets/Textures/Character/Animation/chr_rabbit/chr_rabbit_guard.png
     m_ReadOnly: 1
     m_SerializedLabels:
     - Textures
     - Character
     - chr_rabbit
+    - Animation
     m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   - m_GUID: d1f08035483bd4b399c79248c4d4362a
@@ -315,6 +407,24 @@ MonoBehaviour:
     - Gimmick
     m_mainAssetType: UnityEditor.Animations.AnimatorController, UnityEditor, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  - m_GUID: d413b5ff5448742e2b1c942c42ae698c
+    m_Address: Assets/App/AddressableAssets/Textures/GameScene/Common/btn_gimmick_03.png
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Textures
+    - GameScene
+    - Ingame
+    - Common
+    m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  - m_GUID: d425b0e3be62449bbbd343deabc1bee0
+    m_Address: Assets/App/AddressableAssets/Textures/GameScene/Ingame/count_05.png
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Textures
+    - GameScene
+    - Ingame
+    m_mainAssetType: 
   - m_GUID: d63e366c5920b4f07ba717326d7a3775
     m_Address: Assets/App/AddressableAssets/Textures/Capture/Gimmick/gim_damage_wood_step.png
     m_ReadOnly: 1
@@ -332,6 +442,15 @@ MonoBehaviour:
     - UI
     - GameScene
     - Ingame
+    m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  - m_GUID: d7659552134c84c0ea7fd7bf35a96d0c
+    m_Address: Assets/App/AddressableAssets/Textures/GameScene/Ingame/count_03.png
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Textures
+    - GameScene
+    - Ingame
     m_mainAssetType: 
   - m_GUID: de98bddf91e934619b1ab2bd7702cdee
     m_Address: Assets/App/AddressableAssets/Prefabs/Field/field_01.prefab
@@ -340,6 +459,15 @@ MonoBehaviour:
     - Prefabs
     - Field
     m_mainAssetType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  - m_GUID: e3bdef001e2544f46a1989c0fdd8818a
+    m_Address: Assets/App/AddressableAssets/Textures/GameScene/Ingame/icon_monitor_01.png
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Textures
+    - GameScene
+    - Ingame
+    m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   - m_GUID: e65bdc01cf7ce4322b40b417a73e4037
     m_Address: Assets/App/AddressableAssets/MasterData/Ingame/Gimmick.asset
@@ -358,21 +486,32 @@ MonoBehaviour:
     m_mainAssetType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   - m_GUID: e7c2dbcbebd804707a6e4e70fab0027e
-    m_Address: Assets/App/AddressableAssets/Textures/Character/chr_rabbit/chr_rabbit_idle.png
+    m_Address: Assets/App/AddressableAssets/Textures/Character/Animation/chr_rabbit/chr_rabbit_idle.png
     m_ReadOnly: 1
     m_SerializedLabels:
     - Textures
     - Character
     - chr_rabbit
+    - Animation
+    m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  - m_GUID: f36afff18096443efa509b6c07ce04a6
+    m_Address: Assets/App/AddressableAssets/Textures/GameScene/Ingame/btn_jump.png
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Textures
+    - GameScene
+    - Ingame
     m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   - m_GUID: fbf5c23a2fa6f48a08778c4684e8b729
-    m_Address: Assets/App/AddressableAssets/Textures/Character/chr_rabbit/chr_rabbit_run.png
+    m_Address: Assets/App/AddressableAssets/Textures/Character/Animation/chr_rabbit/chr_rabbit_run.png
     m_ReadOnly: 1
     m_SerializedLabels:
     - Textures
     - Character
     - chr_rabbit
+    - Animation
     m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   m_ReadOnly: 0

@@ -5,7 +5,7 @@ namespace Chsopoly.Editor
 {
     public class TextureCustomImporter : AssetPostprocessor
     {
-        private const string CharacterDirPath = "Assets/App/AddressableAssets/Textures/Character/";
+        private const string CharacterAnimationDirPath = "Assets/App/AddressableAssets/Textures/Character/Animation/";
 
         void OnPreprocessTexture ()
         {
@@ -13,7 +13,7 @@ namespace Chsopoly.Editor
             var settings = new TextureImporterSettings ();
             importer.ReadTextureSettings (settings);
 
-            if (assetPath.StartsWith (CharacterDirPath))
+            if (assetPath.StartsWith (CharacterAnimationDirPath))
             {
                 settings.spriteMode = (int) SpriteImportMode.Multiple;
             }

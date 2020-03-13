@@ -10,6 +10,7 @@ namespace Chsopoly.GameScene.Ingame.Object.Character.State
             owner.Model.PlayAnimation (CharacterObjectModel.Animation.Idle);
             owner.StateMachine.SetStateTimerInfinite ();
             owner.SetMoveDirection (CharacterObject.MoveDirection.None);
+            owner.Rigidbody.isKinematic = false;
             owner.Rigidbody.velocity = new Vector2 (0, owner.Rigidbody.velocity.y);
         }
 
