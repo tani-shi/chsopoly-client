@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +22,11 @@ namespace Chsopoly.GameScene.Ingame
 {
     public class IngameStage : MonoBehaviour
     {
+        public event Action onGoalPlayer;
+        public event Action onDeadPlayer;
+        public event Action<uint> onGoalOtherPlayer;
+        public event Action<uint> onDeadOtherPlayer;
+
         [SerializeField]
         private CharacterMonitorIcon _characterMonitorIconPrefab = default;
         [SerializeField]
@@ -181,9 +187,15 @@ namespace Chsopoly.GameScene.Ingame
                 _otherCharacterObjectMap[connectionId].SetMoveDirection ((CharacterObject.MoveDirection) characterObjectSync.direction);
                 _otherCharacterObjectMap[connectionId].StateMachine.SetNextState ((CharacterState) characterObjectSync.state, true);
 
-                if ((CharacterState) characterObjectSync.state == CharacterState.Dead)
+                switch ((CharacterState) characterObjectSync.state)
                 {
-                    _otherCharacterMonitorMap[connectionId].gameObject.SetActive (false);
+                    case CharacterState.Appeal:
+                        onGoalOtherPlayer.SafeInvoke (connectionId);
+                        break;
+                    case CharacterState.Dead:
+                        _otherCharacterMonitorMap[connectionId].gameObject.SetActive (false);
+                        onDeadOtherPlayer.SafeInvoke (connectionId);
+                        break;
                 }
             }
             else if (model is GimmickObjectPut gimmickObjectPut)
@@ -192,11 +204,6 @@ namespace Chsopoly.GameScene.Ingame
                     gimmickObjectPut.gimmickId, connectionId, transform, OnCreateObject,
                     gimmickObjectPut.uniqueId, new Vector2 (gimmickObjectPut.x, gimmickObjectPut.y)));
             }
-        }
-
-        public void DestroyOtherPlayerCharacter (uint connectionId)
-        {
-            Destroy (_otherCharacterObjectMap[connectionId]);
         }
 
         private void OnLoadComplete ()
@@ -288,6 +295,16 @@ namespace Chsopoly.GameScene.Ingame
 
         private void OnChangedPlayerState (CharacterState before, CharacterState after)
         {
+            switch (after)
+            {
+                case CharacterState.Appeal:
+                    onGoalPlayer.SafeInvoke ();
+                    break;
+                case CharacterState.Dead:
+                    onDeadPlayer.SafeInvoke ();
+                    break;
+            }
+
             if (before == CharacterState.Jump && after == CharacterState.Fall)
             {
                 return;
@@ -310,7 +327,7 @@ namespace Chsopoly.GameScene.Ingame
 
         private uint DrawGimmickId ()
         {
-            return _gimmickLotteryTable[Random.Range (0, _gimmickLotteryTable.Length)];
+            return _gimmickLotteryTable[UnityEngine.Random.Range (0, _gimmickLotteryTable.Length)];
         }
 
         private void SetPhysicsMaterialsRecursively (GameObject obj)

@@ -11,15 +11,36 @@ namespace Chsopoly.GameScene.Ingame.Components
 {
     public class PlayerController : MonoBehaviour
     {
+        public enum Mode
+        {
+            None,
+            ControlPlayer,
+            ControlCamera,
+        }
+
         [SerializeField]
         private float _dragSpeedThreshold = 10f;
         [SerializeField]
         private Camera _stageCamera = default;
 
+        public Mode CurrentMode
+        {
+            get
+            {
+                return _mode;
+            }
+        }
+
         private CharacterObject _playerCharacter = null;
         private bool _dragging = false;
         private CharacterObject.MoveDirection _draggingDirection = CharacterObject.MoveDirection.None;
         private bool _guarding = false;
+        private Mode _mode = Mode.None;
+
+        public void SetMode (Mode mode)
+        {
+            _mode = mode;
+        }
 
         public void SetPlayer (CharacterObject playerCharacter)
         {
@@ -73,6 +94,19 @@ namespace Chsopoly.GameScene.Ingame.Components
 
         void Update ()
         {
+            switch (_mode)
+            {
+                case Mode.ControlPlayer:
+                    ControlPlayer ();
+                    break;
+                case Mode.ControlCamera:
+                    ControlCamera ();
+                    break;
+            }
+        }
+
+        private void ControlPlayer ()
+        {
             if (_playerCharacter == null)
             {
                 return;
@@ -118,6 +152,11 @@ namespace Chsopoly.GameScene.Ingame.Components
                     _playerCharacter.SetMoveDirection (CharacterObject.MoveDirection.None);
                 }
             }
+        }
+
+        private void ControlCamera ()
+        {
+
         }
     }
 }
