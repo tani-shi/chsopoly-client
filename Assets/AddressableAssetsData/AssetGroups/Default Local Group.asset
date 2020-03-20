@@ -62,7 +62,8 @@ MonoBehaviour:
     - Textures
     - Capture
     - Gimmick
-    m_mainAssetType: 
+    m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   - m_GUID: 0cb23f170b69f4135b1d47b68640d1c2
     m_Address: Assets/App/AddressableAssets/Textures/Character/Animation/chr_rabbit/chr_rabbit_damage.png
     m_ReadOnly: 1
@@ -92,6 +93,15 @@ MonoBehaviour:
     - Ingame
     m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  - m_GUID: 16ee5c8f79bb1483788fc2ac3bc7a93c
+    m_Address: Assets/App/AddressableAssets/Textures/Character/Animation/chr_bird/chr_bird_jump.png
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Textures
+    - Character
+    - Animation
+    - chr_bird
+    m_mainAssetType: 
   - m_GUID: 1cdac2d6ab67249669e7b30fca2a90a8
     m_Address: Assets/App/AddressableAssets/Animations/GameScene/IngameScene.controller
     m_ReadOnly: 1
@@ -188,6 +198,15 @@ MonoBehaviour:
     - Ingame
     m_mainAssetType: Chsopoly.MasterData.DTO.Ingame.CharacterDTO, Assembly-CSharp,
       Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  - m_GUID: 4fd1bce4609c34baa9d22b21774375f2
+    m_Address: Assets/App/AddressableAssets/Textures/Character/Animation/chr_bird/chr_bird_guard.png
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Textures
+    - Character
+    - Animation
+    - chr_bird
+    m_mainAssetType: 
   - m_GUID: 52cea7118c41a405288088bd1bff75ef
     m_Address: Assets/App/AddressableAssets/Textures/Field/grass.png
     m_ReadOnly: 1
@@ -216,6 +235,22 @@ MonoBehaviour:
     - Ingame
     m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  - m_GUID: 646a493dad38748b7ad5ea02dfdb4ec0
+    m_Address: Assets/App/AddressableAssets/Textures/Field/bg02.png
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Textures
+    - Field
+    m_mainAssetType: 
+  - m_GUID: 6549174dd70e94a798cc3114571a4869
+    m_Address: Assets/App/AddressableAssets/Textures/Character/Animation/chr_bird/chr_bird_damage.png
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Textures
+    - Character
+    - Animation
+    - chr_bird
+    m_mainAssetType: 
   - m_GUID: 66044ee2c7a8e41f9bec4c734738d650
     m_Address: Assets/App/AddressableAssets/Textures/GameScene/Ingame/ingame_state_goal.png
     m_ReadOnly: 1
@@ -242,6 +277,13 @@ MonoBehaviour:
     - Bgm
     m_mainAssetType: UnityEngine.AudioClip, UnityEngine.AudioModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  - m_GUID: 6ad6cc5991f8b4220b8888dbf6688035
+    m_Address: Assets/App/AddressableAssets/Textures/Field/bg04.png
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Textures
+    - Field
+    m_mainAssetType: 
   - m_GUID: 6c879fafd69794f45bf56e92ec321192
     m_Address: Assets/App/AddressableAssets/Textures/GameScene/Ingame/ingame_state_lose.png
     m_ReadOnly: 1
@@ -278,6 +320,13 @@ MonoBehaviour:
     - GameScene
     m_mainAssetType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  - m_GUID: 729eaab173a794e0695e7cc420baccc5
+    m_Address: Assets/App/AddressableAssets/Textures/Field/bg03.png
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Textures
+    - Field
+    m_mainAssetType: 
   - m_GUID: 77fa383ffebf943c491b16b6a8cc8e3f
     m_Address: Assets/App/AddressableAssets/Textures/Character/Animation/chr_rabbit/chr_rabbit_appeal.png
     m_ReadOnly: 1
@@ -336,7 +385,8 @@ MonoBehaviour:
     m_SerializedLabels:
     - Animations
     - Gimmick
-    m_mainAssetType: 
+    m_mainAssetType: UnityEditor.Animations.AnimatorController, UnityEditor, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   - m_GUID: 89e8e022a8a6846b7a60f170f478e9cf
     m_Address: Assets/App/AddressableAssets/Textures/GameScene/Ingame/icon_monitor_04.png
     m_ReadOnly: 1
@@ -370,6 +420,16 @@ MonoBehaviour:
     m_SerializedLabels:
     - Textures
     - Gimmick
+    m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  - m_GUID: b18c0ace7e7dd4cda9e300a04b350c25
+    m_Address: Assets/App/AddressableAssets/Textures/Character/Animation/chr_bird/chr_bird_dying.png
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Textures
+    - Character
+    - Animation
+    - chr_bird
     m_mainAssetType: 
   - m_GUID: b1941970a930e439593e76efb42b3df0
     m_Address: Assets/App/AddressableAssets/Prefabs/Gimmick/gim_rolling_saw.prefab
@@ -377,7 +437,8 @@ MonoBehaviour:
     m_SerializedLabels:
     - Prefabs
     - Gimmick
-    m_mainAssetType: 
+    m_mainAssetType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   - m_GUID: b53e6839613a24467931da3c61c49a84
     m_Address: Assets/App/AddressableAssets/Prefabs/Common/GoalPoint.prefab
     m_ReadOnly: 1
@@ -483,7 +544,8 @@ MonoBehaviour:
     m_SerializedLabels:
     - Textures
     - Gimmick
-    m_mainAssetType: 
+    m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   - m_GUID: e3bdef001e2544f46a1989c0fdd8818a
     m_Address: Assets/App/AddressableAssets/Textures/GameScene/Ingame/icon_monitor_01.png
     m_ReadOnly: 1
@@ -528,16 +590,42 @@ MonoBehaviour:
     - Ingame
     m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  - m_GUID: f56f63229758b4738bed0de7cf1c65db
+    m_Address: Assets/App/AddressableAssets/Textures/Character/Animation/chr_bird/chr_bird_appeal.png
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Textures
+    - Character
+    - Animation
+    - chr_bird
+    m_mainAssetType: 
+  - m_GUID: f7bc0df31cff44450809423f8106cc2a
+    m_Address: Assets/App/AddressableAssets/Textures/Character/Animation/chr_bird/chr_bird_idle.png
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Textures
+    - Character
+    - Animation
+    - chr_bird
+    m_mainAssetType: 
   - m_GUID: fbf5c23a2fa6f48a08778c4684e8b729
     m_Address: Assets/App/AddressableAssets/Textures/Character/Animation/chr_rabbit/chr_rabbit_run.png
     m_ReadOnly: 1
     m_SerializedLabels:
     - Textures
     - Character
-    - chr_rabbit
     - Animation
-    m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+    - chr_rabbit
+    m_mainAssetType: 
+  - m_GUID: fcc650d13a03d473cb134a6aad52c637
+    m_Address: Assets/App/AddressableAssets/Textures/Character/Animation/chr_bird/chr_bird_run.png
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Textures
+    - Character
+    - Animation
+    - chr_bird
+    m_mainAssetType: 
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: f101120ea3a844af49e1293db9bb93e1, type: 2}
   m_SchemaSet:

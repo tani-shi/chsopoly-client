@@ -1,31 +1,31 @@
 fileFormatVersion: 2
-guid: fbf5c23a2fa6f48a08778c4684e8b729
+guid: fcc650d13a03d473cb134a6aad52c637
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -8053130252063348180
-    second: chr_rabbit_run_0
+      213: 4280790117771202224
+    second: chr_bird_run_0
   - first:
-      213: -5843159386574232347
-    second: chr_rabbit_run_1
+      213: 7439460358836108955
+    second: chr_bird_run_1
   - first:
-      213: 5350127805403180063
-    second: chr_rabbit_run_2
+      213: 9133702281556555747
+    second: chr_bird_run_2
   - first:
-      213: 6230949923654806845
-    second: chr_rabbit_run_3
+      213: 7164110638816812135
+    second: chr_bird_run_3
   - first:
-      213: -403397138122034530
-    second: chr_rabbit_run_4
+      213: -4880264125972904848
+    second: chr_bird_run_4
   - first:
-      213: -7665964340998852476
-    second: chr_rabbit_run_5
+      213: -1191684173290450404
+    second: chr_bird_run_5
   - first:
-      213: -6691938972030671907
-    second: chr_rabbit_run_6
+      213: 6557034669175239692
+    second: chr_bird_run_6
   - first:
-      213: 7303472254738338171
-    second: chr_rabbit_run_7
+      213: -6629837868152882570
+    second: chr_bird_run_7
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -98,7 +98,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: chr_rabbit_run_0
+      name: chr_bird_run_0
       rect:
         serializedVersion: 2
         x: 0
@@ -112,14 +112,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c2aefcbf3b88d3090800000000000000
-      internalID: -8053130252063348180
+      spriteID: 0be41c77eeb686b30800000000000000
+      internalID: 4280790117771202224
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: chr_rabbit_run_1
+      name: chr_bird_run_1
       rect:
         serializedVersion: 2
         x: 300
@@ -133,14 +133,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5e4e04d0f7de8eea0800000000000000
-      internalID: -5843159386574232347
+      spriteID: b9eb609c7c54e3760800000000000000
+      internalID: 7439460358836108955
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: chr_rabbit_run_2
+      name: chr_bird_run_2
       rect:
         serializedVersion: 2
         x: 600
@@ -154,14 +154,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f1c2fff84e87f3a40800000000000000
-      internalID: 5350127805403180063
+      spriteID: 3e77a5825dd61ce70800000000000000
+      internalID: 9133702281556555747
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: chr_rabbit_run_3
+      name: chr_bird_run_3
       rect:
         serializedVersion: 2
         x: 900
@@ -175,14 +175,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d3d21bc41f7c87650800000000000000
-      internalID: 6230949923654806845
+      spriteID: 76cd54e3ba80c6360800000000000000
+      internalID: 7164110638816812135
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: chr_rabbit_run_4
+      name: chr_bird_run_4
       rect:
         serializedVersion: 2
         x: 1200
@@ -196,14 +196,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e92b3dea078d66af0800000000000000
-      internalID: -403397138122034530
+      spriteID: 0748d4952a1d54cb0800000000000000
+      internalID: -4880264125972904848
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: chr_rabbit_run_5
+      name: chr_bird_run_5
       rect:
         serializedVersion: 2
         x: 1500
@@ -217,14 +217,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 480b3f14c060d9590800000000000000
-      internalID: -7665964340998852476
+      spriteID: c125196ee89467fe0800000000000000
+      internalID: -1191684173290450404
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: chr_rabbit_run_6
+      name: chr_bird_run_6
       rect:
         serializedVersion: 2
         x: 1800
@@ -238,14 +238,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: dd3e489d5f47123a0800000000000000
-      internalID: -6691938972030671907
+      spriteID: c047c1c7a444ffa50800000000000000
+      internalID: 6557034669175239692
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: chr_rabbit_run_7
+      name: chr_bird_run_7
       rect:
         serializedVersion: 2
         x: 2100
@@ -259,8 +259,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b71999af1552b5560800000000000000
-      internalID: 7303472254738338171
+      spriteID: 67a7056d5951ef3a0800000000000000
+      internalID: -6629837868152882570
       vertices: []
       indices: 
       edges: []
@@ -268,7 +268,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 783b25cf863aa4f9d85dcb1099515eac
+    spriteID: 7dcf130638e6d403bb2d2a06e7b5cbdb
     internalID: 0
     vertices: []
     indices: 

@@ -86,6 +86,14 @@ MonoBehaviour:
     - Title
     - Animation
     - Icon
+    - chr_bird
+    - chr_bird_run
+    - chr_bird_guard
+    - chr_bird_damage
+    - chr_bird_dying
+    - chr_bird_appeal
+    - chr_bird_jump
+    - chr_bird_idle
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: d217f0919f5584585a0b6690779def86, type: 2}
