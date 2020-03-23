@@ -59,9 +59,29 @@ namespace Chsopoly.BaseSystem.GameScene
         private IGameScene _gameScene;
         private AsyncOperationHandle<GameObject> _loader;
         private GameSceneType _defaultSceneType = GameSceneType.None;
+        private GameObject _loaderObject = null;
+        private Dictionary<GameSceneType, GameObject> _loaderAssetMap = new Dictionary<GameSceneType, GameObject> ();
+        private bool _initialized = false;
+
+        public IEnumerator Initialize ()
+        {
+            foreach (GameSceneType type in Enum.GetValues (typeof (GameSceneType)))
+            {
+                if (GameSceneTypeHelper.HasLoader (type))
+                {
+                    var handle = Addressables.LoadAssetAsync<GameObject> (GameSceneTypeHelper.GetLoaderAssetPath (type));
+                    yield return handle;
+                    _loaderAssetMap.Add (type, handle.Result);
+                }
+            }
+
+            _initialized = true;
+        }
 
         public void ChangeScene (GameSceneType type, IGameSceneParam param = null)
         {
+            ValidateInitialized ();
+
             if (_defaultSceneType == GameSceneType.None)
             {
                 _defaultSceneType = type;
@@ -74,6 +94,8 @@ namespace Chsopoly.BaseSystem.GameScene
 
         public void PushScene (GameSceneType type, IGameSceneParam param = null)
         {
+            ValidateInitialized ();
+
             _nextSceneInfo = new GameSceneInfo (type, param);
             _sceneInfoHistory.Push (new GameSceneInfo (_gameScene.sceneType, param));
 
@@ -82,6 +104,8 @@ namespace Chsopoly.BaseSystem.GameScene
 
         public void PopScene ()
         {
+            ValidateInitialized ();
+
             if (_sceneInfoHistory.Count > 0)
             {
                 _nextSceneInfo = _sceneInfoHistory.Pop ();
@@ -110,19 +134,18 @@ namespace Chsopoly.BaseSystem.GameScene
             switch (_state)
             {
                 case State.None:
-                    if (HasNextSceneInfo ())
-                    {
-                        _loader = LoadGameScene (_nextSceneInfo);
-                        _state = State.Loading;
-                    }
-                    break;
-
                 case State.Idle:
                     if (HasNextSceneInfo ())
                     {
                         _fadeRate = 0;
                         _state = State.Closing;
                         _fadeImage.raycastTarget = true;
+
+                        if (GameSceneTypeHelper.HasLoader (_nextSceneInfo.type))
+                        {
+                            var _loaderObject = _loaderAssetMap[_nextSceneInfo.type].CreateInstance ();
+                            _loaderObject.transform.SetParent (_fadeImage.transform);
+                        }
 
                         if (_gameScene != null)
                         {
@@ -141,6 +164,12 @@ namespace Chsopoly.BaseSystem.GameScene
                     {
                         _state = State.Idle;
                         _fadeImage.raycastTarget = false;
+
+                        if (_loaderObject != null)
+                        {
+                            Destroy (_loaderObject);
+                            _loaderObject = null;
+                        }
 
                         if (_gameScene != null)
                         {
@@ -199,6 +228,14 @@ namespace Chsopoly.BaseSystem.GameScene
                         }
                     }
                     break;
+            }
+        }
+
+        private void ValidateInitialized ()
+        {
+            if (!_initialized)
+            {
+                throw new Exception ("[GameSceneManager] Do initialize first before do anything.");
             }
         }
 

@@ -14,7 +14,7 @@ namespace Chsopoly.Libs.Extensions
             for (int i = 0; i < queue.Count; i++)
             {
                 var item = queue.Dequeue ();
-                if (item == remove)
+                if (item != remove)
                 {
                     queue.Enqueue (item);
                 }

@@ -10,7 +10,7 @@ namespace Chsopoly.Editor
         const int CreatePriority = 10000;
 
         [MenuItem ("Assets/Create/GameScene", false, CreatePriority)]
-        static void GenerateVariantPrefab ()
+        static void GenerateGameScenePrefab ()
         {
             EditorUtility.FocusProjectWindow ();
 
@@ -34,6 +34,20 @@ namespace Chsopoly.Editor
             source.AddComponent<CanvasRenderer> ();
             var newObj = PrefabUtility.SaveAsPrefabAsset (source, path);
             GameObject.DestroyImmediate (source);
+
+            Selection.activeObject = newObj;
+        }
+
+        [MenuItem ("Assets/Create/Popup", false, CreatePriority)]
+        static void GeneratePopupPrefab ()
+        {
+            EditorUtility.FocusProjectWindow ();
+
+            var path = AssetDatabase.GenerateUniqueAssetPath (GetCurrentFolder () + "/NewPopup.prefab");
+            var source = Resources.Load ("BasePrefabs/Popup");
+            var prefab = (GameObject) PrefabUtility.InstantiatePrefab (source);
+            var newObj = PrefabUtility.SaveAsPrefabAsset (prefab, path);
+            GameObject.DestroyImmediate (prefab);
 
             Selection.activeObject = newObj;
         }

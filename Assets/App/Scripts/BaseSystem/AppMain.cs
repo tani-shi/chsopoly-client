@@ -31,6 +31,7 @@ namespace Chsopoly.BaseSystem
             yield return Addressables.InitializeAsync ();
             yield return MasterDataManager.Instance.LoadAsync (new MasterDataAccessorObjectCollection ());
             yield return AudioManager.Instance.LoadAsync ();
+            yield return GameSceneManager.Instance.Initialize ();
 
             GameSceneManager.Instance.ChangeScene (GameSceneType.Title);
         }

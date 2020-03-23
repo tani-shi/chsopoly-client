@@ -20,5 +20,24 @@ namespace Chsopoly.BaseSystem.GameScene
                     throw new ArgumentOutOfRangeException ("Undefined GameSceneType was specified. " + type.ToString ());
             }
         }
+
+        public static string GetLoaderAssetPath (GameSceneType type)
+        {
+            switch (type)
+            {
+
+                default:
+                    throw new ArgumentOutOfRangeException ("Undefined GameSceneType was specified. " + type.ToString ());
+            }
+        }
+
+        public static bool HasLoader (GameSceneType type)
+        {
+            switch (type)
+            {
+
+                default: return false;
+            }
+        }
     }
 }

@@ -42,6 +42,25 @@ ${PATH_CASES}
                     throw new ArgumentOutOfRangeException (""Undefined GameSceneType was specified. "" + type.ToString ());
             }
         }
+
+        public static string GetLoaderAssetPath (GameSceneType type)
+        {
+            switch (type)
+            {
+${LOADER_CASES}
+                default:
+                    throw new ArgumentOutOfRangeException (""Undefined GameSceneType was specified. "" + type.ToString ());
+            }
+        }
+
+        public static bool HasLoader (GameSceneType type)
+        {
+            switch (type)
+            {
+${LOADER_CASES}
+                default: return false;
+            }
+        }
     }
 }";
 
@@ -82,27 +101,31 @@ ${PATH_CASES}
         {
             var caseBuilder = new StringBuilder ();
             var pathCaseBuilder = new StringBuilder ();
+            var loaderCaseBuilder = new StringBuilder ();
+            var loaderPathCaseBuilder = new StringBuilder ();
 
-            var tempList = new List<string> ();
             foreach (var guid in AssetDatabase.FindAssets ("t:prefab"))
             {
                 var path = AssetDatabase.GUIDToAssetPath (guid);
-                if (IsGameScenePath (path) && !tempList.Contains (path))
+                if (IsGameScenePath (path))
                 {
-                    tempList.Add (path);
+                    var name = Path.GetFileNameWithoutExtension (path).Replace ("Scene", "");
+                    pathCaseBuilder.AppendLine (string.Format ("case GameSceneType.{0}:", name).Indent (16));
+                    pathCaseBuilder.AppendLine (string.Format ("return \"{0}\";", path).Indent (20));
                 }
-            }
-
-            foreach (var path in tempList)
-            {
-                var name = Path.GetFileNameWithoutExtension (path).Replace ("Scene", "");
-                pathCaseBuilder.AppendLine (string.Format ("case GameSceneType.{0}:", name).Indent (16));
-                pathCaseBuilder.AppendLine (string.Format ("return \"{0}\";", path).Indent (20));
+                if (IsGameSceneLoaderPath (path))
+                {
+                    var name = Path.GetFileNameWithoutExtension (path).Replace ("SceneLoader", "");
+                    loaderCaseBuilder.AppendLine (string.Format ("case GameSceneType.{0}: return true;", name).Indent (16));
+                    loaderPathCaseBuilder.AppendLine (string.Format ("case GameSceneType.{0}:", name).Indent (16));
+                    loaderPathCaseBuilder.AppendLine (string.Format ("return \"{0}\";", path));
+                }
             }
 
             var helperScript = TemplateGameSceneTypeHelperScript
                 .Replace ("${CASES}", caseBuilder.ToString ().RemoveLast ())
-                .Replace ("${PATH_CASES}", pathCaseBuilder.ToString ().RemoveLast ());
+                .Replace ("${PATH_CASES}", pathCaseBuilder.ToString ().RemoveLast ())
+                .Replace ("${LOADER_CASES}", loaderCaseBuilder.ToString ().RemoveLast ());
             Directory.CreateDirectory (Path.GetDirectoryName (PathGameSceneTypeHelperScript));
             File.WriteAllText (PathGameSceneTypeHelperScript, helperScript);
         }
@@ -110,6 +133,11 @@ ${PATH_CASES}
         private static bool IsGameScenePath (string path)
         {
             return Regex.IsMatch (path, @".+/GameScene/(.*?)Scene.prefab");
+        }
+
+        private static bool IsGameSceneLoaderPath (string path)
+        {
+            return Regex.IsMatch (path, @".+/GameSceneLoader/(.*?)SceneLoader.prefab");
         }
     }
 }
