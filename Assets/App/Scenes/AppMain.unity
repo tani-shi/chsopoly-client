@@ -416,8 +416,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c23226b66a83546dc84711bbfc5e88fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _popupCanvas: {fileID: 0}
-  _errorPopupCanvas: {fileID: 0}
+  _popupCanvas: {fileID: 4781968299235482889}
+  _errorPopupCanvas: {fileID: 3520592931318167436}
 --- !u!1 &1717362245
 GameObject:
   m_ObjectHideFlags: 0

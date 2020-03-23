@@ -19,6 +19,12 @@ namespace Chsopoly.BaseSystem.Popup
         private List<IPopup> _popupStack = new List<IPopup> ();
         private List<IPopup> _errorPopupStack = new List<IPopup> ();
 
+        void Start ()
+        {
+            _popupCanvas.gameObject.SetActive (false);
+            _errorPopupCanvas.gameObject.SetActive (false);
+        }
+
         public void OpenPopup (PopupType type, IPopupParam param)
         {
             StartCoroutine (LoadPopup (type, param, (popup) =>
