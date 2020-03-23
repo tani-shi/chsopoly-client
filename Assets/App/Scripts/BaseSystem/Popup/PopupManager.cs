@@ -25,28 +25,28 @@ namespace Chsopoly.BaseSystem.Popup
             _errorPopupCanvas.gameObject.SetActive (false);
         }
 
-        public void OpenPopup (PopupType type, IPopupParam param)
+        public void OpenPopup (PopupType type, IPopupParam param = null)
         {
-            StartCoroutine (LoadPopup (type, param, (popup) =>
+            _popupCanvas.gameObject.SetActive (true);
+
+            StartCoroutine (LoadPopup (type, param, _popupCanvas.transform, (popup) =>
             {
                 popup.Open ();
                 _popupStack.Add (popup);
                 popup.onClosed += () => OnClosedPopup (popup);
             }));
-
-            _popupCanvas.gameObject.SetActive (true);
         }
 
-        public void OpenErrorPopup (PopupType type, IPopupParam param)
+        public void OpenErrorPopup (PopupType type, IPopupParam param = null)
         {
-            StartCoroutine (LoadPopup (type, param, (popup) =>
+            _errorPopupCanvas.gameObject.SetActive (true);
+
+            StartCoroutine (LoadPopup (type, param, _errorPopupCanvas.transform, (popup) =>
             {
                 popup.Open ();
                 _errorPopupStack.Add (popup);
                 popup.onClosed += () => OnClosedErrorPopup (popup);
             }));
-
-            _errorPopupCanvas.gameObject.SetActive (true);
         }
 
         public void DestroyAllPopup ()
@@ -63,13 +63,14 @@ namespace Chsopoly.BaseSystem.Popup
             _errorPopupStack.Clear ();
         }
 
-        private IEnumerator LoadPopup (PopupType type, IPopupParam param, Action<IPopup> callback)
+        private IEnumerator LoadPopup (PopupType type, IPopupParam param, Transform parent, Action<IPopup> callback)
         {
             var handle = Addressables.LoadAssetAsync<GameObject> (PopupTypeHelper.GetAssetPath (type));
             yield return handle;
             if (handle.Result != null)
             {
-                if (handle.Result.GetComponent<IPopup> () is IPopup popup)
+                var obj = handle.Result.CreateInstance (parent);
+                if (obj.GetComponent<IPopup> () is IPopup popup)
                 {
                     yield return popup.Load (param);
                     callback.SafeInvoke (popup);
@@ -77,6 +78,7 @@ namespace Chsopoly.BaseSystem.Popup
                 else
                 {
                     Debug.LogError ("Failed to load a popup because it has no popup components. " + PopupTypeHelper.GetAssetPath (type));
+                    Destroy (obj);
                 }
             }
         }

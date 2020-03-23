@@ -5,6 +5,7 @@ namespace Chsopoly.Popup
     public enum PopupType
     {
         None,
-        MessagePopup,
+        GimmickList,
+        Message,
     }
 }

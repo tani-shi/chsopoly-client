@@ -3,8 +3,10 @@ using Chsopoly.Audio;
 using Chsopoly.BaseSystem.Audio;
 using Chsopoly.BaseSystem.GameScene;
 using Chsopoly.BaseSystem.Gs2;
+using Chsopoly.BaseSystem.MasterData;
 using Chsopoly.BaseSystem.UserData;
 using Chsopoly.GameScene.Matching;
+using Chsopoly.MasterData.DAO.Ingame;
 using Chsopoly.UserData.Entity;
 using Gs2.Core.Exception;
 using UnityEngine;
@@ -87,20 +89,14 @@ namespace Chsopoly.GameScene.Title
 
             StartCoroutine (Gs2Manager.Instance.Initialize (() =>
             {
-                var account = UserDataManager.Instance.Load<Account> ();
+                var account = UserDataManager.Instance.LoadFirst<Account> ();
                 if (account == null)
                 {
                     SetState (State.CreateAccount);
 
                     StartCoroutine (Gs2Manager.Instance.CreateAccount (r =>
                     {
-                        account = new Account ();
-                        account.Gs2AccountId = r.Result.Item.UserId;
-                        account.Gs2Password = r.Result.Item.Password;
-                        account.Gs2CreatedAt = r.Result.Item.CreatedAt;
-                        account.CharacterId = 1;
-                        UserDataManager.Instance.Save (account);
-
+                        account = RegisterUserData (r.Result.Item.UserId, r.Result.Item.Password, r.Result.Item.CreatedAt);
                         DoLogin ();
                     }));
                 }
@@ -125,7 +121,7 @@ namespace Chsopoly.GameScene.Title
         {
             SetState (State.Login);
 
-            var account = UserDataManager.Instance.Load<Account> ();
+            var account = UserDataManager.Instance.LoadFirst<Account> ();
 
             StartCoroutine (Gs2Manager.Instance.LoginAccount (account.Gs2AccountId, account.Gs2Password, _ =>
             {
@@ -137,7 +133,7 @@ namespace Chsopoly.GameScene.Title
         {
             SetState (State.WaitForTapScreen);
 
-            var account = UserDataManager.Instance.Load<Account> ();
+            var account = UserDataManager.Instance.LoadFirst<Account> ();
 
             _userIdText.text = account.Gs2AccountId;
         }
@@ -152,6 +148,32 @@ namespace Chsopoly.GameScene.Title
         private void SetState (State state)
         {
             _currentState = (State) Mathf.Max ((int) state, (int) _currentState);
+        }
+
+        private Account RegisterUserData (string userId, string password, long createdAt)
+        {
+            var account = new Account ();
+            account.Gs2AccountId = userId;
+            account.Gs2Password = password;
+            account.Gs2CreatedAt = createdAt;
+            account.CharacterId = 1;
+            UserDataManager.Instance.Save (account);
+
+            foreach (var data in MasterDataManager.Instance.Get<CharacterDAO> ())
+            {
+                var character = new Character ();
+                character.CharacterId = data.id;
+                UserDataManager.Instance.Save (character);
+            }
+            foreach (var data in MasterDataManager.Instance.Get<GimmickDAO> ())
+            {
+                var gimmick = new Gimmick ();
+                gimmick.GimmickId = data.id;
+                gimmick.IsActive = true;
+                UserDataManager.Instance.Save (gimmick);
+            }
+
+            return account;
         }
     }
 }

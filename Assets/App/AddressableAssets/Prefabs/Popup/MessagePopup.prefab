@@ -248,16 +248,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8722070591415941506, guid: bf73036e6f761418d9ebcf731827d583,
         type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 800
-      objectReference: {fileID: 0}
-    - target: {fileID: 8722070591415941506, guid: bf73036e6f761418d9ebcf731827d583,
-        type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 8722070591415941506, guid: bf73036e6f761418d9ebcf731827d583,
-        type: 3}
       propertyPath: m_AnchorMin.x
       value: 0.5
       objectReference: {fileID: 0}
@@ -286,7 +276,8 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 3035838880652332853, guid: bf73036e6f761418d9ebcf731827d583, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: bf73036e6f761418d9ebcf731827d583, type: 3}
 --- !u!1 &7065569190897096094 stripped
 GameObject:

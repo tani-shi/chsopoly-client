@@ -10,7 +10,9 @@ namespace Chsopoly.BaseSystem.Popup
         {
             switch (type)
             {
-                case PopupType.MessagePopup:
+                case PopupType.GimmickList:
+                    return "Assets/App/AddressableAssets/Prefabs/Popup/GimmickListPopup.prefab";
+                case PopupType.Message:
                     return "Assets/App/AddressableAssets/Prefabs/Popup/MessagePopup.prefab";
                 default:
                     throw new ArgumentOutOfRangeException ("Undefined PopupType was specified. " + type.ToString ());

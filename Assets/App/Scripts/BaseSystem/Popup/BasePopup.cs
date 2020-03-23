@@ -7,8 +7,8 @@ namespace Chsopoly.BaseSystem.Popup
 {
     public abstract class BasePopup<T> : MonoBehaviour, IPopup where T : class, IPopupParam, new ()
     {
-        private const string OPEN_TRIGGER = "Open";
-        private const string CLOSE_TRIGGER = "Close";
+        private const string OPEN_STATE = "Open";
+        private const string CLOSE_STATE = "Close";
 
         public event Action onOpened;
         public event Action onClosed;
@@ -70,7 +70,7 @@ namespace Chsopoly.BaseSystem.Popup
 
         public void Open ()
         {
-            if (_state == State.Ready)
+            if (_state != State.Ready)
             {
                 return;
             }
@@ -79,7 +79,7 @@ namespace Chsopoly.BaseSystem.Popup
 
             if (GetComponent<Animator> () is Animator animator)
             {
-                animator.SetTrigger (OPEN_TRIGGER);
+                animator.Play (OPEN_STATE);
             }
             else
             {
@@ -100,7 +100,7 @@ namespace Chsopoly.BaseSystem.Popup
 
             if (GetComponent<Animator> () is Animator animator)
             {
-                animator.SetTrigger (CLOSE_TRIGGER);
+                animator.Play (CLOSE_STATE);
             }
             else
             {

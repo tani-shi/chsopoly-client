@@ -178,7 +178,7 @@ namespace Chsopoly.GameScene.Matching
 
             if (_joinedPlayers.Count == _capacity - 1)
             {
-                var account = UserDataManager.Instance.Load<Account> ();
+                var account = UserDataManager.Instance.LoadFirst<Account> ();
 
                 GameSceneManager.Instance.ChangeScene (GameSceneType.Ingame, new IngameScene.Param ()
                 {
@@ -214,7 +214,7 @@ namespace Chsopoly.GameScene.Matching
             {
                 SetState (State.ConnectRoom);
 
-                var account = UserDataManager.Instance.Load<Account> ();
+                var account = UserDataManager.Instance.LoadFirst<Account> ();
                 var profile = new Profile ()
                 {
                     accountId = account.Gs2AccountId,

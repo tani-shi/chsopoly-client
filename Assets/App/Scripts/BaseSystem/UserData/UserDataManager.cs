@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using Chsopoly.Libs;
 using UnityEngine;
@@ -11,6 +12,7 @@ namespace Chsopoly.BaseSystem.UserData
     public class UserDataManager : SingletonMonoBehaviour<UserDataManager>
     {
         private const string DatabaseName = "d";
+        private const int FirstId = 1;
 
         private SQLiteConnectionAccessor _connection = null;
         private Dictionary<Type, Dictionary<int, IUserDataEntity>> _entityMap = new Dictionary<Type, Dictionary<int, IUserDataEntity>> ();
@@ -31,28 +33,32 @@ namespace Chsopoly.BaseSystem.UserData
             _connection = new SQLiteConnectionAccessor (Application.persistentDataPath + "/" + DatabaseName);
         }
 
-        public T Load<T> () where T : class,
+        public T LoadFirst<T> () where T : class,
         IUserDataEntity,
         new ()
         {
-            if (_connection == null)
-            {
-                Debug.LogWarning ("UserDataManager is not ready, do Initialize first.");
-                return null;
-            }
+            ValidateConnection ();
+
             if (!_entityMap.ContainsKey (typeof (T)))
             {
                 _entityMap.Add (typeof (T), new Dictionary<int, IUserDataEntity> ());
             }
-            if (_entityMap[typeof (T)].Count > 0)
+            if (_entityMap[typeof (T)].ContainsKey (FirstId))
             {
-                return (T) _entityMap[typeof (T)][0];
+                return _entityMap[typeof (T)][FirstId] as T;
             }
 
-            var entity = _connection.Load<T> ();
+            var entity = _connection.LoadFirst<T> ();
             if (entity != null)
             {
-                _entityMap[typeof (T)].Add (entity.Id, entity);
+                if (_entityMap[typeof (T)].ContainsKey (FirstId))
+                {
+                    _entityMap[typeof (T)][FirstId] = entity;
+                }
+                else
+                {
+                    _entityMap[typeof (T)].Add (FirstId, entity);
+                }
             }
             return entity;
         }
@@ -61,46 +67,123 @@ namespace Chsopoly.BaseSystem.UserData
         IUserDataEntity,
         new ()
         {
-            if (_connection == null)
-            {
-                Debug.LogWarning ("UserDataManager is not ready, do Initialize first.");
-                return null;
-            }
+            ValidateConnection ();
+
             if (!_entityMap.ContainsKey (typeof (T)))
             {
                 _entityMap.Add (typeof (T), new Dictionary<int, IUserDataEntity> ());
             }
             if (_entityMap[typeof (T)].ContainsKey (id))
             {
-                return (T) _entityMap[typeof (T)][id];
+                return _entityMap[typeof (T)][id] as T;
             }
 
             var entity = _connection.Load<T> (id);
             if (entity != null)
             {
-                _entityMap[typeof (T)].Add (id, entity);
+                if (_entityMap[typeof (T)].ContainsKey (id))
+                {
+                    _entityMap[typeof (T)][id] = entity;
+                }
+                else
+                {
+                    _entityMap[typeof (T)].Add (id, entity);
+                }
             }
             return entity;
+        }
+
+        public List<T> LoadAll<T> () where T : class,
+        IUserDataEntity,
+        new ()
+        {
+            ValidateConnection ();
+
+            if (!_entityMap.ContainsKey (typeof (T)))
+            {
+                _entityMap.Add (typeof (T), new Dictionary<int, IUserDataEntity> ());
+            }
+
+            var entities = _connection.LoadAll<T> ();
+            foreach (var entity in entities)
+            {
+                if (_entityMap[typeof (T)].ContainsKey (entity.Id))
+                {
+                    _entityMap[typeof (T)][entity.Id] = entity;
+                }
+                else
+                {
+                    _entityMap[typeof (T)].Add (entity.Id, entity);
+                }
+            }
+            return entities;
         }
 
         public void Save<T> (T entity) where T : class,
         IUserDataEntity,
         new ()
         {
-            if (_connection == null)
+            ValidateConnection ();
+
+            if (entity.Id <= 0)
             {
-                Debug.LogWarning ("UserDataManager is not ready, do Initialize first.");
+                entity.Id = FirstId;
+                _connection.Insert<T> (entity);
             }
-            if (!_entityMap.ContainsKey (typeof (T)))
+            else
             {
-                _entityMap.Add (typeof (T), new Dictionary<int, IUserDataEntity> ());
+                _connection.InsertOrReplace<T> (entity);
             }
-            if (_entityMap[typeof (T)].ContainsKey (entity.Id))
+        }
+
+        public T GetFirst<T> () where T : class,
+        IUserDataEntity,
+        new ()
+        {
+            ValidateConnection ();
+
+            if (_entityMap.ContainsKey (typeof (T)))
             {
-                _entityMap[typeof (T)][entity.Id] = entity;
+                return _entityMap[typeof (T)].FirstOrDefault ().Value as T;
             }
 
-            _connection.Save<T> (entity);
+            return null;
+        }
+
+        public T Get<T> (int id) where T : class,
+        IUserDataEntity,
+        new ()
+        {
+            ValidateConnection ();
+
+            if (_entityMap.ContainsKey (typeof (T)))
+            {
+                return _entityMap[typeof (T)][id] as T;
+            }
+
+            return null;
+        }
+
+        public List<T> GetAll<T> () where T : class,
+        IUserDataEntity,
+        new ()
+        {
+            ValidateConnection ();
+
+            if (_entityMap.ContainsKey (typeof (T)))
+            {
+                return _entityMap[typeof (T)].Values.ToList ().ConvertAll (o => o as T);
+            }
+
+            return null;
+        }
+
+        private void ValidateConnection ()
+        {
+            if (_connection == null)
+            {
+                throw new Exception ("UserDataManager is not ready, do Initialize first.");
+            }
         }
     }
 }

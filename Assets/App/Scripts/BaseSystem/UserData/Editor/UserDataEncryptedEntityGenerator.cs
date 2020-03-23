@@ -30,6 +30,7 @@ ${FIELDS}
 }";
         private const string SQLiteConnectionAccessorTemplate = @"// DON'T EDIT. THIS IS GENERATED AUTOMATICALLY.
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using Chsopoly.BaseSystem.UserData.Entity;
 using Chsopoly.Libs;
@@ -56,22 +57,34 @@ namespace Chsopoly.BaseSystem.UserData
 ${INITIALIZERS}
         }
 
-        public T Load<T> () where T : class, IUserDataEntity, new ()
-        {
-${LOADERS}
-            throw new NotImplementedException (""The entity type is not supported to load. "" + typeof (T).FullName);
-        }
-
         public T Load<T> (int id) where T : class, IUserDataEntity, new ()
         {
 ${LOADERS_WITH_PK}
             throw new NotImplementedException (""The entity type is not supported to load. "" + typeof (T).FullName);
         }
 
-        public void Save<T> (T entity) where T : class, IUserDataEntity, new ()
+        public T LoadFirst<T> () where T : class, IUserDataEntity, new ()
         {
-${SAVERS}
-            ${SAVE_INDENT}throw new NotImplementedException (""The entity type is not supported to decrypt. "" + typeof (T).FullName);
+${FIRST_LOADERS}
+            throw new NotImplementedException (""The entity type is not supported to load. "" + typeof (T).FullName);
+        }
+
+        public List<T> LoadAll<T> () where T : class, IUserDataEntity, new ()
+        {
+${LOADERS}
+            throw new NotImplementedException (""The entity type is not supported to load. "" + typeof (T).FullName);
+        }
+
+        public void Insert<T> (T entity) where T : class, IUserDataEntity, new ()
+        {
+${INSERTERS}
+            ${INSERT_INDENT}throw new NotImplementedException (""The entity type is not supported to decrypt. "" + typeof (T).FullName);
+        }
+
+        public void InsertOrReplace<T> (T entity) where T : class, IUserDataEntity, new ()
+        {
+${REPLACERS}
+            ${REPLACE_INDENT}throw new NotImplementedException (""The entity type is not supported to decrypt. "" + typeof (T).FullName);
         }
 
         private T Decrypt<T> (object encrypted) where T : class, IUserDataEntity, new ()
@@ -140,8 +153,10 @@ ${ENCRYPTERS}
         {
             var initializeBuilder = new StringBuilder ();
             var loadBuilder = new StringBuilder ();
+            var loadFirstBuilder = new StringBuilder ();
             var loadWithPkBuilder = new StringBuilder ();
-            var saveBuilder = new StringBuilder ();
+            var insertBuilder = new StringBuilder ();
+            var replaceBuilder = new StringBuilder ();
             var decryptBuilder = new StringBuilder ();
             var encryptBuilder = new StringBuilder ();
 
@@ -150,12 +165,16 @@ ${ENCRYPTERS}
                 if (type.GetInterfaces ().Contains (typeof (IUserDataEntity)))
                 {
                     initializeBuilder.AppendLine (string.Format ("_connection.CreateTable<{0}> ();", type.FullName.ToEncryptedClassName ()));
-                    loadBuilder.AppendLine (string.Format ("else if (typeof (T) == typeof ({0}))", type.FullName));
-                    loadBuilder.AppendLine (string.Format ("    return Decrypt<T> (_connection.Table<{0}> ().FirstOrDefault ());", type.FullName.ToEncryptedClassName ()));
+                    loadFirstBuilder.AppendLine (string.Format ("else if (typeof (T) == typeof ({0}))", type.FullName));
+                    loadFirstBuilder.AppendLine (string.Format ("    return Decrypt<T> (_connection.Table<{0}> ().FirstOrDefault ());", type.FullName.ToEncryptedClassName ()));
                     loadWithPkBuilder.AppendLine (string.Format ("else if (typeof (T) == typeof ({0}))", type.FullName));
                     loadWithPkBuilder.AppendLine (string.Format ("    return Decrypt<T> (_connection.Find<{0}> (id));", type.FullName.ToEncryptedClassName ()));
-                    saveBuilder.AppendLine (string.Format ("else if (typeof (T) == typeof ({0}))", type.FullName));
-                    saveBuilder.AppendLine (string.Format ("    _connection.InsertOrReplace (Encrypt (entity));"));
+                    loadBuilder.AppendLine (string.Format ("else if (typeof (T) == typeof ({0}))", type.FullName));
+                    loadBuilder.AppendLine (string.Format ("    return _connection.Table<{0}> ().ToList ().ConvertAll (o => Decrypt<T> (o));", type.FullName.ToEncryptedClassName ()));
+                    insertBuilder.AppendLine (string.Format ("else if (typeof (T) == typeof ({0}))", type.FullName));
+                    insertBuilder.AppendLine (string.Format ("    _connection.Insert (Encrypt (entity));"));
+                    replaceBuilder.AppendLine (string.Format ("else if (typeof (T) == typeof ({0}))", type.FullName));
+                    replaceBuilder.AppendLine (string.Format ("    _connection.InsertOrReplace (Encrypt (entity));"));
                     decryptBuilder.AppendLine (string.Format ("else if (typeof (T) == typeof ({0}))", type.FullName));
                     decryptBuilder.AppendLine ("{");
                     decryptBuilder.AppendLine (string.Format ("    var entity = new {0} ();", type.FullName));
@@ -196,25 +215,37 @@ ${ENCRYPTERS}
                     encryptBuilder.AppendLine ("}");
                 }
             }
-            loadBuilder.Remove (0, "else ".Count ());
+            loadFirstBuilder.Remove (0, "else ".Count ());
             loadWithPkBuilder.Remove (0, "else ".Count ());
-            saveBuilder.Remove (0, "else ".Count ());
+            loadBuilder.Remove (0, "else ".Count ());
+            insertBuilder.Remove (0, "else ".Count ());
+            replaceBuilder.Remove (0, "else ".Count ());
             encryptBuilder.Remove (0, "else ".Count ());
             decryptBuilder.Remove (0, "else ".Count ());
 
-            var saveIndent = "";
-            if (saveBuilder.Length > 0)
+            var insertIndent = "";
+            if (insertBuilder.Length > 0)
             {
-                saveBuilder.AppendLine ("else");
-                saveIndent = saveIndent.Indent (4);
+                insertBuilder.AppendLine ("else");
+                insertIndent = insertIndent.Indent (4);
+            }
+
+            var replaceIndent = "";
+            if (replaceBuilder.Length > 0)
+            {
+                replaceBuilder.AppendLine ("else");
+                replaceIndent = replaceIndent.Indent (4);
             }
 
             var content = SQLiteConnectionAccessorTemplate
                 .Replace ("${INITIALIZERS}", initializeBuilder.ToString ().Indent (12))
-                .Replace ("${LOADERS}", loadBuilder.ToString ().Indent (12))
+                .Replace ("${FIRST_LOADERS}", loadFirstBuilder.ToString ().Indent (12))
                 .Replace ("${LOADERS_WITH_PK}", loadWithPkBuilder.ToString ().Indent (12))
-                .Replace ("${SAVERS}", saveBuilder.ToString ().Indent (12))
-                .Replace ("${SAVE_INDENT}", saveIndent)
+                .Replace ("${LOADERS}", loadBuilder.ToString ().Indent (12))
+                .Replace ("${INSERTERS}", insertBuilder.ToString ().Indent (12))
+                .Replace ("${INSERT_INDENT}", insertIndent)
+                .Replace ("${REPLACERS}", replaceBuilder.ToString ().Indent (12))
+                .Replace ("${REPLACE_INDENT}", replaceIndent)
                 .Replace ("${DECRYPTERS}", decryptBuilder.ToString ().Indent (12))
                 .Replace ("${ENCRYPTERS}", encryptBuilder.ToString ().Indent (12));
             Directory.CreateDirectory (Path.GetDirectoryName (UserDataEntityHelperPath));

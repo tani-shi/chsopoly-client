@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using Chsopoly.BaseSystem.GameScene;
 using Chsopoly.BaseSystem.MasterData;
+using Chsopoly.BaseSystem.Popup;
 using Chsopoly.Components.Button;
 using Chsopoly.GameScene.Matching;
 using Chsopoly.GameScene.Mypage.Components;
 using Chsopoly.MasterData.DAO.Ingame;
+using Chsopoly.Popup;
 using UnityEngine;
 
 namespace Chsopoly.GameScene.Mypage
@@ -54,7 +56,7 @@ namespace Chsopoly.GameScene.Mypage
 
         public void OnClickGimmick ()
         {
-
+            PopupManager.Instance.OpenPopup (PopupType.GimmickList);
         }
 
         public void OnClickSettings ()
