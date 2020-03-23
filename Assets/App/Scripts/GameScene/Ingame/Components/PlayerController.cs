@@ -1,5 +1,5 @@
 using Chsopoly.BaseSystem.Gs2;
-using Chsopoly.GameScene.Components.Button;
+using Chsopoly.Components.Button;
 using Chsopoly.GameScene.Ingame.Object.Character;
 using Chsopoly.GameScene.Ingame.Object.Gimmick;
 using Chsopoly.Gs2.Models;

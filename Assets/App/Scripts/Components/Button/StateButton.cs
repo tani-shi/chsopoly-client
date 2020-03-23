@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Chsopoly.GameScene.Components.Button
+namespace Chsopoly.Components.Button
 {
     [RequireComponent (typeof (Animator))]
     public abstract class StateButton<T> : BaseButton where T : struct, IConvertible

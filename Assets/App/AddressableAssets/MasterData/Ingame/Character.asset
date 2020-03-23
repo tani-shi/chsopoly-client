@@ -21,3 +21,11 @@ MonoBehaviour:
     aerialJumpCount: 1
     power: 2
     hp: 3
+  - id: 2
+    assetName: chr_bird
+    moveSpeed: 400
+    weight: 100
+    jumpHeight: 200
+    aerialJumpCount: 1
+    power: 2
+    hp: 3

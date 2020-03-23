@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace Chsopoly.GameScene.Components.Button
+namespace Chsopoly.Components.Button
 {
     public class SwitchButton : StateButton<SwitchButton.Switch>
     {

@@ -5,7 +5,7 @@ using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace Chsopoly.GameScene.Components.Button
+namespace Chsopoly.Components.Button
 {
     [RequireComponent (typeof (Image))]
     public abstract class BaseButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IDragHandler

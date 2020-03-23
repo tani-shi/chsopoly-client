@@ -1,4 +1,4 @@
-namespace Chsopoly.GameScene.Components.Button
+namespace Chsopoly.Components.Button
 {
     public class SimpleButton : BaseButton { }
 }

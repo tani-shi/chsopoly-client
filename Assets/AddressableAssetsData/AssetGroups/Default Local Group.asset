@@ -28,13 +28,14 @@ MonoBehaviour:
     m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   - m_GUID: 0744525343f464972a9dfff5b1798da4
-    m_Address: Assets/App/AddressableAssets/Textures/UI/Title/bg_main.png
+    m_Address: Assets/App/AddressableAssets/Textures/UI/Common/bg_main.png
     m_ReadOnly: 1
     m_SerializedLabels:
     - Textures
     - UI
     - GameScene
     - Title
+    - Common
     m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   - m_GUID: 0758b7ee6f11a47ee8fdf3de6b004421
@@ -141,13 +142,14 @@ MonoBehaviour:
     m_mainAssetType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   - m_GUID: 23405de9df05545d4b2a218cefb092be
-    m_Address: Assets/App/AddressableAssets/Textures/UI/Title/btn_help.png
+    m_Address: Assets/App/AddressableAssets/Textures/UI/Mypage/btn_help.png
     m_ReadOnly: 1
     m_SerializedLabels:
     - Textures
     - GameScene
     - Title
     - UI
+    - Mypage
     m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   - m_GUID: 2d3c44124d03a4f3f8c3e8d97872a067
@@ -159,13 +161,14 @@ MonoBehaviour:
     m_mainAssetType: UnityEditor.Animations.AnimatorController, UnityEditor, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   - m_GUID: 3320534c164044d0b96c40b6b0428f54
-    m_Address: Assets/App/AddressableAssets/Textures/UI/Title/chara_select_bg_01.png
+    m_Address: Assets/App/AddressableAssets/Textures/UI/Mypage/chara_select_bg_01.png
     m_ReadOnly: 1
     m_SerializedLabels:
     - Textures
     - GameScene
     - Title
     - UI
+    - Mypage
     m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   - m_GUID: 3433c289f95d4480297366d868077f91
@@ -174,7 +177,8 @@ MonoBehaviour:
     m_SerializedLabels:
     - Animations
     - Popup
-    m_mainAssetType: 
+    m_mainAssetType: UnityEditor.Animations.AnimatorController, UnityEditor, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   - m_GUID: 351c6e0d24c7d49108e17e8efb18cf4b
     m_Address: Assets/App/AddressableAssets/Textures/Field/flag.png
     m_ReadOnly: 1
@@ -185,15 +189,24 @@ MonoBehaviour:
     m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   - m_GUID: 3701be252c2ab4ffb87da2e4af7ec6a2
-    m_Address: Assets/App/AddressableAssets/Textures/UI/Title/btn_shop_title.png
+    m_Address: Assets/App/AddressableAssets/Textures/UI/Mypage/btn_shop_title.png
     m_ReadOnly: 1
     m_SerializedLabels:
     - Textures
     - GameScene
     - Title
     - UI
+    - Mypage
     m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  - m_GUID: 3d38e0d53fe8f4620b0a28b944985216
+    m_Address: Assets/App/AddressableAssets/Textures/UI/Mypage/btn_arrow_02.png
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Textures
+    - UI
+    - Mypage
+    m_mainAssetType: 
   - m_GUID: 3e7847b2f64484fc986b43160cb0f93f
     m_Address: Assets/App/AddressableAssets/Textures/UI/Ingame/count_04.png
     m_ReadOnly: 1
@@ -213,13 +226,14 @@ MonoBehaviour:
     m_mainAssetType: UnityEngine.AudioClip, UnityEngine.AudioModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   - m_GUID: 405c28c6174aa4948aaec19cb9df6f82
-    m_Address: Assets/App/AddressableAssets/Textures/UI/Title/btn_arrow.png
+    m_Address: Assets/App/AddressableAssets/Textures/UI/Mypage/btn_arrow_01.png
     m_ReadOnly: 1
     m_SerializedLabels:
     - Textures
     - GameScene
     - Title
     - UI
+    - Mypage
     m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   - m_GUID: 41a2ddc62d85545c2954c3fc0d5568ba
@@ -231,13 +245,14 @@ MonoBehaviour:
     m_mainAssetType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   - m_GUID: 4676f51349e45464aabbc52442fa6a02
-    m_Address: Assets/App/AddressableAssets/Textures/UI/Title/btn_setting.png
+    m_Address: Assets/App/AddressableAssets/Textures/UI/Mypage/btn_setting.png
     m_ReadOnly: 1
     m_SerializedLabels:
     - Textures
     - GameScene
     - Title
     - UI
+    - Mypage
     m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   - m_GUID: 4921c9ae51dbd401296ebe889261e14b
@@ -282,7 +297,8 @@ MonoBehaviour:
     m_SerializedLabels:
     - Prefabs
     - Popup
-    m_mainAssetType: 
+    m_mainAssetType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   - m_GUID: 52afb13fd90814526b5ceb3a0496c802
     m_Address: Assets/App/AddressableAssets/Textures/UI/Common/btn_ok.png
     m_ReadOnly: 1
@@ -290,7 +306,8 @@ MonoBehaviour:
     - Textures
     - UI
     - Common
-    m_mainAssetType: 
+    m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   - m_GUID: 52cea7118c41a405288088bd1bff75ef
     m_Address: Assets/App/AddressableAssets/Textures/Field/grass.png
     m_ReadOnly: 1
@@ -394,23 +411,25 @@ MonoBehaviour:
     m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   - m_GUID: 6f1e156120fb845bba7845fa40f01a07
-    m_Address: Assets/App/AddressableAssets/Textures/UI/Title/btn_start.png
+    m_Address: Assets/App/AddressableAssets/Textures/UI/Mypage/btn_start.png
     m_ReadOnly: 1
     m_SerializedLabels:
     - Textures
     - GameScene
     - Title
     - UI
+    - Mypage
     m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   - m_GUID: 6f99fff518d714ddebc91d440b028d2b
-    m_Address: Assets/App/AddressableAssets/Textures/UI/Title/btn_ranking_title.png
+    m_Address: Assets/App/AddressableAssets/Textures/UI/Mypage/btn_ranking_title.png
     m_ReadOnly: 1
     m_SerializedLabels:
     - Textures
     - GameScene
     - Title
     - UI
+    - Mypage
     m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   - m_GUID: 70b2ca149987b43998c745a91b2668fb
@@ -454,7 +473,8 @@ MonoBehaviour:
     - Textures
     - UI
     - Common
-    m_mainAssetType: 
+    m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   - m_GUID: 7a3264676fe6f448d85fbe0144c0fde1
     m_Address: Assets/App/AddressableAssets/MasterData/Ingame/Stage.asset
     m_ReadOnly: 1
@@ -483,13 +503,14 @@ MonoBehaviour:
     m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   - m_GUID: 816cfef00ad7d4bbda24322ecd32d27c
-    m_Address: Assets/App/AddressableAssets/Textures/UI/Title/btn_start_single_title.png
+    m_Address: Assets/App/AddressableAssets/Textures/UI/Mypage/btn_start_single_title.png
     m_ReadOnly: 1
     m_SerializedLabels:
     - Textures
     - GameScene
     - Title
     - UI
+    - Mypage
     m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   - m_GUID: 83e7688545cbb43b69495475386674f4
@@ -563,13 +584,14 @@ MonoBehaviour:
     m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   - m_GUID: a19f421ec51844970aae80fe903d9566
-    m_Address: Assets/App/AddressableAssets/Textures/UI/Title/chara_select_bg_02.png
+    m_Address: Assets/App/AddressableAssets/Textures/UI/Mypage/chara_select_bg_02.png
     m_ReadOnly: 1
     m_SerializedLabels:
     - Textures
     - GameScene
     - Title
     - UI
+    - Mypage
     m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   - m_GUID: a51d4e67211574517ae3646c30743116
@@ -581,23 +603,25 @@ MonoBehaviour:
     m_mainAssetType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   - m_GUID: a65f86c0c4422452eb2b75cce9d297e1
-    m_Address: Assets/App/AddressableAssets/Textures/UI/Title/btn_gimmick_title.png
+    m_Address: Assets/App/AddressableAssets/Textures/UI/Mypage/btn_gimmick_title.png
     m_ReadOnly: 1
     m_SerializedLabels:
     - Textures
     - GameScene
     - Title
     - UI
+    - Mypage
     m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   - m_GUID: aaebef4683a0d4fd38abeaa8d2fc4d58
-    m_Address: Assets/App/AddressableAssets/Textures/UI/Title/btn_ranking.png
+    m_Address: Assets/App/AddressableAssets/Textures/UI/Mypage/btn_ranking.png
     m_ReadOnly: 1
     m_SerializedLabels:
     - Textures
     - GameScene
     - Title
     - UI
+    - Mypage
     m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   - m_GUID: b18c0ace7e7dd4cda9e300a04b350c25
@@ -637,13 +661,14 @@ MonoBehaviour:
     m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   - m_GUID: c66b020344a154dd584c2671dc08a8b9
-    m_Address: Assets/App/AddressableAssets/Textures/UI/Title/chara_select_title.png
+    m_Address: Assets/App/AddressableAssets/Textures/UI/Mypage/chara_select_title.png
     m_ReadOnly: 1
     m_SerializedLabels:
     - Textures
     - GameScene
     - Title
     - UI
+    - Mypage
     m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   - m_GUID: c8b9b0c3c860347b18773c687a4f2a2a
@@ -656,13 +681,14 @@ MonoBehaviour:
     m_mainAssetType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   - m_GUID: c8e9e96984cfb4e91a46dc8d583aa8c2
-    m_Address: Assets/App/AddressableAssets/Textures/UI/Title/btn_shop.png
+    m_Address: Assets/App/AddressableAssets/Textures/UI/Mypage/btn_shop.png
     m_ReadOnly: 1
     m_SerializedLabels:
     - Textures
     - GameScene
     - Title
     - UI
+    - Mypage
     m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   - m_GUID: ce40466e18a1a42918212001794228ca
@@ -686,13 +712,14 @@ MonoBehaviour:
     m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   - m_GUID: cfe249a71971a434c8ed476532924a2a
-    m_Address: Assets/App/AddressableAssets/Textures/UI/Title/btn_start_multi_title.png
+    m_Address: Assets/App/AddressableAssets/Textures/UI/Mypage/btn_start_multi_title.png
     m_ReadOnly: 1
     m_SerializedLabels:
     - Textures
     - GameScene
     - Title
     - UI
+    - Mypage
     m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   - m_GUID: d1f08035483bd4b399c79248c4d4362a
@@ -711,7 +738,8 @@ MonoBehaviour:
     - Popup
     - UI
     - Common
-    m_mainAssetType: 
+    m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   - m_GUID: d413b5ff5448742e2b1c942c42ae698c
     m_Address: Assets/App/AddressableAssets/Textures/UI/Common/btn_gimmick_frame_03.png
     m_ReadOnly: 1
@@ -754,13 +782,14 @@ MonoBehaviour:
     m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   - m_GUID: db626243bda7e42f7999ddfd9cdda964
-    m_Address: Assets/App/AddressableAssets/Textures/UI/Title/btn_setting_title.png
+    m_Address: Assets/App/AddressableAssets/Textures/UI/Mypage/btn_setting_title.png
     m_ReadOnly: 1
     m_SerializedLabels:
     - Textures
     - GameScene
     - Title
     - UI
+    - Mypage
     m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   - m_GUID: de98bddf91e934619b1ab2bd7702cdee
@@ -822,7 +851,8 @@ MonoBehaviour:
     - Textures
     - UI
     - Common
-    m_mainAssetType: 
+    m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   - m_GUID: f36afff18096443efa509b6c07ce04a6
     m_Address: Assets/App/AddressableAssets/Textures/UI/Ingame/btn_jump.png
     m_ReadOnly: 1
@@ -853,14 +883,23 @@ MonoBehaviour:
     - chr_bird
     m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  - m_GUID: f93b72c7fd23b448e9f68d066332c48c
+    m_Address: Assets/App/AddressableAssets/Prefabs/GameScene/MypageScene.prefab
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Prefabs
+    - GameScene
+    m_mainAssetType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   - m_GUID: f9c39fc8e26d84b29aafb15a75e8f395
-    m_Address: Assets/App/AddressableAssets/Textures/UI/Title/btn_gimmick.png
+    m_Address: Assets/App/AddressableAssets/Textures/UI/Mypage/btn_gimmick.png
     m_ReadOnly: 1
     m_SerializedLabels:
     - Textures
     - GameScene
     - Title
     - UI
+    - Mypage
     m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   - m_GUID: fbf5c23a2fa6f48a08778c4684e8b729

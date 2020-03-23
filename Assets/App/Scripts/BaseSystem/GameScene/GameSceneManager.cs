@@ -255,6 +255,10 @@ namespace Chsopoly.BaseSystem.GameScene
                     scene.Initialize (info.type, info.param);
                     return scene;
                 }
+                else
+                {
+                    Debug.LogError ("No gameScene components was found. " + info.type.ToString ());
+                }
             }
             Debug.LogError ("Failed to create a instance of GameScene. " + info.type.ToString ());
             return null;

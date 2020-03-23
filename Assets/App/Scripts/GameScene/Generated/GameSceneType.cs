@@ -7,6 +7,7 @@ namespace Chsopoly.GameScene
         None,
         Ingame,
         Matching,
+        Mypage,
         Title,
     }
 }
