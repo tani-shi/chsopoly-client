@@ -47,11 +47,19 @@ namespace Chsopoly.BaseSystem.Gs2
             }
         }
 
-        public bool HasLogin
+        public DateTime Now
         {
             get
             {
-                return _gameSession != null;
+                return DateTime.Now.Add (_timeSpan);
+            }
+        }
+
+        public bool NeedAuth
+        {
+            get
+            {
+                return _gameSession == null || _expireDateTime.CompareTo (Now) < 0;
             }
         }
 
@@ -60,6 +68,9 @@ namespace Chsopoly.BaseSystem.Gs2
         private GameSession _gameSession = null;
         private RelayRealtimeSession _realtimeSession = null;
         private Queue<NotificationMessage> _messageQueue = new Queue<NotificationMessage> ();
+        private TimeSpan _timeSpan = default;
+        private DateTime _loginDateTime = default;
+        private DateTime _expireDateTime = default;
 
         void Update ()
         {
@@ -140,6 +151,9 @@ namespace Chsopoly.BaseSystem.Gs2
             }
 
             _gameSession = result1.Result;
+            _expireDateTime = DateTimeOffset.FromUnixTimeMilliseconds ((long) result1.Result.AccessToken.expire).LocalDateTime;
+            _loginDateTime = _expireDateTime.AddSeconds (-Gs2Settings.AuthExpireSeconds);
+            _timeSpan = DateTime.Now.Subtract (_loginDateTime);
 
             callback.Invoke (result1);
         }

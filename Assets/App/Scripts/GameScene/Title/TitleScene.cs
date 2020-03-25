@@ -79,7 +79,7 @@ namespace Chsopoly.GameScene.Title
         {
             AudioManager.Instance.PlayBgm (Bgm.Main);
 
-            if (Gs2Manager.Instance.HasLogin)
+            if (!Gs2Manager.Instance.NeedAuth)
             {
                 WaitForTapScreen ();
                 yield break;

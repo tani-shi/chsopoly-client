@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using Chsopoly.BaseSystem.MasterData;
+using Chsopoly.BaseSystem.UserData;
 using Chsopoly.GameScene.Ingame;
 using Chsopoly.GameScene.Ingame.Object.Character;
 using Chsopoly.Libs.Extensions;
 using Chsopoly.MasterData.DAO.Ingame;
+using Chsopoly.UserData.Entity;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.UI;
@@ -20,9 +22,15 @@ namespace Chsopoly.GameScene.Mypage.Components
 
         private List<GameObject> _characterObjects = new List<GameObject> ();
         private int _currentIndex = 0;
+        private uint[] _characterIds = null;
 
         public IEnumerator Initialize (List<uint> characterIds)
         {
+            _characterIds = characterIds.ToArray ();
+
+            var account = UserDataManager.Instance.GetFirst<Account> ();
+            _currentIndex = Mathf.Max (0, characterIds.FindIndex (id => id == account.CharacterId));
+
             foreach (var id in characterIds)
             {
                 var data = MasterDataManager.Instance.Get<CharacterDAO> ().Get (id);
@@ -64,6 +72,10 @@ namespace Chsopoly.GameScene.Mypage.Components
             {
                 _characterObjects[i].SetActive (i == index);
             }
+
+            var account = UserDataManager.Instance.GetFirst<Account> ();
+            account.CharacterId = _characterIds[index];
+            UserDataManager.Instance.Save (account);
         }
     }
 }

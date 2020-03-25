@@ -4,11 +4,13 @@ using System.Linq;
 using Chsopoly.BaseSystem.GameScene;
 using Chsopoly.BaseSystem.MasterData;
 using Chsopoly.BaseSystem.Popup;
+using Chsopoly.BaseSystem.UserData;
 using Chsopoly.Components.Button;
 using Chsopoly.GameScene.Matching;
 using Chsopoly.GameScene.Mypage.Components;
 using Chsopoly.MasterData.DAO.Ingame;
 using Chsopoly.Popup;
+using Chsopoly.UserData.Entity;
 using UnityEngine;
 
 namespace Chsopoly.GameScene.Mypage
@@ -39,7 +41,7 @@ namespace Chsopoly.GameScene.Mypage
             {
                 stageId = 1,
                 otherPlayers = new System.Collections.Generic.Dictionary<uint, Gs2.Models.Profile> (),
-                characterId = 1,
+                characterId = UserDataManager.Instance.GetFirst<Account> ().CharacterId,
             };
             GameSceneManager.Instance.ChangeScene (GameSceneType.Ingame, param);
         }

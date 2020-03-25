@@ -9,5 +9,7 @@ namespace Chsopoly.BaseSystem.Gs2
         public const string GatewayNamespaceName = "develop";
         public const string RealtimeNamespaceName = "develop";
         public const string MatchmakingNamespaceName = "develop";
+        public const string RankingNamespaceName = "develop";
+        public const int AuthExpireSeconds = 3600;
     }
 }
