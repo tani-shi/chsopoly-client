@@ -10,6 +10,9 @@ namespace Chsopoly.Components.Button
     [RequireComponent (typeof (Image))]
     public abstract class BaseButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IDragHandler
     {
+        private const string TriggerPressDown = "pressDown";
+        private const string TriggerPressUp = "pressUp";
+
         [Serializable]
         public class PointerEvent : UnityEvent<PointerEventData> { }
 
@@ -39,7 +42,20 @@ namespace Chsopoly.Components.Button
             }
         }
 
+        public Animator Animator
+        {
+            get
+            {
+                if (_animator == null)
+                {
+                    _animator = GetComponent<Animator> ();
+                }
+                return _animator;
+            }
+        }
+
         private Image _image = null;
+        private Animator _animator = null;
         private float _lastPressedDownTime = 0f;
 
         protected virtual void Start ()
@@ -47,6 +63,10 @@ namespace Chsopoly.Components.Button
             if (_image == null)
             {
                 _image = GetComponent<Image> ();
+            }
+            if (_animator == null)
+            {
+                _animator = GetComponent<Animator> ();
             }
             if (_alphaHitTest)
             {
@@ -59,6 +79,11 @@ namespace Chsopoly.Components.Button
             onPressDown.Invoke (eventData);
 
             _lastPressedDownTime = Time.time;
+
+            if (Animator != null)
+            {
+                Animator.SetTrigger (TriggerPressDown);
+            }
         }
 
         void IPointerUpHandler.OnPointerUp (PointerEventData eventData)
@@ -69,6 +94,11 @@ namespace Chsopoly.Components.Button
                 (Time.time - _lastPressedDownTime) < _secondsToClickThreshold)
             {
                 onClick.Invoke (eventData);
+            }
+
+            if (Animator != null)
+            {
+                Animator.SetTrigger (TriggerPressUp);
             }
         }
 

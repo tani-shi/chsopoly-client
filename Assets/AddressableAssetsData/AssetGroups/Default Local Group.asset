@@ -291,7 +291,8 @@ MonoBehaviour:
     - Textures
     - UI
     - Common
-    m_mainAssetType: 
+    m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   - m_GUID: 4fd1bce4609c34baa9d22b21774375f2
     m_Address: Assets/App/AddressableAssets/Textures/Character/Animation/chr_bird/chr_bird_guard.png
     m_ReadOnly: 1
@@ -344,7 +345,8 @@ MonoBehaviour:
     m_SerializedLabels:
     - Prefabs
     - Popup
-    m_mainAssetType: 
+    m_mainAssetType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   - m_GUID: 58c56705657eb46f093ebc5fa8a66d11
     m_Address: Assets/App/AddressableAssets/Textures/UI/Ingame/icon_monitor_03.png
     m_ReadOnly: 1
@@ -414,7 +416,8 @@ MonoBehaviour:
     - Textures
     - UI
     - Common
-    m_mainAssetType: 
+    m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   - m_GUID: 6c879fafd69794f45bf56e92ec321192
     m_Address: Assets/App/AddressableAssets/Textures/UI/Ingame/ingame_state_lose.png
     m_ReadOnly: 1
@@ -570,7 +573,8 @@ MonoBehaviour:
     - Textures
     - UI
     - Common
-    m_mainAssetType: 
+    m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   - m_GUID: 89e8e022a8a6846b7a60f170f478e9cf
     m_Address: Assets/App/AddressableAssets/Textures/UI/Ingame/icon_monitor_04.png
     m_ReadOnly: 1
@@ -616,14 +620,16 @@ MonoBehaviour:
     - Textures
     - UI
     - Common
-    m_mainAssetType: 
+    m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   - m_GUID: 9be3375e1087a44a9abaa88d18924113
     m_Address: Assets/App/AddressableAssets/Prefabs/Popup/GimmickListPopup.prefab
     m_ReadOnly: 1
     m_SerializedLabels:
     - Prefabs
     - Popup
-    m_mainAssetType: 
+    m_mainAssetType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   - m_GUID: 9cd5f2ac6186c4d09b13d3cc527a3280
     m_Address: Assets/App/AddressableAssets/Textures/Gimmick/rolling_saw_base.png
     m_ReadOnly: 1
@@ -669,7 +675,8 @@ MonoBehaviour:
     - Textures
     - UI
     - Common
-    m_mainAssetType: 
+    m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   - m_GUID: aaebef4683a0d4fd38abeaa8d2fc4d58
     m_Address: Assets/App/AddressableAssets/Textures/UI/Mypage/btn_ranking.png
     m_ReadOnly: 1
@@ -865,6 +872,13 @@ MonoBehaviour:
     - Gimmick
     m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  - m_GUID: e318442d07f3f4c8890621d8d67d48ea
+    m_Address: Assets/App/AddressableAssets/Animations/Components/SimpleButton.controller
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Animations
+    - Components
+    m_mainAssetType: 
   - m_GUID: e3bdef001e2544f46a1989c0fdd8818a
     m_Address: Assets/App/AddressableAssets/Textures/UI/Ingame/icon_monitor_01.png
     m_ReadOnly: 1

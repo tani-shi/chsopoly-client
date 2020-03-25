@@ -85,6 +85,7 @@ GameObject:
   - component: {fileID: 3277130118393744675}
   - component: {fileID: 6214769920773417209}
   - component: {fileID: 2907865106301313301}
+  - component: {fileID: 5084046987484761612}
   m_Layer: 5
   m_Name: PreviousButton
   m_TagString: Untagged
@@ -186,6 +187,25 @@ MonoBehaviour:
   _distanceToClickThreshold: 5
   _alphaHitTestMinimumThreshold: 0.1
   _alphaHitTest: 0
+--- !u!95 &5084046987484761612
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 626719716207053191}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: e318442d07f3f4c8890621d8d67d48ea, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1444940759380412440
 GameObject:
   m_ObjectHideFlags: 0
@@ -271,6 +291,7 @@ GameObject:
   - component: {fileID: 2218152614460739251}
   - component: {fileID: 772337356220633230}
   - component: {fileID: 1868683910346100549}
+  - component: {fileID: 6438885053563920735}
   m_Layer: 5
   m_Name: SettingsButton
   m_TagString: Untagged
@@ -373,6 +394,25 @@ MonoBehaviour:
   _distanceToClickThreshold: 5
   _alphaHitTestMinimumThreshold: 0.1
   _alphaHitTest: 0
+--- !u!95 &6438885053563920735
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1492938271160665696}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: e318442d07f3f4c8890621d8d67d48ea, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1647553701996418557
 GameObject:
   m_ObjectHideFlags: 0
@@ -385,6 +425,7 @@ GameObject:
   - component: {fileID: 3771060400628145086}
   - component: {fileID: 272027685998722363}
   - component: {fileID: 2789711347659063987}
+  - component: {fileID: 979184613774256904}
   m_Layer: 5
   m_Name: ShopButton
   m_TagString: Untagged
@@ -487,6 +528,25 @@ MonoBehaviour:
   _distanceToClickThreshold: 5
   _alphaHitTestMinimumThreshold: 0.1
   _alphaHitTest: 0
+--- !u!95 &979184613774256904
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1647553701996418557}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: e318442d07f3f4c8890621d8d67d48ea, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1883707331447357128
 GameObject:
   m_ObjectHideFlags: 0
@@ -499,6 +559,7 @@ GameObject:
   - component: {fileID: 6623408728953251630}
   - component: {fileID: 705573577297784866}
   - component: {fileID: 2795958612937338347}
+  - component: {fileID: 3668420197870387973}
   m_Layer: 5
   m_Name: NextButton
   m_TagString: Untagged
@@ -600,6 +661,25 @@ MonoBehaviour:
   _distanceToClickThreshold: 5
   _alphaHitTestMinimumThreshold: 0.1
   _alphaHitTest: 0
+--- !u!95 &3668420197870387973
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1883707331447357128}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: e318442d07f3f4c8890621d8d67d48ea, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1960242697135642624
 GameObject:
   m_ObjectHideFlags: 0
@@ -685,6 +765,7 @@ GameObject:
   - component: {fileID: 505163136819556567}
   - component: {fileID: 7637965087151829434}
   - component: {fileID: 6957085039314212341}
+  - component: {fileID: 8764545761081781190}
   m_Layer: 5
   m_Name: GimmickButton
   m_TagString: Untagged
@@ -787,6 +868,25 @@ MonoBehaviour:
   _distanceToClickThreshold: 5
   _alphaHitTestMinimumThreshold: 0.1
   _alphaHitTest: 0
+--- !u!95 &8764545761081781190
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2056230740451925464}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: e318442d07f3f4c8890621d8d67d48ea, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &2239251543112426006
 GameObject:
   m_ObjectHideFlags: 0
@@ -1018,6 +1118,7 @@ GameObject:
   - component: {fileID: 4042238011405782123}
   - component: {fileID: 5490011354779031242}
   - component: {fileID: 1819683547105118428}
+  - component: {fileID: 6613658616673561158}
   m_Layer: 5
   m_Name: RankingButton
   m_TagString: Untagged
@@ -1120,6 +1221,25 @@ MonoBehaviour:
   _distanceToClickThreshold: 5
   _alphaHitTestMinimumThreshold: 0.1
   _alphaHitTest: 0
+--- !u!95 &6613658616673561158
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3079788360901114599}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: e318442d07f3f4c8890621d8d67d48ea, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &3839866903702165659
 GameObject:
   m_ObjectHideFlags: 0
@@ -1132,6 +1252,7 @@ GameObject:
   - component: {fileID: 4241417729984379828}
   - component: {fileID: 2006349884501597131}
   - component: {fileID: 6811899009257186544}
+  - component: {fileID: 3545320133415037380}
   m_Layer: 5
   m_Name: MatchingButton
   m_TagString: Untagged
@@ -1234,6 +1355,25 @@ MonoBehaviour:
   _distanceToClickThreshold: 5
   _alphaHitTestMinimumThreshold: 0.1
   _alphaHitTest: 0
+--- !u!95 &3545320133415037380
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3839866903702165659}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: e318442d07f3f4c8890621d8d67d48ea, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &4426547617295351660
 GameObject:
   m_ObjectHideFlags: 0
@@ -1539,6 +1679,7 @@ GameObject:
   - component: {fileID: 8961547326065163094}
   - component: {fileID: 5323261679419081584}
   - component: {fileID: 4217668227155860324}
+  - component: {fileID: 1906288370724786726}
   m_Layer: 5
   m_Name: SingleButton
   m_TagString: Untagged
@@ -1641,6 +1782,25 @@ MonoBehaviour:
   _distanceToClickThreshold: 5
   _alphaHitTestMinimumThreshold: 0.1
   _alphaHitTest: 0
+--- !u!95 &1906288370724786726
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7089955111946443311}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: e318442d07f3f4c8890621d8d67d48ea, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &8086271091590960616
 GameObject:
   m_ObjectHideFlags: 0

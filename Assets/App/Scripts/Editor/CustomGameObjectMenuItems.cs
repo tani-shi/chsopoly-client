@@ -23,6 +23,8 @@ namespace Chsopoly.Editor
 
             var image = obj.AddComponent<Image> ();
             var button = obj.AddComponent<SimpleButton> ();
+            var animator = obj.AddComponent<Animator> ();
+            animator.runtimeAnimatorController = AssetDatabase.LoadAssetAtPath<RuntimeAnimatorController> ("Assets/App/AddressableAssets/Animations/Components/SimpleButton.controller");
 
             Undo.RegisterCreatedObjectUndo (obj, obj.GetHashCode ().ToString ());
             Selection.activeGameObject = obj;
