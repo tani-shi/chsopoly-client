@@ -97,6 +97,7 @@ MonoBehaviour:
     - GameSceneLoader
     - Popup
     - Mypage
+    - chr_frog
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: d217f0919f5584585a0b6690779def86, type: 2}
