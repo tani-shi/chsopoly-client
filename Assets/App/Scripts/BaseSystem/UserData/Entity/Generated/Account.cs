@@ -8,9 +8,9 @@ namespace Chsopoly.BaseSystem.UserData.Entity
         [PrimaryKey, AutoIncrement]
         public int Id { get; set; }
 
-        public string p9f8f4c20cf8b22b6dae34559daafc1c08ef63f3927c00d0b8be758cde29f9feb { get; set; }
-        public string pba88ac0aa5fd0c2c906d037104f1dcf0afb340684e87d90a871129910e96c215 { get; set; }
-        public string p5498dd13b7f1904db60aa00a58303a8b97862ed05d965da3fdaf62d3d1ede812 { get; set; }
-        public string p6675390ca6b0c7cba333937d1c0f53c9a82e61911c5f7e97a8b526631912e25c { get; set; }
+        public string pcbd7e12366094089e67e732de02567338ab87b434218b7ff65784cb06c0bbd12 { get; set; }
+        public string pdd2b431ac147a328da239a1e109d237516caa4fc7a143093fd1ec6a2e6cba1c0 { get; set; }
+        public string pb7b330e603a22cd9820cbea8e7307339f56683e9be3db3d351c10d2036a92d7c { get; set; }
+        public string peb1fe45bcc9bff0588bafcaeb44c21cce576505b5cecccfc6e299d27786b510d { get; set; }
     }
 }

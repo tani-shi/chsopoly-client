@@ -25,7 +25,7 @@ namespace Chsopoly.BaseSystem.Popup
             _errorPopupCanvas.gameObject.SetActive (false);
         }
 
-        public void OpenPopup (PopupType type, IPopupParam param = null)
+        public void OpenPopup (PopupType type, IPopupParam param = null, Action<IPopup> onLoaded = null)
         {
             _popupCanvas.gameObject.SetActive (true);
 
@@ -34,10 +34,11 @@ namespace Chsopoly.BaseSystem.Popup
                 popup.Open ();
                 _popupStack.Add (popup);
                 popup.onClosed += () => OnClosedPopup (popup);
+                onLoaded.SafeInvoke (popup);
             }));
         }
 
-        public void OpenErrorPopup (PopupType type, IPopupParam param = null)
+        public void OpenErrorPopup (PopupType type, IPopupParam param = null, Action<IPopup> onLoaded = null)
         {
             _errorPopupCanvas.gameObject.SetActive (true);
 
@@ -46,6 +47,7 @@ namespace Chsopoly.BaseSystem.Popup
                 popup.Open ();
                 _errorPopupStack.Add (popup);
                 popup.onClosed += () => OnClosedErrorPopup (popup);
+                onLoaded.SafeInvoke (popup);
             }));
         }
 

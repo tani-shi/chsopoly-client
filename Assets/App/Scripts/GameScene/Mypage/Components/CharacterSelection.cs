@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Chsopoly.BaseSystem.MasterData;
 using Chsopoly.BaseSystem.UserData;
 using Chsopoly.GameScene.Ingame;
@@ -28,8 +29,8 @@ namespace Chsopoly.GameScene.Mypage.Components
         {
             _characterIds = characterIds.ToArray ();
 
-            var account = UserDataManager.Instance.GetFirst<Account> ();
-            _currentIndex = Mathf.Max (0, characterIds.FindIndex (id => id == account.CharacterId));
+            var account = UserDataManager.Instance.Account;
+            _currentIndex = Mathf.Max (0, characterIds.FindIndex (id => id == account.characterId));
 
             foreach (var id in characterIds)
             {
@@ -73,9 +74,9 @@ namespace Chsopoly.GameScene.Mypage.Components
                 _characterObjects[i].SetActive (i == index);
             }
 
-            var account = UserDataManager.Instance.GetFirst<Account> ();
-            account.CharacterId = _characterIds[index];
-            UserDataManager.Instance.Save (account);
+            UserDataManager.Instance.Account.characterId = _characterIds[index];
+            UserDataManager.Instance.Account.IsDirty = true;
+            UserDataManager.Instance.Save ();
         }
     }
 }

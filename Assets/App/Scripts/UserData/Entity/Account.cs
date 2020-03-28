@@ -1,13 +1,10 @@
-using Chsopoly.BaseSystem.UserData;
-
 namespace Chsopoly.UserData.Entity
 {
-    public class Account : IUserDataEntity
+    public partial class Account
     {
-        public int Id { get; set; }
-        public string Gs2AccountId { get; set; }
-        public string Gs2Password { get; set; }
-        public long Gs2CreatedAt { get; set; }
-        public uint CharacterId { get; set; }
+        public string gs2AccountId;
+        public string gs2Password;
+        public long gs2CreatedAt;
+        public uint characterId;
     }
 }

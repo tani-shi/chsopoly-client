@@ -178,11 +178,11 @@ namespace Chsopoly.GameScene.Matching
 
             if (_joinedPlayers.Count == _capacity - 1)
             {
-                var account = UserDataManager.Instance.LoadFirst<Account> ();
+                var account = UserDataManager.Instance.Account;
 
                 GameSceneManager.Instance.ChangeScene (GameSceneType.Ingame, new IngameScene.Param ()
                 {
-                    stageId = 1, otherPlayers = _joinedPlayers, characterId = account.CharacterId
+                    stageId = 1, otherPlayers = _joinedPlayers, characterId = UserDataManager.Instance.Account.characterId
                 });
             }
         }
@@ -214,10 +214,9 @@ namespace Chsopoly.GameScene.Matching
             {
                 SetState (State.ConnectRoom);
 
-                var account = UserDataManager.Instance.LoadFirst<Account> ();
                 var profile = new Profile ()
                 {
-                    accountId = account.Gs2AccountId,
+                    accountId = UserDataManager.Instance.Account.gs2AccountId,
                     characterId = 1,
                 };
 

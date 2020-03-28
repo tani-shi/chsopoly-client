@@ -41,7 +41,7 @@ namespace Chsopoly.GameScene.Mypage
             {
                 stageId = 1,
                 otherPlayers = new System.Collections.Generic.Dictionary<uint, Gs2.Models.Profile> (),
-                characterId = UserDataManager.Instance.GetFirst<Account> ().CharacterId,
+                characterId = UserDataManager.Instance.Account.characterId,
             };
             GameSceneManager.Instance.ChangeScene (GameSceneType.Ingame, param);
         }

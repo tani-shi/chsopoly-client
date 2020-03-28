@@ -1,10 +1,7 @@
-using Chsopoly.BaseSystem.UserData;
-
 namespace Chsopoly.UserData.Entity
 {
-    public class Character : IUserDataEntity
+    public partial class Character
     {
-        public int Id { get; set; }
-        public uint CharacterId { get; set; }
+        public uint characterId;
     }
 }

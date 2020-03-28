@@ -8,6 +8,6 @@ namespace Chsopoly.BaseSystem.UserData.Entity
         [PrimaryKey, AutoIncrement]
         public int Id { get; set; }
 
-        public string p6675390ca6b0c7cba333937d1c0f53c9a82e61911c5f7e97a8b526631912e25c { get; set; }
+        public string peb1fe45bcc9bff0588bafcaeb44c21cce576505b5cecccfc6e299d27786b510d { get; set; }
     }
 }

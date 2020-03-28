@@ -8,18 +8,6 @@ namespace Chsopoly.Components.Button
     [RequireComponent (typeof (Animator))]
     public abstract class StateButton<T> : BaseButton where T : struct, IConvertible
     {
-        public Animator Animator
-        {
-            get
-            {
-                if (_animator == null)
-                {
-                    _animator = GetComponent<Animator> ();
-                }
-                return _animator;
-            }
-        }
-
         public T State
         {
             get
@@ -28,17 +16,11 @@ namespace Chsopoly.Components.Button
             }
         }
 
-        private Animator _animator = null;
         private T _state = default (T);
 
         protected override void Start ()
         {
             base.Start ();
-
-            if (_animator == null)
-            {
-                _animator = GetComponent<Animator> ();
-            }
 
             onClick.AddListener (_ =>
             {
@@ -48,7 +30,7 @@ namespace Chsopoly.Components.Button
                     nextState = 0;
                 }
                 _state = (T) Enum.ToObject (typeof (T), nextState);
-                _animator.Play (_state.ToString ());
+                Animator.Play (_state.ToString ());
                 OnChangedState (_state);
             });
         }

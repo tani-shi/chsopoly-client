@@ -1,9 +1,11 @@
+using System;
 using System.Collections;
 using Chsopoly.BaseSystem.Popup;
+using Chsopoly.Libs.Extensions;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Chsopoly.Popup.Generated
+namespace Chsopoly.Popup
 {
     public class MessagePopup : BasePopup<MessagePopup.Param>
     {

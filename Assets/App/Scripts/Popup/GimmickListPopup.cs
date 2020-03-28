@@ -30,7 +30,6 @@ namespace Chsopoly.Popup.Generated
 
         private int _pageIndex = 0;
         private GimmickVO[] _gimmickDataArray = null;
-        private Gimmick[] _gimmickUserDataArray = null;
         private Dictionary<uint, bool> _changedStateMap = new Dictionary<uint, bool> ();
         private Dictionary<uint, Sprite> _loadedGimmickSpriteMap = new Dictionary<uint, Sprite> ();
 
@@ -47,7 +46,6 @@ namespace Chsopoly.Popup.Generated
         protected override void Initialize ()
         {
             _gimmickDataArray = MasterDataManager.Instance.Get<GimmickDAO> ().ToArray ();
-            _gimmickUserDataArray = UserDataManager.Instance.LoadAll<Gimmick> ().ToArray ();
 
             ChangePage (0);
 
@@ -105,10 +103,12 @@ namespace Chsopoly.Popup.Generated
         {
             foreach (var kv in _changedStateMap)
             {
-                var data = _gimmickUserDataArray.First (o => o.GimmickId == kv.Key);
-                data.IsActive = kv.Value;
-                UserDataManager.Instance.Save (data);
+                var data = UserDataManager.Instance.Gimmick.First (o => o.gimmickId == kv.Key);
+                data.isActive = kv.Value;
+                data.IsDirty = true;
             }
+
+            UserDataManager.Instance.Save ();
 
             Close ();
         }
@@ -124,7 +124,7 @@ namespace Chsopoly.Popup.Generated
                 if (_gimmickDataArray.Length > (MaxGimmickGridCount * page) + i)
                 {
                     var gimmickId = _gimmickDataArray[itemIndex].id;
-                    var userData = _gimmickUserDataArray.FirstOrDefault (o => o.GimmickId == gimmickId);
+                    var userData = UserDataManager.Instance.Gimmick.FirstOrDefault (o => o.gimmickId == gimmickId);
 
                     _itemList[i].gameObject.SetActive (true);
 
@@ -134,7 +134,7 @@ namespace Chsopoly.Popup.Generated
                     }
                     else
                     {
-                        _itemList[i].SetState (userData.IsActive ? GimmickListPopupItem.State.Active : GimmickListPopupItem.State.Inactive);
+                        _itemList[i].SetState (userData.isActive ? GimmickListPopupItem.State.Active : GimmickListPopupItem.State.Inactive);
                     }
 
                     _itemList[i].SetImage (_loadedGimmickSpriteMap[gimmickId]);

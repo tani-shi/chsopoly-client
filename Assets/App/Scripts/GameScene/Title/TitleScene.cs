@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Linq;
 using Chsopoly.Audio;
 using Chsopoly.BaseSystem.Audio;
 using Chsopoly.BaseSystem.GameScene;
@@ -89,14 +90,13 @@ namespace Chsopoly.GameScene.Title
 
             StartCoroutine (Gs2Manager.Instance.Initialize (() =>
             {
-                var account = UserDataManager.Instance.LoadFirst<Account> ();
-                if (account == null)
+                if (string.IsNullOrEmpty (UserDataManager.Instance.Account.gs2AccountId))
                 {
                     SetState (State.CreateAccount);
 
                     StartCoroutine (Gs2Manager.Instance.CreateAccount (r =>
                     {
-                        account = RegisterUserData (r.Result.Item.UserId, r.Result.Item.Password, r.Result.Item.CreatedAt);
+                        RegisterUserData (r.Result.Item.UserId, r.Result.Item.Password, r.Result.Item.CreatedAt);
                         DoLogin ();
                     }));
                 }
@@ -121,9 +121,9 @@ namespace Chsopoly.GameScene.Title
         {
             SetState (State.Login);
 
-            var account = UserDataManager.Instance.LoadFirst<Account> ();
+            var account = UserDataManager.Instance.Account;
 
-            StartCoroutine (Gs2Manager.Instance.LoginAccount (account.Gs2AccountId, account.Gs2Password, _ =>
+            StartCoroutine (Gs2Manager.Instance.LoginAccount (account.gs2AccountId, account.gs2Password, _ =>
             {
                 WaitForTapScreen ();
             }));
@@ -133,9 +133,9 @@ namespace Chsopoly.GameScene.Title
         {
             SetState (State.WaitForTapScreen);
 
-            var account = UserDataManager.Instance.LoadFirst<Account> ();
+            var account = UserDataManager.Instance.Account;
 
-            _userIdText.text = account.Gs2AccountId;
+            _userIdText.text = account.gs2AccountId;
         }
 
         private void OnErrorGs2 (Gs2Exception e)
@@ -150,30 +150,31 @@ namespace Chsopoly.GameScene.Title
             _currentState = (State) Mathf.Max ((int) state, (int) _currentState);
         }
 
-        private Account RegisterUserData (string userId, string password, long createdAt)
+        private void RegisterUserData (string userId, string password, long createdAt)
         {
-            var account = new Account ();
-            account.Gs2AccountId = userId;
-            account.Gs2Password = password;
-            account.Gs2CreatedAt = createdAt;
-            account.CharacterId = 1;
-            UserDataManager.Instance.Save (account);
+            var account = UserDataManager.Instance.Account;
+            account.gs2AccountId = userId;
+            account.gs2Password = password;
+            account.gs2CreatedAt = createdAt;
+            account.characterId = 1;
+            account.IsDirty = true;
 
             foreach (var data in MasterDataManager.Instance.Get<CharacterDAO> ())
             {
                 var character = new Character ();
-                character.CharacterId = data.id;
-                UserDataManager.Instance.Save (character);
+                character.characterId = data.id;
+                UserDataManager.Instance.Character.Add (character);
             }
+
             foreach (var data in MasterDataManager.Instance.Get<GimmickDAO> ())
             {
                 var gimmick = new Gimmick ();
-                gimmick.GimmickId = data.id;
-                gimmick.IsActive = true;
-                UserDataManager.Instance.Save (gimmick);
+                gimmick.gimmickId = data.id;
+                gimmick.isActive = true;
+                UserDataManager.Instance.Gimmick.Add (gimmick);
             }
 
-            return account;
+            UserDataManager.Instance.Save ();
         }
     }
 }
