@@ -22,6 +22,7 @@ namespace Chsopoly.GameScene.Ingame.Components
             foreach (var icon in _lifeIcon)
             {
                 icon.sprite = handle.Result;
+                icon.SetNativeSize ();
             }
         }
 

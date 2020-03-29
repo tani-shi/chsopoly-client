@@ -35,7 +35,8 @@ MonoBehaviour:
     - Character
     - Animation
     - chr_frog
-    m_mainAssetType: 
+    m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   - m_GUID: 0744525343f464972a9dfff5b1798da4
     m_Address: Assets/App/AddressableAssets/Textures/UI/Common/bg_main.png
     m_ReadOnly: 1
@@ -346,7 +347,8 @@ MonoBehaviour:
     - Character
     - Animation
     - chr_frog
-    m_mainAssetType: 
+    m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   - m_GUID: 580f85a19eefe4698883ac8f5ef363df
     m_Address: Assets/App/AddressableAssets/Textures/Character/Animation/chr_rabbit/chr_rabbit_jump.png
     m_ReadOnly: 1
@@ -383,7 +385,8 @@ MonoBehaviour:
     - Character
     - Animation
     - chr_frog
-    m_mainAssetType: 
+    m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   - m_GUID: 646a493dad38748b7ad5ea02dfdb4ec0
     m_Address: Assets/App/AddressableAssets/Textures/Field/bg02.png
     m_ReadOnly: 1
@@ -420,7 +423,8 @@ MonoBehaviour:
     - Character
     - Animation
     - chr_frog
-    m_mainAssetType: 
+    m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   - m_GUID: 6880ebce6527249918518c8b3ea384bf
     m_Address: Assets/App/AddressableAssets/Prefabs/Common/StartPoint.prefab
     m_ReadOnly: 1
@@ -521,6 +525,14 @@ MonoBehaviour:
     - Field
     m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  - m_GUID: 73575ad1edb56444589f5c91ff6e6825
+    m_Address: Assets/App/AddressableAssets/Textures/Character/Icon/chr_frog.png
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Textures
+    - Character
+    - Icon
+    m_mainAssetType: 
   - m_GUID: 77fa383ffebf943c491b16b6a8cc8e3f
     m_Address: Assets/App/AddressableAssets/Textures/Character/Animation/chr_rabbit/chr_rabbit_appeal.png
     m_ReadOnly: 1
@@ -758,7 +770,8 @@ MonoBehaviour:
     - Character
     - Animation
     - chr_frog
-    m_mainAssetType: 
+    m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   - m_GUID: c013b2f84938c4e8eb4da4c9f9fe035c
     m_Address: Assets/App/AddressableAssets/Textures/UI/Ingame/count_02.png
     m_ReadOnly: 1
@@ -806,7 +819,8 @@ MonoBehaviour:
     m_SerializedLabels:
     - Prefabs
     - Character
-    m_mainAssetType: 
+    m_mainAssetType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   - m_GUID: ce40466e18a1a42918212001794228ca
     m_Address: Assets/App/AddressableAssets/Textures/UI/Ingame/icon_monitor_02.png
     m_ReadOnly: 1
@@ -833,7 +847,8 @@ MonoBehaviour:
     m_SerializedLabels:
     - Animations
     - Character
-    m_mainAssetType: 
+    m_mainAssetType: UnityEditor.Animations.AnimatorController, UnityEditor, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   - m_GUID: cfe249a71971a434c8ed476532924a2a
     m_Address: Assets/App/AddressableAssets/Textures/UI/Mypage/btn_start_multi_title.png
     m_ReadOnly: 1
@@ -902,7 +917,8 @@ MonoBehaviour:
     - Character
     - Animation
     - chr_frog
-    m_mainAssetType: 
+    m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   - m_GUID: d7659552134c84c0ea7fd7bf35a96d0c
     m_Address: Assets/App/AddressableAssets/Textures/UI/Ingame/count_03.png
     m_ReadOnly: 1
@@ -1031,7 +1047,8 @@ MonoBehaviour:
     - Character
     - Animation
     - chr_frog
-    m_mainAssetType: 
+    m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   - m_GUID: f93b72c7fd23b448e9f68d066332c48c
     m_Address: Assets/App/AddressableAssets/Prefabs/GameScene/MypageScene.prefab
     m_ReadOnly: 1

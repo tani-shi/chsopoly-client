@@ -40,6 +40,11 @@ namespace Chsopoly.BaseSystem.Popup
 
         public void OpenErrorPopup (PopupType type, IPopupParam param = null, Action<IPopup> onLoaded = null)
         {
+            if (_errorPopupCanvas.gameObject.activeSelf)
+            {
+                return;
+            }
+
             _errorPopupCanvas.gameObject.SetActive (true);
 
             StartCoroutine (LoadPopup (type, param, _errorPopupCanvas.transform, (popup) =>
