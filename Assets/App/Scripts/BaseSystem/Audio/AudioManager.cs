@@ -17,18 +17,30 @@ namespace Chsopoly.BaseSystem.Audio
         [SerializeField]
         private float _bgmVolume = 1.0f;
         [SerializeField]
-        private float _efxVolume = 1.0f;
+        private float _seVolume = 1.0f;
 
         private Dictionary<Bgm, AudioClip> _loadedBgmClips = new Dictionary<Bgm, AudioClip> ();
-        private Dictionary<Efx, AudioClip> _loadedEfxClips = new Dictionary<Efx, AudioClip> ();
+        private Dictionary<Se, AudioClip> _loadedSeClips = new Dictionary<Se, AudioClip> ();
         private AudioSource _bgmSource = null;
         private Bgm _playingBgm = Bgm.None;
-        private List<AudioSource> _efxSources = new List<AudioSource> ();
+        private List<AudioSource> _seSources = new List<AudioSource> ();
 
         public IEnumerator LoadAsync ()
         {
-            yield return LoadBgm ();
-            yield return LoadEfx ();
+            yield return Addressables.LoadAssetsAsync<AudioClip> (AudioSettings.AudioLabelName, result =>
+            {
+                var bgm = ToBgm (result.name);
+                if (bgm != Bgm.None)
+                {
+                    _loadedBgmClips.Add (bgm, result);
+                }
+
+                var se = ToSe (result.name);
+                if (se != Se.None)
+                {
+                    _loadedSeClips.Add (se, result);
+                }
+            });
         }
 
         public void PlayBgm (Bgm bgm)
@@ -50,29 +62,29 @@ namespace Chsopoly.BaseSystem.Audio
             _playingBgm = bgm;
         }
 
-        public void PlayEfx (Efx efx, Transform parent = null)
+        public void PlaySe (Se se, Transform parent = null)
         {
-            if (!CheckLoaded (efx))
+            if (!CheckLoaded (se))
             {
                 return;
             }
 
-            var efxSource = new GameObject (efx.ToString ()).AddComponent<AudioSource> ();
-            efxSource.clip = _loadedEfxClips[efx];
-            efxSource.loop = false;
-            efxSource.volume = _efxVolume;
-            efxSource.Play ();
+            var seSource = new GameObject (se.ToString ()).AddComponent<AudioSource> ();
+            seSource.clip = _loadedSeClips[se];
+            seSource.loop = false;
+            seSource.volume = _seVolume;
+            seSource.Play ();
 
             if (parent != null)
             {
-                efxSource.transform.SetParent (parent);
+                seSource.transform.SetParent (parent);
             }
             else
             {
-                efxSource.transform.SetParent (transform);
+                seSource.transform.SetParent (transform);
             }
 
-            _efxSources.Add (efxSource);
+            _seSources.Add (seSource);
         }
 
         public void PauseBgm ()
@@ -104,17 +116,17 @@ namespace Chsopoly.BaseSystem.Audio
         void Update ()
         {
             var removed = new List<AudioSource> ();
-            foreach (var efx in _efxSources)
+            foreach (var se in _seSources)
             {
-                if (!efx.isPlaying)
+                if (!se.isPlaying)
                 {
-                    Destroy (efx.gameObject);
-                    removed.Add (efx);
+                    Destroy (se.gameObject);
+                    removed.Add (se);
                 }
             }
-            foreach (var efx in removed)
+            foreach (var se in removed)
             {
-                _efxSources.Remove (efx);
+                _seSources.Remove (se);
             }
         }
 
@@ -130,36 +142,42 @@ namespace Chsopoly.BaseSystem.Audio
             });
         }
 
-        private IEnumerator LoadEfx ()
+        private IEnumerator LoadSe ()
         {
-            yield return Addressables.LoadAssetsAsync<AudioClip> (nameof (Efx), result =>
+            yield return Addressables.LoadAssetsAsync<AudioClip> (nameof (Se), result =>
             {
-                var efx = ToEfx (result.name);
-                if (efx != Efx.None)
+                var se = ToSe (result.name);
+                if (se != Se.None)
                 {
-                    _loadedEfxClips.Add (efx, result);
+                    _loadedSeClips.Add (se, result);
                 }
             });
         }
 
         private Bgm ToBgm (string name)
         {
-            var bgm = Enum.Parse (typeof (Bgm), name.Replace (AudioSettings.BgmPrefix, "").Snake2Pascal ());
-            if (bgm != null)
+            if (name.StartsWith (AudioSettings.BgmPrefix))
             {
-                return (Bgm) bgm;
+                var bgm = Enum.Parse (typeof (Bgm), name.Replace (AudioSettings.BgmPrefix, "").Snake2Pascal ());
+                if (bgm != null)
+                {
+                    return (Bgm) bgm;
+                }
             }
             return Bgm.None;
         }
 
-        private Efx ToEfx (string name)
+        private Se ToSe (string name)
         {
-            var efx = Enum.Parse (typeof (Efx), name.Replace (AudioSettings.EfxPrefix, "").Snake2Pascal ());
-            if (efx != null)
+            if (name.StartsWith (AudioSettings.SePrefix))
             {
-                return (Efx) efx;
+                var se = Enum.Parse (typeof (Se), name.Replace (AudioSettings.SePrefix, "").Snake2Pascal ());
+                if (se != null)
+                {
+                    return (Se) se;
+                }
             }
-            return Efx.None;
+            return Se.None;
         }
 
         private bool CheckLoaded (Bgm bgm)
@@ -172,11 +190,11 @@ namespace Chsopoly.BaseSystem.Audio
             return true;
         }
 
-        private bool CheckLoaded (Efx efx)
+        private bool CheckLoaded (Se se)
         {
-            if (!_loadedEfxClips.ContainsKey (efx))
+            if (!_loadedSeClips.ContainsKey (se))
             {
-                Debug.LogError ("A non-loaded efx clip was specified. " + efx.ToString ());
+                Debug.LogError ("A non-loaded se clip was specified. " + se.ToString ());
                 return false;
             }
             return true;

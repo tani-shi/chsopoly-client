@@ -9,7 +9,7 @@ namespace Chsopoly.Audio
         Main,
     }
 
-    public enum Efx
+    public enum Se
     {
         None,
         Button01,

@@ -19,10 +19,10 @@ namespace Chsopoly.Audio
 ${BGM_DEFINES}
     }
 
-    public enum Efx
+    public enum Se
     {
         None,
-${EFX_DEFINES}
+${SE_DEFINES}
     }
 }";
 
@@ -37,7 +37,7 @@ ${EFX_DEFINES}
         private static void GenerateAudioDefineScript ()
         {
             var bgmBuilder = new StringBuilder ();
-            var efxBuilder = new StringBuilder ();
+            var seBuilder = new StringBuilder ();
 
             foreach (var path in Directory.GetFiles (PathRootAudioAssets, "*.*", SearchOption.AllDirectories))
             {
@@ -51,15 +51,15 @@ ${EFX_DEFINES}
                 {
                     bgmBuilder.AppendLine (name.Replace (AudioSettings.BgmPrefix, "").Snake2Pascal () + ",");
                 }
-                else if (name.StartsWith (AudioSettings.EfxPrefix))
+                else if (name.StartsWith (AudioSettings.SePrefix))
                 {
-                    efxBuilder.AppendLine (name.Replace (AudioSettings.EfxPrefix, "").Snake2Pascal () + ",");
+                    seBuilder.AppendLine (name.Replace (AudioSettings.SePrefix, "").Snake2Pascal () + ",");
                 }
             }
 
             var content = TemplateAudioDefineScript
                 .Replace ("${BGM_DEFINES}", bgmBuilder.ToString ().Indent (8))
-                .Replace ("${EFX_DEFINES}", efxBuilder.ToString ().Indent (8));
+                .Replace ("${SE_DEFINES}", seBuilder.ToString ().Indent (8));
             Directory.CreateDirectory (Path.GetDirectoryName (PathAudioDefineScript));
             File.WriteAllText (PathAudioDefineScript, content);
         }
