@@ -1,3 +1,5 @@
+using Chsopoly.BaseSystem.Effect;
+using Chsopoly.Effect;
 using UnityEngine;
 
 namespace Chsopoly.GameScene.Ingame.Object.Gimmick.State
@@ -6,8 +8,11 @@ namespace Chsopoly.GameScene.Ingame.Object.Gimmick.State
     {
         void IObjectState<GimmickStateMachine.State, GimmickObjectModel.Animation, GimmickObject>.OnEnter (GimmickObject owner)
         {
-            owner.Model.PlayAnimation (GimmickObjectModel.Animation.Damage, true);
             owner.StateMachine.SetStateTimer (Application.targetFrameRate);
+
+            EffectManager.Instance.Play (
+                Eff.TapGimmick,
+                parent : owner.transform);
         }
 
         void IObjectState<GimmickStateMachine.State, GimmickObjectModel.Animation, GimmickObject>.OnUpdate (GimmickObject owner)

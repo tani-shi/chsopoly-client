@@ -286,6 +286,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _characterContainer: {fileID: 2501659567499306204}
   _gimmickContainer: {fileID: 9133767377780631055}
+  _gimmickDamageEffect: {fileID: 1757698911801951855, guid: d1eb50f7929e74991961f4af648c3f02,
+    type: 3}
+  _gimmickDyingEffect: {fileID: 1757698911801951855, guid: d1eb50f7929e74991961f4af648c3f02,
+    type: 3}
 --- !u!1 &1409735437893893398
 GameObject:
   m_ObjectHideFlags: 0
@@ -480,7 +484,7 @@ RectTransform:
   - {fileID: 8325392626689826919}
   - {fileID: 2520277812166998367}
   m_Father: {fileID: 7847747265510849347}
-  m_RootOrder: 5
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -776,7 +780,7 @@ GameObject:
   - component: {fileID: 5143559979165306410}
   - component: {fileID: 6221695993393292164}
   - component: {fileID: 5201153432664459267}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: JumpButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -961,7 +965,7 @@ GameObject:
   - component: {fileID: 3630198341155039748}
   - component: {fileID: 2616675378588612486}
   - component: {fileID: 1838272028416421959}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: PlayerController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -983,7 +987,7 @@ RectTransform:
   - {fileID: 2714971796413153508}
   - {fileID: 1106679866035117815}
   m_Father: {fileID: 7847747265510849347}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -1256,7 +1260,7 @@ RectTransform:
   - {fileID: 1468519428947045805}
   - {fileID: 7119386509546925332}
   m_Father: {fileID: 7847747265510849347}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
@@ -1781,7 +1785,7 @@ GameObject:
   - component: {fileID: 4123635933780272114}
   - component: {fileID: 3682694994725521584}
   - component: {fileID: 5801408409056100097}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: ControlButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2031,7 +2035,7 @@ GameObject:
   - component: {fileID: 362226506754647702}
   - component: {fileID: 7342538077685955351}
   - component: {fileID: 7061633816777382516}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: GuardButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2708,6 +2712,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e6bd9339eb7674c83802ecce52d4cd6d, type: 3}
+--- !u!224 &2581628364389887235 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 4323878330726763339, guid: e6bd9339eb7674c83802ecce52d4cd6d,
+    type: 3}
+  m_PrefabInstance: {fileID: 2292975695543035464}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &3507313660094962138 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3422227810790915986, guid: e6bd9339eb7674c83802ecce52d4cd6d,
@@ -2720,12 +2730,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21ce109f0a8d145ee872ce1a756065aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!224 &2581628364389887235 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 4323878330726763339, guid: e6bd9339eb7674c83802ecce52d4cd6d,
-    type: 3}
-  m_PrefabInstance: {fileID: 2292975695543035464}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2808238793185881542
 PrefabInstance:
   m_ObjectHideFlags: 0

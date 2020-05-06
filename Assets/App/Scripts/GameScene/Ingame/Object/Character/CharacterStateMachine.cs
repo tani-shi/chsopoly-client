@@ -1,3 +1,4 @@
+using Chsopoly.GameScene.Ingame.Object.Gimmick;
 using Chsopoly.GameScene.Ingame.Object.Character.State;
 using UnityEngine;
 
@@ -95,6 +96,7 @@ namespace Chsopoly.GameScene.Ingame.Object.Character
                         CurrentState == State.Run;
                 case State.Destroy:
                     return Owner.TargetGimmick != null &&
+                        Owner.TargetGimmick.HitPoint > 0 &&
                         (CurrentState == State.Idle || CurrentState == State.Run);
                 case State.Damage:
                     return !Owner.HasStatus (CharacterObject.Status.Invincible) &&

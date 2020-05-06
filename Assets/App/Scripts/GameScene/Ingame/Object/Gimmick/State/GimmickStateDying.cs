@@ -6,7 +6,6 @@ namespace Chsopoly.GameScene.Ingame.Object.Gimmick.State
     {
         void IObjectState<GimmickStateMachine.State, GimmickObjectModel.Animation, GimmickObject>.OnEnter (GimmickObject owner)
         {
-            owner.Model.PlayAnimation (GimmickObjectModel.Animation.Dying);
             owner.StateMachine.SetStateTimer (Application.targetFrameRate);
         }
 

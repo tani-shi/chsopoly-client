@@ -1,5 +1,6 @@
 using System.Collections;
 using Chsopoly.BaseSystem.Audio;
+using Chsopoly.BaseSystem.Effect;
 using Chsopoly.BaseSystem.GameScene;
 using Chsopoly.BaseSystem.Gs2;
 using Chsopoly.BaseSystem.MasterData;
@@ -34,6 +35,7 @@ namespace Chsopoly.BaseSystem
             yield return MasterDataManager.Instance.LoadAsync (new MasterDataAccessorObjectCollection ());
             yield return AudioManager.Instance.LoadAsync ();
             yield return GameSceneManager.Instance.Initialize ();
+            yield return EffectManager.Instance.LoadAsync ();
 
             GameSceneManager.Instance.ChangeScene (GameSceneType.Title);
 

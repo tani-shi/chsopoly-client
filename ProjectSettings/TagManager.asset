@@ -19,7 +19,7 @@ TagManager:
   - Gimmick
   - Character
   - Popup
-  - 
+  - Effect
   - 
   - 
   - 
@@ -54,4 +54,7 @@ TagManager:
     locked: 0
   - name: UI
     uniqueID: 4176355583
+    locked: 0
+  - name: Effect
+    uniqueID: 2464158671
     locked: 0

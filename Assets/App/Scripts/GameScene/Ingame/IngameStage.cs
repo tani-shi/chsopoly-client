@@ -31,6 +31,10 @@ namespace Chsopoly.GameScene.Ingame
         private Transform _characterContainer = default;
         [SerializeField]
         private Transform _gimmickContainer = default;
+        [SerializeField]
+        private GameObject _gimmickDamageEffect = default;
+        [SerializeField]
+        private GameObject _gimmickDyingEffect = default;
 
         public IEnumerable<GameObject> StageObjects
         {

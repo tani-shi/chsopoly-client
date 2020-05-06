@@ -35,7 +35,8 @@ MonoBehaviour:
     - Character
     - Animation
     - chr_deer
-    m_mainAssetType: 
+    m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   - m_GUID: 054aca74898cf4165bdefe03688a7533
     m_Address: Assets/App/AddressableAssets/Textures/Character/Animation/chr_frog/chr_frog_idle.png
     m_ReadOnly: 1
@@ -122,7 +123,8 @@ MonoBehaviour:
     - Character
     - Animation
     - chr_mouse
-    m_mainAssetType: 
+    m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   - m_GUID: 16ee5c8f79bb1483788fc2ac3bc7a93c
     m_Address: Assets/App/AddressableAssets/Textures/Character/Animation/chr_bird/chr_bird_jump.png
     m_ReadOnly: 1
@@ -141,14 +143,16 @@ MonoBehaviour:
     - Character
     - Animation
     - chr_deer
-    m_mainAssetType: 
+    m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   - m_GUID: 1903a7d4614a445fdb784b31e6016327
     m_Address: Assets/App/AddressableAssets/Prefabs/Character/chr_deer.prefab
     m_ReadOnly: 1
     m_SerializedLabels:
     - Prefabs
     - Character
-    m_mainAssetType: 
+    m_mainAssetType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   - m_GUID: 1cdac2d6ab67249669e7b30fca2a90a8
     m_Address: Assets/App/AddressableAssets/Animations/GameScene/IngameScene.controller
     m_ReadOnly: 1
@@ -167,6 +171,13 @@ MonoBehaviour:
     - Animation
     m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  - m_GUID: 22267a7763c6246cba40f825944024e3
+    m_Address: Assets/App/AddressableAssets/Effect/Materials/TapCircle.png
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Effect
+    - Materials
+    m_mainAssetType: 
   - m_GUID: 22624ca927839463283b6a307daba1f6
     m_Address: Assets/App/AddressableAssets/Textures/UI/Ingame/ingame_state_win.png
     m_ReadOnly: 1
@@ -196,6 +207,13 @@ MonoBehaviour:
     - Mypage
     m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  - m_GUID: 289525552c93945e4b0e85099883875b
+    m_Address: Assets/App/AddressableAssets/Effect/Materials/circleeffe.prefab
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Effect
+    - Materials
+    m_mainAssetType: 
   - m_GUID: 2d3c44124d03a4f3f8c3e8d97872a067
     m_Address: Assets/App/AddressableAssets/Animations/Character/chr_rabbit.controller
     m_ReadOnly: 1
@@ -249,7 +267,8 @@ MonoBehaviour:
     m_SerializedLabels:
     - Animations
     - Character
-    m_mainAssetType: 
+    m_mainAssetType: UnityEditor.Animations.AnimatorController, UnityEditor, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   - m_GUID: 3d38e0d53fe8f4620b0a28b944985216
     m_Address: Assets/App/AddressableAssets/Textures/UI/Common/btn_arrow_02.png
     m_ReadOnly: 1
@@ -368,7 +387,8 @@ MonoBehaviour:
     m_SerializedLabels:
     - Prefabs
     - Character
-    m_mainAssetType: 
+    m_mainAssetType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   - m_GUID: 52afb13fd90814526b5ceb3a0496c802
     m_Address: Assets/App/AddressableAssets/Textures/UI/Common/btn_ok.png
     m_ReadOnly: 1
@@ -435,6 +455,13 @@ MonoBehaviour:
     - chr_frog
     m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  - m_GUID: 619ba9da556b544a9b799ff342a769f0
+    m_Address: Assets/App/AddressableAssets/Effect/Materials/star_effe01.mat
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Effect
+    - Materials
+    m_mainAssetType: 
   - m_GUID: 62a25bf5e41af45008cfd445e44cffa1
     m_Address: Assets/App/AddressableAssets/Textures/Character/Animation/chr_deer/chr_deer_guard.png
     m_ReadOnly: 1
@@ -443,7 +470,8 @@ MonoBehaviour:
     - Character
     - Animation
     - chr_deer
-    m_mainAssetType: 
+    m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   - m_GUID: 646a493dad38748b7ad5ea02dfdb4ec0
     m_Address: Assets/App/AddressableAssets/Textures/Field/bg02.png
     m_ReadOnly: 1
@@ -490,7 +518,8 @@ MonoBehaviour:
     - Character
     - Animation
     - chr_deer
-    m_mainAssetType: 
+    m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   - m_GUID: 6880ebce6527249918518c8b3ea384bf
     m_Address: Assets/App/AddressableAssets/Prefabs/Common/StartPoint.prefab
     m_ReadOnly: 1
@@ -523,7 +552,8 @@ MonoBehaviour:
     - Character
     - Animation
     - chr_mouse
-    m_mainAssetType: 
+    m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   - m_GUID: 6c324663891bd47169390086f53f75c1
     m_Address: Assets/App/AddressableAssets/Textures/UI/Common/btn_common_frame_01.png
     m_ReadOnly: 1
@@ -607,7 +637,8 @@ MonoBehaviour:
     - Textures
     - Character
     - Icon
-    m_mainAssetType: 
+    m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   - m_GUID: 751d1dccff4b84108be3eb11f0d2a108
     m_Address: Assets/App/AddressableAssets/Textures/Character/Animation/chr_mouse/chr_mouse_run.png
     m_ReadOnly: 1
@@ -616,7 +647,8 @@ MonoBehaviour:
     - Character
     - Animation
     - chr_mouse
-    m_mainAssetType: 
+    m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   - m_GUID: 77fa383ffebf943c491b16b6a8cc8e3f
     m_Address: Assets/App/AddressableAssets/Textures/Character/Animation/chr_rabbit/chr_rabbit_appeal.png
     m_ReadOnly: 1
@@ -753,7 +785,8 @@ MonoBehaviour:
     - Character
     - Animation
     - chr_mouse
-    m_mainAssetType: 
+    m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   - m_GUID: 99054de18227b405894734ed45c7f9a4
     m_Address: Assets/App/AddressableAssets/Textures/UI/Common/btn_common_bg_01.png
     m_ReadOnly: 1
@@ -779,6 +812,13 @@ MonoBehaviour:
     - Gimmick
     m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  - m_GUID: 9ee474413f7c8456596659541a870c4a
+    m_Address: Assets/App/AddressableAssets/Effect/Materials/Circle_effe.mat
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Effect
+    - Materials
+    m_mainAssetType: 
   - m_GUID: a138b671b0a2e4b17a390384103c4d23
     m_Address: Assets/App/AddressableAssets/Textures/Character/Animation/chr_mouse/chr_mouse_dead.png
     m_ReadOnly: 1
@@ -787,7 +827,8 @@ MonoBehaviour:
     - Character
     - Animation
     - chr_mouse
-    m_mainAssetType: 
+    m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   - m_GUID: a19f421ec51844970aae80fe903d9566
     m_Address: Assets/App/AddressableAssets/Textures/UI/Mypage/chara_select_bg_02.png
     m_ReadOnly: 1
@@ -807,6 +848,14 @@ MonoBehaviour:
     - Character
     - Animation
     - chr_mouse
+    m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  - m_GUID: a27b2791965db4c98a7c2017e6888df2
+    m_Address: Assets/App/AddressableAssets/Effect/Materials/star_effe01.png
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Effect
+    - Materials
     m_mainAssetType: 
   - m_GUID: a4ba21cb6690d4fef94e97f01e375c99
     m_Address: Assets/App/AddressableAssets/Textures/Character/Animation/chr_deer/chr_deer_idle.png
@@ -816,7 +865,8 @@ MonoBehaviour:
     - Character
     - Animation
     - chr_deer
-    m_mainAssetType: 
+    m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   - m_GUID: a51d4e67211574517ae3646c30743116
     m_Address: Assets/App/AddressableAssets/Prefabs/Character/chr_bird.prefab
     m_ReadOnly: 1
@@ -882,6 +932,14 @@ MonoBehaviour:
     - Character
     - Animation
     - chr_mouse
+    m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  - m_GUID: b50ab11aeb4534213a3f629200387379
+    m_Address: Assets/App/AddressableAssets/Effect/Materials/smoke01.png
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Effect
+    - Materials
     m_mainAssetType: 
   - m_GUID: b53e6839613a24467931da3c61c49a84
     m_Address: Assets/App/AddressableAssets/Prefabs/Common/GoalPoint.prefab
@@ -917,7 +975,8 @@ MonoBehaviour:
     m_SerializedLabels:
     - Animations
     - Character
-    m_mainAssetType: 
+    m_mainAssetType: UnityEditor.Animations.AnimatorController, UnityEditor, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   - m_GUID: c66b020344a154dd584c2671dc08a8b9
     m_Address: Assets/App/AddressableAssets/Textures/UI/Mypage/chara_select_title.png
     m_ReadOnly: 1
@@ -996,6 +1055,19 @@ MonoBehaviour:
     - Mypage
     m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  - m_GUID: d00f1a6dc19db4c4197bea5164dbed72
+    m_Address: Assets/App/AddressableAssets/Effect/Materials/smoke02.png
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Effect
+    - Materials
+    m_mainAssetType: 
+  - m_GUID: d1eb50f7929e74991961f4af648c3f02
+    m_Address: Assets/App/AddressableAssets/Effect/eff_tap_gimmick.prefab
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Effect
+    m_mainAssetType: 
   - m_GUID: d1f08035483bd4b399c79248c4d4362a
     m_Address: Assets/App/AddressableAssets/Animations/Gimmick/gim_wood_step.controller
     m_ReadOnly: 1
@@ -1076,6 +1148,13 @@ MonoBehaviour:
     - Mypage
     m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  - m_GUID: db7c32184a7b64f22b12d312c949b1bc
+    m_Address: Assets/App/AddressableAssets/Effect/Materials/star_effe02.png
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Effect
+    - Materials
+    m_mainAssetType: 
   - m_GUID: dbb4ecf37850e4804a25496e7ce0111f
     m_Address: Assets/App/AddressableAssets/Textures/Character/Animation/chr_deer/chr_deer_Run.png
     m_ReadOnly: 1
@@ -1084,7 +1163,8 @@ MonoBehaviour:
     - Character
     - Animation
     - chr_deer
-    m_mainAssetType: 
+    m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   - m_GUID: de98bddf91e934619b1ab2bd7702cdee
     m_Address: Assets/App/AddressableAssets/Prefabs/Field/field_01.prefab
     m_ReadOnly: 1
@@ -1101,6 +1181,13 @@ MonoBehaviour:
     - Gimmick
     m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  - m_GUID: e30016d02055548ffb7248e996ecc721
+    m_Address: Assets/App/AddressableAssets/Effect/Materials/star_effe02.mat
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Effect
+    - Materials
+    m_mainAssetType: 
   - m_GUID: e318442d07f3f4c8890621d8d67d48ea
     m_Address: Assets/App/AddressableAssets/Animations/Components/SimpleButton.controller
     m_ReadOnly: 1
@@ -1154,6 +1241,13 @@ MonoBehaviour:
     - Common
     m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  - m_GUID: ed993c2ae2b75434cb76567e4352bc5e
+    m_Address: Assets/App/AddressableAssets/Effect/Materials/smoke00.png
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Effect
+    - Materials
+    m_mainAssetType: 
   - m_GUID: ef53c05d67ceb480292928c4956f342d
     m_Address: Assets/App/AddressableAssets/Textures/Character/Animation/chr_deer/chr_deer_appeal.png
     m_ReadOnly: 1
@@ -1162,7 +1256,8 @@ MonoBehaviour:
     - Character
     - Animation
     - chr_deer
-    m_mainAssetType: 
+    m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   - m_GUID: f36afff18096443efa509b6c07ce04a6
     m_Address: Assets/App/AddressableAssets/Textures/UI/Ingame/btn_jump.png
     m_ReadOnly: 1
