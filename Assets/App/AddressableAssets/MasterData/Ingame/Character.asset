@@ -37,3 +37,19 @@ MonoBehaviour:
     aerialJumpCount: 1
     power: 2
     hp: 3
+  - id: 4
+    assetName: chr_deer
+    moveSpeed: 400
+    weight: 100
+    jumpHeight: 200
+    aerialJumpCount: 1
+    power: 2
+    hp: 3
+  - id: 5
+    assetName: chr_mouse
+    moveSpeed: 400
+    weight: 100
+    jumpHeight: 200
+    aerialJumpCount: 1
+    power: 2
+    hp: 3

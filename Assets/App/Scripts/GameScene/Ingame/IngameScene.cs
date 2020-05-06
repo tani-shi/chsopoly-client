@@ -70,6 +70,8 @@ namespace Chsopoly.GameScene.Ingame
         private Animator _animator = default;
         [SerializeField]
         private List<CharacterMonitorIcon> _monitorIcons = default;
+        [SerializeField]
+        private Image _touchBlocker = default;
 
         public AnimationState CurrentState
         {
@@ -89,10 +91,12 @@ namespace Chsopoly.GameScene.Ingame
             switch (state)
             {
                 case AnimationState.Ready:
+                    _touchBlocker.gameObject.SetActive (true);
                     SetAnimationState (AnimationState.Go);
                     break;
 
                 case AnimationState.Go:
+                    _touchBlocker.gameObject.SetActive (false);
                     _timeCounter.StartCount ();
                     _controller.SetMode (PlayerController.Mode.ControlPlayer);
                     break;

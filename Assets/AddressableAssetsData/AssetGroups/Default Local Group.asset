@@ -281,6 +281,14 @@ MonoBehaviour:
     - Common
     m_mainAssetType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  - m_GUID: 3dcb9eac7605f466faf7fe79b7a39c0d
+    m_Address: Assets/App/AddressableAssets/Textures/Character/Icon/chr_deer.png
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Textures
+    - Character
+    - Icon
+    m_mainAssetType: 
   - m_GUID: 3e7847b2f64484fc986b43160cb0f93f
     m_Address: Assets/App/AddressableAssets/Textures/UI/Ingame/count_04.png
     m_ReadOnly: 1
@@ -348,6 +356,14 @@ MonoBehaviour:
     - GameScene
     m_mainAssetType: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  - m_GUID: 4a4b0aa8864e04840bfa4bbd4b240127
+    m_Address: Assets/App/AddressableAssets/Textures/Character/Icon/chr_mouse.png
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Textures
+    - Character
+    - Icon
+    m_mainAssetType: 
   - m_GUID: 4aa648242a8654cd4be1e3beb46f3d80
     m_Address: Assets/App/AddressableAssets/MasterData/Ingame/Character.asset
     m_ReadOnly: 1
